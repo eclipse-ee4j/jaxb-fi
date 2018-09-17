@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: ITU-T Rec. X.891 | ISO/IEC 24824-1 (Fast Infoset)
+Specification-Version: 1.0
+Implementation-Title: Fast Infoset Implementation 
+Implementation-Version: @@IMPL_VERSION@@
+Implementation-Vendor: Sun Microsystems, Inc.
+Implementation-Vendor-Id: @@VENDOR_ID@@
+Extension-Name: @@EXTENSION_NAME@@
+Build-Id: @@BUILD_ID@@

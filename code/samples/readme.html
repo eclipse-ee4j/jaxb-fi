@@ -1,0 +1,107 @@
+<html>
+<!--
+
+    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+    Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+
+    Oracle licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<body>
+
+<center><b>FastInfoset (FI) Samples</b></center>
+<br><br>
+Listed here are a few samples demonstrating the FastInfoset implementation of SAX and StAX. 
+To try out the samples, please follow the following steps:
+<ol>
+<li> Get FastInfoset source and build the package. A FastInfoset.jar will be generated 
+under &lt;FastInfoset home&gt;/dist.  The Ant tasks for the samples have dependency on 
+the jar file.</li>
+<li> Get the source and data files for the samples. Make sure to check out the whole samples package. All 
+sources are under /src directory and XML files used in the samples are under /data directory.
+</li>
+<li> To run a sample, go to the samples directory and type ant &lt;target&gt;</li>
+</ol>
+<br>
+<br>
+
+<table border=1>
+<tr><th>Category</th><th>Samples (and Ant target)</th><th>Description</th></tr>
+<tr><td rowspan=2>SAX</td>
+    <td>SAXParsingSample</td>
+    <td>The sample parses data/inv1a.finf as specified in the build.xml and handle SAX events 
+        to display corresponding XML content.</td>
+</tr>
+<tr>
+    <td>SAXSerializingSample</td>
+    <td>Directly using the FastInfoset SAX Serializer, the sample writes a small piece of XML 
+        infoset taken from inv1a.xml into a 
+        FastInfoset file called data/inv1c.finf. For details of the XML infoset, please refer to 
+        <a href="dist/javadoc/index.html">samples JavaDoc</a>.</td>
+</tr>
+<tr><td rowspan=3>StAX</td>
+    <td>StAXEventReadingSample</td>
+    <td>Demonstrate the use of FI StAX EventReader to read FI and XML files. The sample
+        reads data/inv1a.xml and data/inv1a.finf and displays event types as it goes through
+        the documents.<br>
+        To try the sample with other xml files, edit the build.xml and change the "simple-xml-file" and 
+         "simple-finf-file" properties to point to the files you may want to test.
+    </td>
+</tr>
+<tr>
+    <td>StAXParsingSample</td>
+    <td>Demonstrate the use of FI StAX StreamReader to read FI files. The sample reads 
+        data/inv1.finf and displays contents as it goes through the document.<br>
+    
+        Similar to the above EventReader, if you want to run the sample on other files, you would need to
+        change the "simple-xml-file" and "simple-finf-file" properties to point to the files you may want to test. 
+        The finf file specified will be generated automatically.
+    </td>
+</tr>
+<tr>
+    <td>StAXSerializingSample</td>
+    <td>Directly using the FastInfoset StAX Serializer, the sample writes a small piece of XML 
+        infoset taken from inv1a.xml into a 
+        FastInfoset file called data/inv1c.finf. For details of the XML infoset, please refer to 
+        <a href="dist/javadoc/index.html">samples JavaDoc</a>.</td>
+</tr>
+<tr><td rowspan=2>Transform</td>
+    <td>XMLToFastInfosetSAXSerializer</td>
+    <td>The sample demonstrates how to use SAXDocumentSerializer as a SAX handler and JAXP
+        transformer to convert an XML file into a FI document. As shown in the sample, 
+        transforming a DOM source to SAX Result involves very little coding. However, the process
+        may not be efficient due to the construction of DOM source. 
+    </td>
+</tr>
+<tr>
+    <td>XMLToFastInfosetStAXSerializer</td>
+    <td>The sample demonstrates how to use StAXDocumentSerializer as a SAX handler and JAXP
+        transformer to convert an XML file into a FI document. As shown in the sample, 
+        transforming a DOM source to SAX Result involves very little coding. However, the process
+        may not be efficient due to the construction of DOM source.</td>
+</tr>
+<tr><td rowspan=2>Encoding/Decoding typed data</td>
+    <td>PrimitiveTypesWithElementContentSample</td>
+    <td>The sample demonstrates how to use the SAX serializers/parsers to encode and
+        decode type primitive data that is element content. The typed data,
+        represented as Java primitive types, is encoded into the FI document in 
+        efficient binary form and may be decoded into the same Java primitive types,
+        or into lexical values (which depending on the handlers that are registered 
+        with the SAX parser.
+    </td>
+</tr>
+</table>
+</body>
+</html>

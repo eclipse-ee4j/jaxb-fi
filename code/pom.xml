@@ -30,34 +30,17 @@
     <artifactId>fastinfoset-project</artifactId>
     <packaging>pom</packaging>
     <name>fastinfoset-project</name>
-    <version>1.2.14-SNAPSHOT</version>
+    <version>1.2.16-SNAPSHOT</version>
     <description>Open Source implementation of the Fast Infoset Standard for Binary XML (http://www.itu.int/ITU-T/asn1/).</description>
     <url>http://fi.java.net</url>
-    <issueManagement>
-        <system>bugzilla</system>
-        <url>https://github.com/eclipse-ee4j/metro-fi/issues</url>
-    </issueManagement>
-    <mailingLists>
-        <mailingList>
-            <name>FastInfoset Dev List</name>
-            <archive>dev@fi.java.net</archive>
-        </mailingList>
-        <mailingList>
-            <name>FastInfoset Support List</name>
-            <archive>users@fi.java.net</archive>
-        </mailingList>
-        <mailingList>
-            <name>FastInfoset Announce List</name>
-            <archive>announces@fi.java.net</archive>
-        </mailingList>
-    </mailingLists>
-    <developers>
-        <developer>
-            <id>bravehorsie</id>
-            <name>Roman Grigoriadi</name>
-            <email>Roman.Grigoriadi@oracle.com</email>
-        </developer>
-    </developers>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com/eclipse-ee4j/jaxb-fi.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/eclipse-ee4j/jaxb-fi.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/jaxb-fi</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -69,16 +52,35 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>bravehorsie</id>
+            <name>Roman Grigoriadi</name>
+            <email>Roman.Grigoriadi@oracle.com</email>
+        </developer>
+    </developers>
+
     <organization>
         <name>Oracle Corpration</name>
         <url>http://www.oracle.com</url>
     </organization>
-    <scm>
-        <connection>scm:git:ssh://git@github.com/eclipse-ee4j/metro-fi.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/eclipse-ee4j/metro-fi.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/metro-fi</url>
-        <tag>HEAD</tag>
-    </scm>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/eclipse-ee4j/jaxb-fi/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>Eclipse Implementation of JAXB mailing list</name>
+            <post>jaxb-impl-dev@eclipse.org</post>
+            <subscribe>https://dev.eclipse.org/mailman/listinfo/jaxb-impl-dev</subscribe>
+            <unsubscribe>https://dev.eclipse.org/mailman/listinfo/jaxb-impl-dev</unsubscribe>
+            <archive>https://dev.eclipse.org/mhonarc/lists/jaxb-impl-dev</archive>
+        </mailingList>
+    </mailingLists>
+
     <build>
         <extensions>
             <extension>

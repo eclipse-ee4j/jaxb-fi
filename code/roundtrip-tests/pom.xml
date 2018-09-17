@@ -22,14 +22,14 @@
     <parent>
         <groupId>com.sun.xml.fastinfoset</groupId>
         <artifactId>fastinfoset-project</artifactId>
-        <version>1.2.14-SNAPSHOT</version>
+        <version>1.2.16-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sun.xml.fastinfoset</groupId>
     <artifactId>FastInfosetRoundTripTests</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.14-SNAPSHOT</version>
+    <version>1.2.16-SNAPSHOT</version>
     <name>fastinfoset-roundtrip-tests</name>
     <url>http://fi.java.net</url>
     <build>

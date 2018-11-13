@@ -83,7 +83,7 @@
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
         <findbugs.skip>false</findbugs.skip>
         <findbugs.threshold>Low</findbugs.threshold>
-        <legal.doc.source>${project.basedir}/..</legal.doc.source>
+        <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
         <vendor.name>Oracle Corporation</vendor.name>
     </properties>
 
@@ -109,7 +109,7 @@
             <dependency>
                 <groupId>com.sun.xml.stream.buffer</groupId>
                 <artifactId>streambuffer</artifactId>
-                <version>0.8</version>
+                <version>1.5.7</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -133,8 +133,6 @@
             </extension>
         </extensions>
 
-        <defaultGoal>install</defaultGoal>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -152,32 +150,6 @@
 
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <executions>
-                        <execution>
-                            <id>copy-sources</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>${legal.doc.source}</directory>
-                                        <includes>
-                                            <include>LICENSE</include>
-                                            <include>NOTICE.md</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
                 <plugin>
                     <inherited>true</inherited>
                     <groupId>org.jvnet.maven-antrun-extended-plugin</groupId>
@@ -204,6 +176,11 @@
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
                     <version>1.50</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -323,6 +300,31 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-legal-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${legal.doc.source}</directory>
+                                    <includes>
+                                        <include>NOTICE.md</include>
+                                        <include>LICENSE</include>
+                                    </includes>
+                                    <targetPath>META-INF</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

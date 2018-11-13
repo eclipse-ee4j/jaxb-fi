@@ -33,18 +33,7 @@
     <version>1.3.0-SNAPSHOT</version>
     <name>fastinfoset</name>
 
-    <properties>
-        <legal.doc.source>${project.basedir}/../..</legal.doc.source>
-    </properties>
-
     <build>
-        <defaultGoal>install</defaultGoal>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
 
         <testResources>
             <testResource>

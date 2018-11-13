@@ -25,13 +25,26 @@
         <version>1.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sun.xml.fastinfoset</groupId>
     <artifactId>FastInfosetRoundTripTests</artifactId>
     <packaging>jar</packaging>
     <version>1.3.0-SNAPSHOT</version>
     <name>fastinfoset-roundtrip-tests</name>
-    <url>http://fi.java.net</url>
+
+    <properties>
+        <legal.doc.source>${project.basedir}/../..</legal.doc.source>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.xml.fastinfoset</groupId>
+            <artifactId>FastInfoset</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <defaultGoal>install</defaultGoal>
         <resources>
@@ -40,11 +53,5 @@
             </resource>
         </resources>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>com.sun.xml.fastinfoset</groupId>
-            <artifactId>FastInfoset</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+
 </project>

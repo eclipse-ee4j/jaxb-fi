@@ -72,7 +72,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
         _writer = writer;
         
         final int item = readStructure();
-        switch(_eiiStateTable[item]) {
+        switch(getAIIState(item)) {
             case STATE_DOCUMENT:
                 processDocument();
                 break;
@@ -124,7 +124,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
         int item;
         do {
             item = readStructure();
-            switch(_eiiStateTable[item]) {
+            switch(getAIIState(item)) {
                 case STATE_ELEMENT_U_LN_QN:
                     firstElementHasOccured = true;
                     processElement(readStructureString(), readStructureString(), readStructureString());
@@ -187,7 +187,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
 
         while(item != T_END) {
             item = readStructure();
-            switch(_eiiStateTable[item]) {
+            switch(getAIIState(item)) {
                 case STATE_COMMENT_AS_CHAR_ARRAY_SMALL:
                 {
                     final int length = readStructure();
@@ -244,7 +244,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
         }
 
         do {
-            item = _eiiStateTable[readStructure()];
+            item = getAIIState(readStructure());
             switch(item) {
                 case STATE_ELEMENT_U_LN_QN:
                     processElement(readStructureString(), readStructureString(), readStructureString());
@@ -365,7 +365,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
     
     private int processNamespaceAttributes(int item) throws SAXException {
         do {
-            switch(_niiStateTable[item]) {
+            switch(getAIIState(item)) {
                 case STATE_NAMESPACE_ATTRIBUTE:
                     // Undeclaration of default namespace
                     processNamespaceAttribute("", "");
@@ -398,7 +398,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
     
     private void processAttributes(int item) throws SAXException {
         do {
-            switch(_aiiStateTable[item]) {
+            switch(getAIIState(item)) {
                 case STATE_ATTRIBUTE_U_LN_QN:
                     _attributes.addAttribute(readStructureString(), readStructureString(), readStructureString(), readStructureString(), readContentString());
                     break;

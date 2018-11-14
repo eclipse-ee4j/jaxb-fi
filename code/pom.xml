@@ -133,18 +133,6 @@
             </extension>
         </extensions>
 
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-
         <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
 

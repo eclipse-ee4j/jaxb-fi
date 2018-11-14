@@ -1,12 +1,21 @@
 /*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * This code is subject to the freebxml License, Version 1.1
+ * Copyright (c) 2004-2018 Oracle and/or its affiliates. All rights reserved.
  *
- * Copyright (c) 2004, 2018 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2001 - 2005 freebxml.org.  All rights reserved.
+ * Oracle licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/fi/FastInfoset/src/com/sun/xml/fastinfoset/AbstractResourceBundle.java,v 1.3.2.4 2009-05-13 08:53:01 oleksiys Exp $
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.sun.xml.fastinfoset;
 
 import java.text.MessageFormat;

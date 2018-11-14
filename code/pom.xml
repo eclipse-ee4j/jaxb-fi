@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.5</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -32,7 +32,7 @@
     <name>fastinfoset-project</name>
     <version>1.3.0-SNAPSHOT</version>
     <description>Open Source implementation of the Fast Infoset Standard for Binary XML (http://www.itu.int/ITU-T/asn1/).</description>
-    <url>http://fi.java.net</url>
+    <url>https://projects.eclipse.org/projects/ee4j.jaxb-impl</url>
 
     <scm>
         <connection>scm:git:ssh://git@github.com/eclipse-ee4j/jaxb-fi.git</connection>
@@ -61,11 +61,6 @@
         </developer>
     </developers>
 
-    <organization>
-        <name>Oracle Corpration</name>
-        <url>http://www.oracle.com</url>
-    </organization>
-
     <issueManagement>
         <system>github</system>
         <url>https://github.com/eclipse-ee4j/jaxb-fi/issues</url>
@@ -81,6 +76,53 @@
         </mailingList>
     </mailingLists>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit-version>4.12</junit-version>
+        <maven-plugin.version>1.0.0</maven-plugin.version>
+        <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
+        <findbugs.skip>false</findbugs.skip>
+        <findbugs.threshold>Low</findbugs.threshold>
+        <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
+        <vendor.name>Oracle Corporation</vendor.name>
+    </properties>
+
+    <modules>
+        <module>fastinfoset</module>
+        <module>roundtrip-tests</module>
+        <module>utilities</module>
+        <module>samples</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-tools-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xsom</groupId>
+                <artifactId>xsom</artifactId>
+                <version>20140925</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.stream.buffer</groupId>
+                <artifactId>streambuffer</artifactId>
+                <version>1.5.7</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
 
         <extensions>
@@ -90,20 +132,6 @@
                 <version>1.0-beta-2</version>
             </extension>
         </extensions>
-
-        <defaultGoal>install</defaultGoal>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
 
         <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
@@ -136,18 +164,11 @@
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
                     <version>1.50</version>
-                    <configuration>
-                        <templateFile>copyright.txt</templateFile>
-                        <excludeFile>copyright-exclude</excludeFile>
-                        <!-- skip files not under SCM-->
-                        <scmOnly>true</scmOnly>
-                        <!-- turn off warnings -->
-                        <warn>true</warn>
-                        <!-- for use with repair -->
-                        <update>false</update>
-                        <!-- check that year is correct -->
-                        <ignoreYear>false</ignoreYear>
-                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -182,18 +203,25 @@
                     <version>3.8.0</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>1.4</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>3.5.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
+                    <configuration>
+                        <instructions>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Build-Id>${project.version}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
+                        </instructions>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -220,24 +248,14 @@
 
         <plugins>
             <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <tagBase>https://svn.java.net/svn/fi~svn/tags</tagBase>
-                </configuration>
-            </plugin>
-            
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
                 <configuration>
                     <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
                     <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
-                    <providerImplementations>
-                        <svn>javasvn</svn>
-                    </providerImplementations>
                     <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
                     <revisionOnScmFailure>false</revisionOnScmFailure>
+                    <shortRevisionLength>7</shortRevisionLength>
                 </configuration>
                 <executions>
                     <execution>
@@ -247,31 +265,60 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.tmatesoft.svnkit</groupId>
-                        <artifactId>svnkit</artifactId>
-                        <version>1.7.4-v1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.7</version>
+                <groupId>org.glassfish.copyright</groupId>
+                <artifactId>glassfish-copyright-maven-plugin</artifactId>
                 <configuration>
-                    <retryFailedDeploymentCount>10</retryFailedDeploymentCount>
+                    <templateFile>copyright.txt</templateFile>
+                    <excludeFile>copyright-exclude</excludeFile>
+                    <!-- skip files not under SCM-->
+                    <scmOnly>true</scmOnly>
+                    <!-- turn off warnings -->
+                    <warn>true</warn>
+                    <!-- for use with repair -->
+                    <update>false</update>
+                    <!-- check that year is correct -->
+                    <ignoreYear>false</ignoreYear>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>copyright-check</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-legal-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${legal.doc.source}</directory>
+                                    <includes>
+                                        <include>NOTICE.md</include>
+                                        <include>LICENSE</include>
+                                    </includes>
+                                    <targetPath>META-INF</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </build>
 
-    <modules>
-        <module>fastinfoset</module>
-        <module>roundtrip-tests</module>
-        <module>utilities</module>
-        <module>samples</module>
-    </modules>
+    </build>
 
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -319,33 +366,5 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-plugin-tools-api</artifactId>
-                <version>2.1</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit-version>4.12</junit-version>
-        <maven-plugin.version>1.0.0</maven-plugin.version>
-        <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
-        <findbugs.skip>false</findbugs.skip>
-        <findbugs.threshold>Low</findbugs.threshold>
-    </properties>
 
 </project>

@@ -270,6 +270,7 @@
                 <groupId>org.glassfish.copyright</groupId>
                 <artifactId>glassfish-copyright-maven-plugin</artifactId>
                 <configuration>
+                    <scm>git</scm>
                     <templateFile>copyright.txt</templateFile>
                     <excludeFile>copyright-exclude</excludeFile>
                     <!-- skip files not under SCM-->

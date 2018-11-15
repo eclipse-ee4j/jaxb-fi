@@ -40,7 +40,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.xsom</groupId>
+            <groupId>org.glassfish.jaxb</groupId>
             <artifactId>xsom</artifactId>
         </dependency>
         <dependency>

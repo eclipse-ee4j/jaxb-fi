@@ -102,9 +102,9 @@
                 <version>2.1</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.xsom</groupId>
+                <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>xsom</artifactId>
-                <version>20140925</version>
+                <version>2.3.2</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.stream.buffer</groupId>

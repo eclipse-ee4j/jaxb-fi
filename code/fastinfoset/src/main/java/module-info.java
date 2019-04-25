@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017-2019 Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,6 +34,7 @@ module com.sun.xml.fastinfoset {
     requires transitive java.xml;
 
     exports com.sun.xml.fastinfoset;
+    exports com.sun.xml.fastinfoset.dom;
     exports com.sun.xml.fastinfoset.stax;
     exports com.sun.xml.fastinfoset.vocab;
     exports org.jvnet.fastinfoset;

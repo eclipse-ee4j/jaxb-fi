@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004-2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004-2019 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -24,6 +24,7 @@ import org.jvnet.fastinfoset.sax.EncodingAlgorithmContentHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import com.sun.xml.stream.buffer.MutableXMLStreamBuffer;
+import com.sun.xml.stream.buffer.XMLStreamBuffer;
 import com.sun.xml.stream.buffer.sax.Features;
 import java.io.IOException;
 import java.io.InputStream;

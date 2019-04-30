@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004-2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004-2019 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -23,6 +23,7 @@ import com.sun.xml.fastinfoset.tools.VocabularyGenerator;
 import com.sun.xml.fastinfoset.util.KeyIntMap;
 import com.sun.xml.fastinfoset.vocab.SerializerVocabulary;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -32,97 +33,98 @@ import junit.framework.*;
 import org.jvnet.fastinfoset.ExternalVocabulary;
 
 public class EncodingTest extends TestCase {
-    
+
     public static final String FINF_SPEC_UBL_XML_RESOURCE = "X.finf/UBL-example.xml";
     public static final String FINF_SPEC_UBL_FINF_RESOURCE = "X.finf/UBL-example.finf";
     public static final String FINF_SPEC_UBL_FINF_REFVOCAB_RESOURCE = "X.finf/UBL-example-refvocab.finf";
-    
+
     public static final String EXTERNAL_VOCABULARY_URI_STRING = "urn:oasis:names:tc:ubl:Order:1:0:joinery:example";
-    
+    private static final File WORKDIR = new File(System.getProperty("basedir"), "target");
+
     private SAXParserFactory _saxParserFactory;
     private SAXParser _saxParser;
     private URL _xmlDocumentURL;
     private URL _finfDocumentURL;
     private URL _finfRefVocabDocumentURL;
-    
+
     private byte[] _finfDocument;
-    
+
     private SAXDocumentSerializer _ds;
     private SerializerVocabulary _initialVocabulary;
-    
+
     public EncodingTest(java.lang.String testName) throws Exception {
         super(testName);
-        
+
         _saxParserFactory = SAXParserFactory.newInstance();
         _saxParserFactory.setNamespaceAware(true);
         _saxParser = _saxParserFactory.newSAXParser();
-        
+
         _xmlDocumentURL = this.getClass().getClassLoader().getResource(FINF_SPEC_UBL_XML_RESOURCE);
         _finfDocumentURL = this.getClass().getClassLoader().getResource(FINF_SPEC_UBL_FINF_RESOURCE);
         _finfRefVocabDocumentURL = this.getClass().getClassLoader().getResource(FINF_SPEC_UBL_FINF_REFVOCAB_RESOURCE);
-        
+
         _ds = new SAXDocumentSerializer();
         _ds.setMaxCharacterContentChunkSize(6);
         _ds.setMaxAttributeValueSize(6);
         _initialVocabulary = new SerializerVocabulary();
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(EncodingTest.class);
         return suite;
     }
-    
+
     public void testEncodeWithVocabulary() throws Exception {
         SerializerVocabulary externalVocabulary = new SerializerVocabulary();
-        
+
         VocabularyGenerator vocabularyGenerator = new VocabularyGenerator(externalVocabulary);
         vocabularyGenerator.setCharacterContentChunkSizeLimit(0);
         vocabularyGenerator.setAttributeValueSizeLimit(0);
         _saxParser.parse(_xmlDocumentURL.openStream(), vocabularyGenerator);
-        
+
         _initialVocabulary.setExternalVocabulary(
                 EXTERNAL_VOCABULARY_URI_STRING,
                 externalVocabulary, false);
-        
+
         _finfDocument = parse();
-        FileOutputStream foas = new FileOutputStream("new-UBL-example-refvocab.finf");
+        FileOutputStream foas = new FileOutputStream(new File(WORKDIR, "new-UBL-example-refvocab.finf"));
         foas.write(_finfDocument);
-        
+
         compare(obtainBytesFromStream(_finfRefVocabDocumentURL.openStream()));
     }
-    
+
     public void testEncodeWithJVNETVocabulary() throws Exception {
         VocabularyGenerator vocabularyGenerator = new VocabularyGenerator();
         vocabularyGenerator.setCharacterContentChunkSizeLimit(0);
         vocabularyGenerator.setAttributeValueSizeLimit(0);
         _saxParser.parse(_xmlDocumentURL.openStream(), vocabularyGenerator);
-        
+
         ExternalVocabulary ev = new ExternalVocabulary(
                 EXTERNAL_VOCABULARY_URI_STRING,
                 vocabularyGenerator.getVocabulary());
         _ds.setExternalVocabulary(ev);
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         _ds.setOutputStream(baos);
-        
+
         _saxParser.parse(_xmlDocumentURL.openStream(), _ds);
-        
+
         _finfDocument = baos.toByteArray();
-        
-        FileOutputStream foas = new FileOutputStream("new-UBL-example-refvocab.finf");
+
+        FileOutputStream foas = new FileOutputStream(new File(WORKDIR, "new-UBL-example-refvocab.finf"));
         foas.write(_finfDocument);
-        
+
         compare(obtainBytesFromStream(_finfRefVocabDocumentURL.openStream()));
     }
-    
+
     public void testEncodeWithoutVocabulary() throws Exception {
         _finfDocument = parse();
-        FileOutputStream foas = new FileOutputStream("new-UBL-example.finf");
+        FileOutputStream foas = new FileOutputStream(new File(WORKDIR, "new-UBL-example.finf"));
         foas.write(_finfDocument);
-        
+
         compare(obtainBytesFromStream(_finfDocumentURL.openStream()));
     }
-    
+
     public void testEncodeWithMemoryLimitation() throws Exception {
         int memoryLimitation = 20;
         int charsLimitation = memoryLimitation / 2;
@@ -130,7 +132,7 @@ public class EncodingTest extends TestCase {
         try {
             _ds.setAttributeValueMapMemoryLimit(memoryLimitation);
             _ds.setCharacterContentChunkMapMemoryLimit(memoryLimitation);
-            
+
             voc.clear();
             parse();
             assertTrue(voc.characterContentChunk.getTotalCharacterCount() < charsLimitation);
@@ -139,7 +141,7 @@ public class EncodingTest extends TestCase {
             assertTrue(voc.characterContentChunk.obtainIndex("236WV".toCharArray(), 0, 5, false) != KeyIntMap.NOT_PRESENT);
             assertTrue(voc.attributeValue.obtainIndex("unit") != KeyIntMap.NOT_PRESENT);
             assertFalse(voc.characterContentChunk.obtainIndex("wood".toCharArray(), 0, 4, false) != KeyIntMap.NOT_PRESENT);
-            
+
             _ds.setAttributeValueMapMemoryLimit(2);
             voc.clear();
             parse();
@@ -149,22 +151,22 @@ public class EncodingTest extends TestCase {
             _ds.setCharacterContentChunkMapMemoryLimit(Integer.MAX_VALUE);
         }
     }
-    
+
     private byte[] parse() throws Exception {
         _ds.setVocabulary(_initialVocabulary);
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         _ds.setOutputStream(baos);
-        
+
         _saxParser.parse(_xmlDocumentURL.openStream(), _ds);
-        
+
         return baos.toByteArray();
     }
-    
+
     private void compare(byte[] specFiDocument) throws Exception {
         TestCase.assertTrue("Fast infoset document is not the same length as the X.finf specification",
                 _finfDocument.length == specFiDocument.length);
-        
+
         System.out.println(_finfDocument.length);
         System.out.println(specFiDocument.length);
         boolean passed = true;
@@ -176,17 +178,17 @@ public class EncodingTest extends TestCase {
                 passed = false;
             }
         }
-        
+
         assertTrue("Fast infoset document does not have the same content as the X.finf specification",
                 passed);
-        
+
     }
-    
+
     static byte[] obtainBytesFromStream(InputStream s) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
+
         byte[] buffer = new byte[1024];
-        
+
         int bytesRead = 0;
         while ((bytesRead = s.read(buffer)) != -1) {
             baos.write(buffer, 0, bytesRead);

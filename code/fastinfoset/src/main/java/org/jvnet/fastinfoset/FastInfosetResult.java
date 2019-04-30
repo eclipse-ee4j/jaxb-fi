@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004-2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004-2019 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -30,7 +30,7 @@ import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
  *
  *  <P>The derivation of FIResult from SAXResult is an implementation
  *  detail.<P>
- *  
+ *
  *  <P>This implementation is designed for interoperation with JAXP and is not
  *  not designed with performance in mind. It is recommended that for performant
  *  interoperation alternative serializer specific solutions be used.<P>
@@ -41,12 +41,11 @@ import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
  *     <LI>setLexicalHandler</LI>
  *     <LI>setSystemId</LI>
  *   </UL>
- *  </P>
  */
 public class FastInfosetResult extends SAXResult {
-   
+
     OutputStream _outputStream;
-    
+
     public FastInfosetResult(OutputStream outputStream) {
         _outputStream = outputStream;
     }
@@ -58,18 +57,18 @@ public class FastInfosetResult extends SAXResult {
             setHandler(handler);
         }
         ((SAXDocumentSerializer) handler).setOutputStream(_outputStream);
-        return handler;        
+        return handler;
     }
-    
+
     public LexicalHandler getLexicalHandler() {
         return (LexicalHandler) getHandler();
     }
-    
+
     public OutputStream getOutputStream() {
         return _outputStream;
-    }    
-    
+    }
+
     public void setOutputStream(OutputStream outputStream) {
         _outputStream = outputStream;
-    }    
+    }
 }

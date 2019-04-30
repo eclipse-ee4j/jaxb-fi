@@ -15,4 +15,13 @@ module com.sun.xml.fastinfoset.utilities {
     requires com.sun.xml.streambuffer;
     requires org.jvnet.staxex;
     requires jakarta.activation;
+
+    exports com.sun.xml.analysis.frequency;
+    exports com.sun.xml.analysis.frequency.tools;
+    exports com.sun.xml.analysis.types;
+    exports com.sun.xml.fastinfoset.streambuffer;
+    exports com.sun.xml.fastinfoset.streambuffer.tools;
+    exports com.sun.xml.fastinfoset.types;
+    exports com.sun.xml.fastinfoset.utilities.tools;
+    exports com.sun.xml.fastinfoset.vocab.frequency;
 }

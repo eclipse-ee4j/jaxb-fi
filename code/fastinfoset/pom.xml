@@ -56,7 +56,6 @@
                         <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                         <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
                         <Extension-Name>com.sun.xml.fastinfoset</Extension-Name>
-                        <_noee>true</_noee>
                         <Export-Package>
                             !com.sun.xml.fastinfoset.org.apache.xerces.util,
                             *

@@ -33,8 +33,8 @@ public class ByteCodeVersionTest {
 
     @Test
     public void testClassByteCodeVersion() {
-        // class files for JDK 7
-        verifyClassFileFormat("/com/sun/xml/fastinfoset/Encoder.class", 0x33);
+        // class files for JDK 8
+        verifyClassFileFormat("/com/sun/xml/fastinfoset/Encoder.class", 0x34);
     }
     
     private static void verifyClassFileFormat(String resource, int expectedClassVersion) {

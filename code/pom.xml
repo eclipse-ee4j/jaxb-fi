@@ -2,7 +2,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2012-2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012-2020 Oracle and/or its affiliates. All rights reserved.
 
     Oracle licenses this file to You under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
@@ -22,7 +22,8 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -89,9 +90,8 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit-version>4.12</junit-version>
-        <maven-plugin.version>1.0.0</maven-plugin.version>
         <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
-        <vendor.name>Oracle Corporation</vendor.name>
+        <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
 
     <modules>
@@ -135,7 +135,7 @@
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>2.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -159,7 +159,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
@@ -167,8 +167,9 @@
                     <version>4.2.1</version>
                     <configuration>
                         <instructions>
+                            <_removeheaders>Bnd-LastModified,Built-By,Include-Resource,Private-Package</_removeheaders>
                             <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
+                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
                         </instructions>
                     </configuration>
                 </plugin>
@@ -178,18 +179,18 @@
                     <version>3.1.1</version>
                     <configuration>
                         <release>11</release>
-                        <doclint>none</doclint>
+                        <notimestamp>true</notimestamp>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M2</version>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -205,7 +206,6 @@
                 <artifactId>buildnumber-maven-plugin</artifactId>
                 <configuration>
                     <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                    <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
                     <revisionOnScmFailure>false</revisionOnScmFailure>
                     <shortRevisionLength>7</shortRevisionLength>
                 </configuration>
@@ -314,7 +314,7 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
+                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
                         </manifestEntries>
                     </archive>
                 </configuration>

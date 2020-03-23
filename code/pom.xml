@@ -185,6 +185,11 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.2.0</version>
                     <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultEntries>false</addDefaultEntries>
+                            </manifest>
+                        </archive>
                         <release>11</release>
                         <notimestamp>true</notimestamp>
                     </configuration>

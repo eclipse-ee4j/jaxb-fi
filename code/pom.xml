@@ -91,7 +91,7 @@
         <xsom.version>3.0.0-M4</xsom.version>
         <streambuffer.version>2.0.0</streambuffer.version>
         <junit.version>4.13</junit.version>
-        <jakarta.activation-api.version>2.0.0</jakarta.activation-api.version>
+        <activation-api.version>2.0.0</activation-api.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
@@ -126,7 +126,7 @@
             <dependency>
                 <groupId>jakarta.activation</groupId>
                 <artifactId>jakarta.activation-api</artifactId>
-                <version>${jakarta.activation-api.version}</version>
+                <version>${activation-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

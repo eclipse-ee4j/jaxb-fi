@@ -50,5 +50,4 @@ the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.ph
 ## Links
 
 * [Javadoc](https://javadoc.io/doc/com.sun.xml.fastinfoset/FastInfoset/latest/com.sun.xml.fastinfoset/module-summary.html)
-
-
+* [Mailing list](https://accounts.eclipse.org/mailing-list/jaxb-impl-dev)

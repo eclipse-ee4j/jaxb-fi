@@ -86,11 +86,11 @@
         <spotbugs.exclude>${project.basedir}/exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.0.4</spotbugs.version>
+        <spotbugs.version>4.1.4</spotbugs.version>
 
         <xsom.version>3.0.0-M4</xsom.version>
         <streambuffer.version>2.0.0</streambuffer.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
         <activation-api.version>2.0.0</activation-api.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -374,7 +374,7 @@
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.8.5</version>
+                            <version>0.8.6</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>

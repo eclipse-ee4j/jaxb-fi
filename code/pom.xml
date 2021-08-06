@@ -89,9 +89,9 @@
         <spotbugs.version>4.2.0</spotbugs.version>
 
         <xsom.version>3.0.0</xsom.version>
-        <streambuffer.version>2.0.1</streambuffer.version>
+        <streambuffer.version>2.1.0-M1</streambuffer.version>
         <junit.version>4.13.1</junit.version>
-        <activation-api.version>2.0.1</activation-api.version>
+        <activation-api.version>2.1.0-RC1</activation-api.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>

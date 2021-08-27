@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-
-
 echo -n $1
 xmltosaxtostaxtofi $1 > $1.stax.finf
 saxtosaxevent $1 > $1.sax-event

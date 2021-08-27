@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-
-
 echo -n $1
 xmltosaxtofi $1 > $1.sax.finf
 xmltodomtosaxtofi $1 > $1.dom.sax.finf

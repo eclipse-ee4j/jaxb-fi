@@ -17,6 +17,4 @@
 # limitations under the License.
 #
 
-
-
 java -cp ${FI_HOME}/dist/FastInfoset.jar com.sun.xml.fastinfoset.tools.XML_DOM_FI $1 $2

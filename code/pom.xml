@@ -78,15 +78,15 @@
     </mailingLists>
 
     <properties>
-        <copyright.exclude>copyright-exclude</copyright.exclude>
+        <copyright.exclude>../etc/config/copyright-exclude</copyright.exclude>
         <copyright.ignoreyear>false</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>copyright.txt</copyright.template>
+        <copyright.template>../etc/config/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
-        <spotbugs.exclude>${project.basedir}/exclude.xml</spotbugs.exclude>
+        <spotbugs.exclude>../etc/config/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.2.0</spotbugs.version>
+        <spotbugs.version>4.3.0</spotbugs.version>
 
         <xsom.version>3.0.0</xsom.version>
         <streambuffer.version>2.1.0-M1</streambuffer.version>
@@ -156,6 +156,10 @@
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>${spotbugs.version}</version>
+                    <configuration>
+                        <skip>${spotbugs.skip}</skip>
+                        <threshold>${spotbugs.threshold}</threshold>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -290,13 +294,10 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
-                    <skip>${spotbugs.skip}</skip>
-                    <threshold>${spotbugs.threshold}</threshold>
                     <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <excludeFilterFile>
-                        ${spotbugs.exclude}
-                    </excludeFilterFile>
                     <fork>true</fork>
+                    <excludeFilterFile>${spotbugs.exclude}</excludeFilterFile>
+                    <failThreshold>High</failThreshold>
                 </configuration>
             </plugin>
             <plugin>
@@ -332,6 +333,8 @@
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                     </compilerArgs>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
                 </configuration>
                 <executions>
                     <execution>

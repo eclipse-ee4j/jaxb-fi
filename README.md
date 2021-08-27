@@ -6,9 +6,10 @@
 [//]: # "  "
 [//]: # " SPDX-License-Identifier: BSD-3-Clause "
 
-[![Build Status](https://travis-ci.com/eclipse-ee4j/jaxb-fi.svg?branch=master)](https://travis-ci.com/eclipse-ee4j/jaxb-fi)
-
 # Fast Infoset
+
+[![Build Status](https://github.com/eclipse-ee4j/jaxb-fi/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/eclipse-ee4j/jaxb-fi/actions/workflows/maven.yml?branch=master)
+[![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/com.sun.xml.fastinfoset/fastinfoset-project.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/com/sun/xml/fastinfoset/)
 
 Fast Infoset Project, an Open Source implementation of the Fast Infoset Standard for Binary XML.
 
@@ -51,3 +52,4 @@ the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.ph
 
 * [Javadoc](https://javadoc.io/doc/com.sun.xml.fastinfoset/FastInfoset/latest/com.sun.xml.fastinfoset/module-summary.html)
 * [Mailing list](https://accounts.eclipse.org/mailing-list/jaxb-impl-dev)
+* [Nightly build job](https://ci.eclipse.org/jaxb-impl/job/jaxb-fi-master-build/)

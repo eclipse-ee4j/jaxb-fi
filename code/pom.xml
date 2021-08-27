@@ -294,7 +294,6 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                     <fork>true</fork>
                     <excludeFilterFile>${spotbugs.exclude}</excludeFilterFile>
                     <failThreshold>High</failThreshold>

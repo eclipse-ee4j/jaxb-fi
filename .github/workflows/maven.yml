@@ -24,6 +24,13 @@ jobs:
         java_version: [ 11, 17-ea ]
 
     steps:
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Checkout for build
       uses: actions/checkout@v2.3.4
     - name: Set up JDK
@@ -32,4 +39,4 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Verify
-      run: cd code && mvn -B -V -U -C -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+      run: mvn -B -V -U -C -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true

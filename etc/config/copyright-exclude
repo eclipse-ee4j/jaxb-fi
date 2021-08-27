@@ -13,8 +13,7 @@
 /LICENSE
 /copyright-exclude
 /copyright.txt
-FIME/src/org/xml/sax/Attributes.java
-FIME/src/org/xml/sax/helpers/NamespaceSupport.java
+FIME/
 fastinfoset/src/main/java/com/sun/xml/fastinfoset/org/apache/xerces/util/XMLChar.java
 performance/FpMLFIpex/data/FpML/Readme
 roundtrip-tests/report/readme

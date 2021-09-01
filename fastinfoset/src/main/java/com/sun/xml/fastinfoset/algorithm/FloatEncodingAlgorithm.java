@@ -32,19 +32,22 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorithm {
 
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         if (octetLength % FLOAT_SIZE != 0) {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().
-                    getString("message.lengthNotMultipleOfFloat", new Object[]{Integer.valueOf(FLOAT_SIZE)}));
+                    getString("message.lengthNotMultipleOfFloat", new Object[]{FLOAT_SIZE}));
         }
         
         return octetLength / FLOAT_SIZE;
     }
     
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength * FLOAT_SIZE;
     }
    
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         float[] data = new float[getPrimtiveLengthFromOctetLength(length)];
         decodeFromBytesToFloatArray(data, 0, b, start, length);
@@ -52,11 +55,13 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
         return data;
     }
     
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         return decodeFromInputStreamToFloatArray(s);
     }
     
     
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof float[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotFloat"));
@@ -67,22 +72,20 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
         encodeToOutputStreamFromFloatArray(fdata, s);
     }
     
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List floatList = new ArrayList();
+        final List<Float> floatList = new ArrayList<>();
         
-        matchWhiteSpaceDelimnatedWords(cb,
-                new WordListener() {
-            public void word(int start, int end) {
-                String fStringValue = cb.subSequence(start, end).toString();
-                floatList.add(Float.valueOf(fStringValue));
-            }
-        }
-        );
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            String fStringValue = cb.subSequence(start1, end).toString();
+            floatList.add(Float.valueOf(fStringValue));
+        });
         
         return generateArrayFromList(floatList);
     }
     
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (!(data instanceof float[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotFloat"));
@@ -106,7 +109,7 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
     }
     
     public final float[] decodeFromInputStreamToFloatArray(InputStream s) throws IOException {
-        final List floatList = new ArrayList();
+        final List<Float> floatList = new ArrayList<>();
         final byte[] b = new byte[FLOAT_SIZE];
         
         while (true) {
@@ -129,7 +132,7 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
                     ((b[1] & 0xFF) << 16) | 
                     ((b[2] & 0xFF) << 8) | 
                     (b[3] & 0xFF);
-            floatList.add(Float.valueOf(Float.intBitsToFloat(bits)));
+            floatList.add(Float.intBitsToFloat(bits));
         }
         
         return generateArrayFromList(floatList);
@@ -146,6 +149,7 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
         }
     }
     
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         encodeToBytesFromFloatArray((float[])array, astart, alength, b, start);
     }
@@ -173,10 +177,10 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
     }
     
     
-    public final float[] generateArrayFromList(List array) {
+    public final float[] generateArrayFromList(List<Float> array) {
         float[] fdata = new float[array.size()];
         for (int i = 0; i < fdata.length; i++) {
-            fdata[i] = ((Float)array.get(i)).floatValue();
+            fdata[i] = (array.get(i));
         }
         
         return fdata;

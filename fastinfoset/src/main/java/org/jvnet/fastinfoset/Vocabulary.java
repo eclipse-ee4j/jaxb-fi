@@ -20,6 +20,7 @@ package org.jvnet.fastinfoset;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import javax.xml.namespace.QName;
 
 /**
  * A canonical representation of a vocabulary.
@@ -40,60 +41,60 @@ public class Vocabulary {
     /**
      * The restricted alphabet table, containing String objects.
      */
-    public final Set restrictedAlphabets = new LinkedHashSet();
+    public final Set<String> restrictedAlphabets = new LinkedHashSet<>();
 
     /**
      * The encoding algorithm table, containing String objects.
      */
-    public final Set encodingAlgorithms = new LinkedHashSet();
+    public final Set<String> encodingAlgorithms = new LinkedHashSet<>();
 
     /**
      * The prefix table, containing String objects.
      */
-    public final Set prefixes = new LinkedHashSet();
+    public final Set<String> prefixes = new LinkedHashSet<>();
 
     /**
      * The namespace name table, containing String objects.
      */
-    public final Set namespaceNames = new LinkedHashSet();
+    public final Set<String> namespaceNames = new LinkedHashSet<>();
 
     /**
      * The local name table, containing String objects.
      */
-    public final Set localNames = new LinkedHashSet();
+    public final Set<String> localNames = new LinkedHashSet<>();
 
     /**
      * The "other NCName" table, containing String objects.
      */
-    public final Set otherNCNames = new LinkedHashSet();
+    public final Set<String> otherNCNames = new LinkedHashSet<>();
 
     /**
      * The "other URI" table, containing String objects.
      */
-    public final Set otherURIs = new LinkedHashSet();
+    public final Set<String> otherURIs = new LinkedHashSet<>();
 
     /**
      * The "attribute value" table, containing String objects.
      */
-    public final Set attributeValues = new LinkedHashSet();
+    public final Set<String> attributeValues = new LinkedHashSet<>();
 
     /**
      * The "other string" table, containing String objects.
      */
-    public final Set otherStrings = new LinkedHashSet();
+    public final Set<String> otherStrings = new LinkedHashSet<>();
 
     /**
      * The "character content chunk" table, containing String objects.
      */
-    public final Set characterContentChunks = new LinkedHashSet();
+    public final Set<String> characterContentChunks = new LinkedHashSet<>();
 
     /**
      * The element table, containing QName objects.
      */
-    public final Set elements = new LinkedHashSet();
+    public final Set<QName> elements = new LinkedHashSet<>();
 
     /**
      * The attribute table, containing QName objects.
      */
-    public final Set attributes = new LinkedHashSet();
+    public final Set<QName> attributes = new LinkedHashSet<>();
 }

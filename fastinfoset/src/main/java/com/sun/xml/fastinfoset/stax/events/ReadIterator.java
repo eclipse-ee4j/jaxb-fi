@@ -21,27 +21,30 @@ package com.sun.xml.fastinfoset.stax.events;
 import java.util.Iterator;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
 
-public class ReadIterator implements Iterator {
+public class ReadIterator<E> implements Iterator<E> {
     
-    Iterator iterator = EmptyIterator.getInstance();
+    Iterator<E> iterator = EmptyIterator.getInstance();
     
     public ReadIterator(){
     }
     
-    public ReadIterator(Iterator iterator){
+    public ReadIterator(Iterator<E> iterator){
         if (iterator != null) {
             this.iterator = iterator;
         }
     }
     
+    @Override
     public boolean hasNext() {
         return iterator.hasNext();
     }
     
-    public Object next() {
+    @Override
+    public E next() {
         return iterator.next();
     }
     
+    @Override
     public void remove() {
         throw new  UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.readonlyList"));
     }

@@ -49,18 +49,18 @@ import org.xml.sax.Attributes;
  * <p>
  */
 public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerializer {
-    protected Map _namespaceToPrefixMapping;
-    protected Map _prefixToPrefixMapping;
+    protected Map<String, String> _namespaceToPrefixMapping;
+    protected Map<String, String> _prefixToPrefixMapping;
     protected String _lastCheckedNamespace;
     protected String _lastCheckedPrefix;
     
     protected StringIntMap _declaredNamespaces;
     
-    public SAXDocumentSerializerWithPrefixMapping(Map namespaceToPrefixMapping) {
+    public SAXDocumentSerializerWithPrefixMapping(Map<String, String> namespaceToPrefixMapping) {
         // Use the local name to look up elements/attributes
         super(true);
-        _namespaceToPrefixMapping = new HashMap(namespaceToPrefixMapping);
-        _prefixToPrefixMapping = new HashMap();
+        _namespaceToPrefixMapping = new HashMap<>(namespaceToPrefixMapping);
+        _prefixToPrefixMapping = new HashMap<>();
         
         // Empty prefix
         _namespaceToPrefixMapping.put("", "");
@@ -70,6 +70,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
         _declaredNamespaces = new StringIntMap(4);
     }
     
+    @Override
     public final void startPrefixMapping(String prefix, String uri) throws SAXException {
         try {
             if (_elementHasNamespaces == false) {
@@ -80,6 +81,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
                 _elementHasNamespaces = true;
 
                 // Write out Element byte with namespaces
+                // PERF: EncodingConstants.ELEMENT vakue is 0x00 and can be removed
                 write(EncodingConstants.ELEMENT | EncodingConstants.ELEMENT_NAMESPACES_FLAG);
             
                 _declaredNamespaces.clear();
@@ -108,6 +110,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
         }
     }
     
+    @Override
     protected final void encodeElement(String namespaceURI, String qName, String localName) throws IOException {
         LocalNameQualifiedNamesMap.Entry entry = _v.elementName.obtainEntry(localName);
         if (entry._valueIndex > 0) {
@@ -128,7 +131,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
     protected boolean encodeElementMapEntry(LocalNameQualifiedNamesMap.Entry entry, String namespaceURI) throws IOException {
         QualifiedName[] names = entry._value;
         for (int i = 0; i < entry._valueIndex; i++) {
-            if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+            if ((namespaceURI.equals(names[i].namespaceName))) {
                 encodeNonZeroIntegerOnThirdBit(names[i].index);
                 return true;
             }
@@ -137,6 +140,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
     }
     
     
+    @Override
     protected final void encodeAttributes(Attributes atts) throws IOException, FastInfosetException {
         boolean addToTable;
         boolean mustToBeAddedToTable;
@@ -155,20 +159,23 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
                         addToTable = isAttributeValueLengthMatchesLimit(value.length());
                         mustToBeAddedToTable = eAtts.getToIndex(i);
                         alphabet = eAtts.getAlpababet(i);
-                        if (alphabet == null) {
-                            if (uri == "http://www.w3.org/2001/XMLSchema-instance" || 
-                                    uri.equals("http://www.w3.org/2001/XMLSchema-instance")) {
+                        if (null == alphabet) {
+                            if (uri.equals("http://www.w3.org/2001/XMLSchema-instance")) {
                                 value = convertQName(value);
                             }
                             encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, mustToBeAddedToTable);
-                        } else if (alphabet == RestrictedAlphabet.DATE_TIME_CHARACTERS) {
-                            encodeDateTimeNonIdentifyingStringOnFirstBit(
-                                    value, addToTable, mustToBeAddedToTable);
-                        } else if (alphabet == RestrictedAlphabet.NUMERIC_CHARACTERS) {
-                            encodeNumericNonIdentifyingStringOnFirstBit(
-                                    value, addToTable, mustToBeAddedToTable);
-                        } else {
-                            encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, mustToBeAddedToTable);
+                        } else switch (alphabet) {
+                            case RestrictedAlphabet.DATE_TIME_CHARACTERS:
+                                encodeDateTimeNonIdentifyingStringOnFirstBit(
+                                        value, addToTable, mustToBeAddedToTable);
+                                break;
+                            case RestrictedAlphabet.NUMERIC_CHARACTERS:
+                                encodeNumericNonIdentifyingStringOnFirstBit(
+                                        value, addToTable, mustToBeAddedToTable);
+                                break;
+                            default:
+                                encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, mustToBeAddedToTable);
+                                break;
                         }
                     } else {
                         encodeNonIdentifyingStringOnFirstBit(eAtts.getAlgorithmURI(i),
@@ -183,8 +190,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
                     value = atts.getValue(i);
                     addToTable = isAttributeValueLengthMatchesLimit(value.length());
                     
-                    if (uri == "http://www.w3.org/2001/XMLSchema-instance" || 
-                            uri.equals("http://www.w3.org/2001/XMLSchema-instance")) {
+                    if (uri.equals("http://www.w3.org/2001/XMLSchema-instance")) {
                         value = convertQName(value);
                     }
                     encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, false);
@@ -204,7 +210,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
             localName = qName.substring(i + 1);
         }
         
-        String p = (String)_prefixToPrefixMapping.get(prefix);
+        String p = _prefixToPrefixMapping.get(prefix);
         if (p != null) {
             if (p.length() == 0)
                 return localName;
@@ -215,6 +221,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
         }
     }
     
+    @Override
     protected final boolean encodeAttribute(String namespaceURI, String qName, String localName) throws IOException {
         LocalNameQualifiedNamesMap.Entry entry = _v.attributeName.obtainEntry(localName);
         if (entry._valueIndex > 0) {
@@ -235,7 +242,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
     protected boolean encodeAttributeMapEntry(LocalNameQualifiedNamesMap.Entry entry, String namespaceURI) throws IOException {        
         QualifiedName[] names = entry._value;
         for (int i = 0; i < entry._valueIndex; i++) {
-            if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+            if (namespaceURI.equals(names[i].namespaceName)) {
                 encodeNonZeroIntegerOnSecondBitFirstBitZero(names[i].index);
                 return true;
             }
@@ -247,7 +254,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
         if (_lastCheckedNamespace == namespaceURI) return _lastCheckedPrefix;
         
         _lastCheckedNamespace = namespaceURI;
-        return _lastCheckedPrefix = (String)_namespaceToPrefixMapping.get(namespaceURI);
+        return _lastCheckedPrefix = _namespaceToPrefixMapping.get(namespaceURI);
     }
     
     protected final void putPrefix(String namespaceURI, String prefix) {

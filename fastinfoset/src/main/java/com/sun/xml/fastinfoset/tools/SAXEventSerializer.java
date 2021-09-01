@@ -35,12 +35,12 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 public class SAXEventSerializer extends DefaultHandler
         implements LexicalHandler {
 
-    private Writer _writer; 
+    private final Writer _writer; 
     private boolean _charactersAreCDATA;
     private StringBuffer _characters;
     
-    private Stack _namespaceStack = new Stack();    
-    protected List _namespaceAttributes;
+    private final Stack<AttributeValueHolder[]> _namespaceStack = new Stack<>();
+    protected List<AttributeValueHolder> _namespaceAttributes;
     
     public SAXEventSerializer(OutputStream s) throws IOException {
         _writer = new OutputStreamWriter(s);
@@ -77,7 +77,7 @@ public class SAXEventSerializer extends DefaultHandler
         throws SAXException
     {
         if (_namespaceAttributes == null) {
-            _namespaceAttributes = new ArrayList();
+            _namespaceAttributes = new ArrayList<>();
         }
         
         String qName = (prefix.length() == 0) ? "xmlns" : "xmlns" + prefix;
@@ -117,14 +117,15 @@ public class SAXEventSerializer extends DefaultHandler
             if (_namespaceAttributes != null) {
                 
                 AttributeValueHolder[] attrsHolder = new AttributeValueHolder[0];
-                attrsHolder = (AttributeValueHolder[])_namespaceAttributes.toArray(attrsHolder);
+                attrsHolder = _namespaceAttributes.toArray(attrsHolder);
                         
                 // Sort attributes
                 quicksort(attrsHolder, 0, attrsHolder.length - 1);
 
-                for (int i = 0; i < attrsHolder.length; i++) {
-                    _writer.write("<startPrefixMapping prefix=\"" +
-                        attrsHolder[i].localName + "\" uri=\"" + attrsHolder[i].uri + "\"/>\n");
+                for (AttributeValueHolder attrsHolder1 : attrsHolder) {
+                    _writer.write("<startPrefixMapping prefix=\""
+                            + attrsHolder1.localName + "\" uri=\""
+                            + attrsHolder1.uri + "\"/>\n");
                     _writer.flush();
                 }
                         
@@ -149,8 +150,8 @@ public class SAXEventSerializer extends DefaultHandler
             quicksort(attrsHolder, 0, attrsHolder.length - 1);
 
             int attributeCount = 0;
-            for (int i = 0; i < attrsHolder.length; i++) {
-                if (attrsHolder[i].uri.equals("http://www.w3.org/2000/xmlns/")) {
+            for (AttributeValueHolder attrsHolder1 : attrsHolder) {
+                if (attrsHolder1.uri.equals("http://www.w3.org/2000/xmlns/")) {
                     // Ignore XMLNS attributes
                     continue;
                 }
@@ -169,18 +170,16 @@ public class SAXEventSerializer extends DefaultHandler
                 + qName + "\">\n");
 
             // Serialize attributes as children
-            for (int i = 0; i < attrsHolder.length; i++) {
-                if (attrsHolder[i].uri.equals("http://www.w3.org/2000/xmlns/")) {
+            for (AttributeValueHolder attrsHolder1 : attrsHolder) {
+                if (attrsHolder1.uri.equals("http://www.w3.org/2000/xmlns/")) {
                     // Ignore XMLNS attributes
                     continue;
                 }
-                _writer.write(
-                    "  <attribute qName=\"" + attrsHolder[i].qName +
-                    "\" localName=\"" + attrsHolder[i].localName +
-                    "\" uri=\"" + attrsHolder[i].uri +
-                    // "\" type=\"" + attrsHolder[i].type +
-                    "\" value=\"" + attrsHolder[i].value +
-                    "\"/>\n");
+                _writer.write("  <attribute qName=\"" + attrsHolder1.qName
+                        + "\" localName=\"" + attrsHolder1.localName
+                        + "\" uri=\"" + attrsHolder1.uri
+                        // + "\" type=\"" + attrsHolder[i].type
+                        + "\" value=\"" + attrsHolder1.value + "\"/>\n");
             }
             
             _writer.write("</startElement>\n");
@@ -204,11 +203,11 @@ public class SAXEventSerializer extends DefaultHandler
 
             // Write out the end prefix here rather than waiting
             // for the explicit events
-            AttributeValueHolder[] attrsHolder = (AttributeValueHolder[])_namespaceStack.pop();
+            AttributeValueHolder[] attrsHolder = _namespaceStack.pop();
             if (attrsHolder != null) {
-                for (int i = 0; i < attrsHolder.length; i++) {
-                    _writer.write("<endPrefixMapping prefix=\"" +
-                        attrsHolder[i].localName  + "\"/>\n");
+                for (AttributeValueHolder attrsHolder1 : attrsHolder) {
+                    _writer.write("<endPrefixMapping prefix=\""
+                            + attrsHolder1.localName + "\"/>\n");
                     _writer.flush();
                 }
             }
@@ -347,6 +346,7 @@ public class SAXEventSerializer extends DefaultHandler
         }
     }
                                                                                                                          
+    @SuppressWarnings("empty-statement")
     private int partition(AttributeValueHolder[] attrs, int p, int r) {
         AttributeValueHolder x = attrs[(p + r) >>> 1];
         int i = p - 1;
@@ -365,7 +365,7 @@ public class SAXEventSerializer extends DefaultHandler
         }
     }
     
-    public static class AttributeValueHolder implements Comparable {
+    public static class AttributeValueHolder implements Comparable<AttributeValueHolder> {
         public final String qName;
         public final String localName;
         public final String uri;
@@ -385,9 +385,10 @@ public class SAXEventSerializer extends DefaultHandler
             this.value = value;
         }
 
-        public int compareTo(Object o) {
+        @Override
+        public int compareTo(AttributeValueHolder o) {
             try {
-                return qName.compareTo(((AttributeValueHolder) o).qName);
+                return qName.compareTo(o.qName);
             } catch (Exception e) {
                 throw new RuntimeException(CommonResourceBundle.getInstance().getString("message.AttributeValueHolderExpected"));
             }

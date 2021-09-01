@@ -20,6 +20,8 @@ package org.jvnet.fastinfoset;
 
 import java.util.Map;
 
+import com.sun.xml.fastinfoset.vocab.ParserVocabulary;
+
 /**
  * A general interface for parsers of fast infoset documents.
  *
@@ -113,14 +115,14 @@ public interface FastInfosetParser {
      *
      * @param algorithms The set of registered algorithms.
      */
-    public void setRegisteredEncodingAlgorithms(Map algorithms);
+    public void setRegisteredEncodingAlgorithms(Map<String, EncodingAlgorithm> algorithms);
     
     /**
      * Gets the set of registered encoding algorithms.
      *
      * @return The set of registered algorithms.
      */
-    public Map getRegisteredEncodingAlgorithms();
+    public Map<String, EncodingAlgorithm> getRegisteredEncodingAlgorithms();
 
     /**
      * Set the map of referenced external vocabularies.
@@ -129,7 +131,7 @@ public interface FastInfosetParser {
      *
      * @param referencedVocabualries the map of URI to vocabulary.
      */
-    public void setExternalVocabularies(Map referencedVocabualries);
+    public void setExternalVocabularies(Map<String, ParserVocabulary> referencedVocabualries);
     
     /**
      * Get the map of referenced external vocabularies.

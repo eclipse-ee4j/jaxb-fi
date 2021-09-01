@@ -29,6 +29,7 @@ import com.sun.xml.fastinfoset.util.PrefixArray;
 import com.sun.xml.fastinfoset.util.QualifiedNameArray;
 import com.sun.xml.fastinfoset.util.StringArray;
 import com.sun.xml.fastinfoset.vocab.ParserVocabulary;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.jvnet.fastinfoset.EncodingAlgorithm;
 import org.jvnet.fastinfoset.FastInfosetException;
 import org.jvnet.fastinfoset.FastInfosetParser;
 
@@ -97,7 +100,7 @@ public abstract class Decoder implements FastInfosetParser {
         p = System.getProperty(BUFFER_SIZE_SYSTEM_PROPERTY,
                 Integer.toString(_bufferSizeSystemDefault));
         try {
-            int i = Integer.valueOf(p).intValue();
+            int i = Integer.parseInt(p);
             if (i > 0) {
                 _bufferSizeSystemDefault = i;
             }
@@ -118,7 +121,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * The map of URIs to referenced vocabularies.
      */
-    private Map _externalVocabularies;
+    private Map<String, ParserVocabulary> _externalVocabularies;
     
     /**
      * True if can parse fragments.
@@ -139,18 +142,18 @@ public abstract class Decoder implements FastInfosetParser {
      * The list of Notation Information Items that are part of the
      * Document Information Item.
      */
-    protected List _notations;
+    protected List<Notation> _notations;
     
     /**
      * The list of Unparsed Entity Information Items that are part of the
      * Document Information Item.
      */
-    protected List _unparsedEntities;
+    protected List<UnparsedEntity> _unparsedEntities;
     
     /**
      * The map of URIs to registered encoding algorithms.
      */
-    protected Map _registeredEncodingAlgorithms = new HashMap();
+    protected Map<String, EncodingAlgorithm> _registeredEncodingAlgorithms = new HashMap<>();
     
     /**
      * The vocabulary used for decoding.
@@ -278,6 +281,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setStringInterning(boolean stringInterning) {
         _stringInterning = stringInterning;
     }
@@ -285,6 +289,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean getStringInterning() {
         return _stringInterning;
     }
@@ -292,6 +297,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setBufferSize(int bufferSize) {
         if (_bufferSize > _octetBuffer.length) {
             _bufferSize = bufferSize;
@@ -301,6 +307,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getBufferSize() {
         return _bufferSize;
     }
@@ -308,27 +315,29 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
-    public void setRegisteredEncodingAlgorithms(Map algorithms) {
+    @Override
+    public void setRegisteredEncodingAlgorithms(Map<String, EncodingAlgorithm> algorithms) {
         _registeredEncodingAlgorithms = algorithms;
         if (_registeredEncodingAlgorithms == null) {
-            _registeredEncodingAlgorithms = new HashMap();
+            _registeredEncodingAlgorithms = new HashMap<>();
         }
     }
     
     /**
      * {@inheritDoc}
      */
-    public Map getRegisteredEncodingAlgorithms() {
+    @Override
+    public Map<String, EncodingAlgorithm> getRegisteredEncodingAlgorithms() {
         return _registeredEncodingAlgorithms;
     }
     
     /**
      * {@inheritDoc}
      */
-    public void setExternalVocabularies(Map referencedVocabualries) {
+    public void setExternalVocabularies(Map<String, ParserVocabulary> referencedVocabualries) {
         if (referencedVocabualries != null) {
             // Clone the input map
-            _externalVocabularies = new HashMap();
+            _externalVocabularies = new HashMap<>();
             _externalVocabularies.putAll(referencedVocabualries);
         } else {
             _externalVocabularies = null;
@@ -338,13 +347,16 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
-    public Map getExternalVocabularies() {
+    @Override
+    @Deprecated
+    public Map<String, ParserVocabulary> getExternalVocabularies() {
         return _externalVocabularies;
     }
     
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setParseFragments(boolean parseFragments) {
         _parseFragments = parseFragments;
     }
@@ -352,6 +364,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean getParseFragments() {
         return _parseFragments;
     }
@@ -359,6 +372,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setForceStreamClose(boolean needForceStreamClose) {
         _needForceStreamClose = needForceStreamClose;
     }
@@ -366,6 +380,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean getForceStreamClose() {
         return _needForceStreamClose;
     }
@@ -616,7 +631,7 @@ public abstract class Decoder implements FastInfosetParser {
     
     protected final void decodeNotations() throws FastInfosetException, IOException {
         if (_notations == null) {
-            _notations = new ArrayList();
+            _notations = new ArrayList<>();
         } else {
             _notations.clear();
         }
@@ -642,7 +657,7 @@ public abstract class Decoder implements FastInfosetParser {
     
     protected final void decodeUnparsedEntities() throws FastInfosetException, IOException {
         if (_unparsedEntities == null) {
-            _unparsedEntities = new ArrayList();
+            _unparsedEntities = new ArrayList<>();
         } else {
             _unparsedEntities.clear();
         }
@@ -1286,7 +1301,7 @@ public abstract class Decoder implements FastInfosetParser {
         } else if (_identifier >= EncodingConstants.RESTRICTED_ALPHABET_APPLICATION_START) {
             CharArray ca = _v.restrictedAlphabet.get(_identifier - EncodingConstants.RESTRICTED_ALPHABET_APPLICATION_START);
             if (ca == null) {
-                throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.alphabetNotPresent", new Object[]{Integer.valueOf(_identifier)}));
+                throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.alphabetNotPresent", new Object[]{_identifier}));
             }
             decodeAlphabetOctetsAsCharBuffer(ca.ch);
         } else {
@@ -1314,7 +1329,7 @@ public abstract class Decoder implements FastInfosetParser {
             _charBuffer = new char[characters];
         }
         
-        int v = 0;
+        int v;
         for (int i = 0; i < _octetBufferLength - 1; i++) {
             v = _octetBuffer[_octetBufferStart++] & 0xFF;
             _charBuffer[_charBufferLength++] = restrictedAlphabet[v >> 4];
@@ -1883,6 +1898,7 @@ public abstract class Decoder implements FastInfosetParser {
     
     protected class EncodingAlgorithmInputStream extends InputStream {
         
+        @Override
         public int read() throws IOException {
             if (_octetBufferStart < _octetBufferOffset) {
                 return (_octetBuffer[_octetBufferStart++] & 0xFF);
@@ -1938,28 +1954,20 @@ public abstract class Decoder implements FastInfosetParser {
                 _octetBuffer[3] != EncodingConstants.BINARY_HEADER[3]) {
             
             // Check for each form of XML declaration
-            for (int i = 0; i < EncodingConstants.XML_DECLARATION_VALUES.length; i++) {
-                _octetBufferLength = EncodingConstants.XML_DECLARATION_VALUES[i].length - _octetBufferOffset;
+            for (byte[] XML_DECLARATION_VALUES : EncodingConstants.XML_DECLARATION_VALUES) {
+                _octetBufferLength = XML_DECLARATION_VALUES.length - _octetBufferOffset;
                 ensureOctetBufferSize();
                 _octetBufferOffset += _octetBufferLength;
-                
                 // Check XML declaration
-                if (arrayEquals(_octetBuffer, 0,
-                        EncodingConstants.XML_DECLARATION_VALUES[i],
-                        EncodingConstants.XML_DECLARATION_VALUES[i].length)) {
+                if (arrayEquals(_octetBuffer, 0, XML_DECLARATION_VALUES, XML_DECLARATION_VALUES.length)) {
                     _octetBufferLength = EncodingConstants.BINARY_HEADER.length;
                     ensureOctetBufferSize();
                     
                     // Check for binary header
-                    if (_octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[0] ||
-                            _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[1] ||
-                            _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[2] ||
-                            _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[3]) {
-                        return false;
-                    } else {
-                        // Fast Infoset document with XML declaration and binary header
-                        return true;
-                    }
+                    return !(_octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[0]
+                            || _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[1]
+                            || _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[2]
+                            || _octetBuffer[_octetBufferOffset++] != EncodingConstants.BINARY_HEADER[3]);
                 }
             }
             
@@ -1987,15 +1995,11 @@ public abstract class Decoder implements FastInfosetParser {
         
         final byte[] header = new byte[headerSize];
         final int readBytesCount = s.read(header);
-        if (readBytesCount < headerSize ||
-                header[0] != EncodingConstants.BINARY_HEADER[0] ||
-                header[1] != EncodingConstants.BINARY_HEADER[1] ||
-                header[2] != EncodingConstants.BINARY_HEADER[2] ||
-                header[3] != EncodingConstants.BINARY_HEADER[3]) {
-            return false;
-        }
-        
         // TODO
-        return true;
+        return !(readBytesCount < headerSize
+                || header[0] != EncodingConstants.BINARY_HEADER[0]
+                || header[1] != EncodingConstants.BINARY_HEADER[1]
+                || header[2] != EncodingConstants.BINARY_HEADER[2]
+                || header[3] != EncodingConstants.BINARY_HEADER[3]);
     }
 }

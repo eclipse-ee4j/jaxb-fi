@@ -32,19 +32,22 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
 
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         if (octetLength % INT_SIZE != 0) {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().
-                    getString("message.lengthNotMultipleOfInt", new Object[]{Integer.valueOf(INT_SIZE)}));
+                    getString("message.lengthNotMultipleOfInt", new Object[]{INT_SIZE}));
         }
         
         return octetLength / INT_SIZE;
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength * INT_SIZE;
     }
     
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         int[] data = new int[getPrimtiveLengthFromOctetLength(length)];
         decodeFromBytesToIntArray(data, 0, b, start, length);
@@ -52,11 +55,13 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
         return data;
     }
     
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         return decodeFromInputStreamToIntArray(s);
     }
     
     
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof int[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotIntArray"));
@@ -68,22 +73,20 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List integerList = new ArrayList();
+        final List<Integer> integerList = new ArrayList<>();
         
-        matchWhiteSpaceDelimnatedWords(cb,
-                new WordListener() {
-            public void word(int start, int end) {
-                String iStringValue = cb.subSequence(start, end).toString();
-                integerList.add(Integer.valueOf(iStringValue));
-            }
-        }
-        );
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            String iStringValue = cb.subSequence(start1, end).toString();
+            integerList.add(Integer.valueOf(iStringValue));
+        });
         
         return generateArrayFromList(integerList);
     }
     
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (!(data instanceof int[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotIntArray"));
@@ -106,7 +109,7 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     public final int[] decodeFromInputStreamToIntArray(InputStream s) throws IOException {
-        final List integerList = new ArrayList();
+        final List<Integer> integerList = new ArrayList<>();
         final byte[] b = new byte[INT_SIZE];
         
         while (true) {
@@ -129,7 +132,7 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
                     ((b[1] & 0xFF) << 16) | 
                     ((b[2] & 0xFF) << 8) | 
                     (b[3] & 0xFF);
-            integerList.add(Integer.valueOf(i));
+            integerList.add(i);
         }
         
         return generateArrayFromList(integerList);
@@ -146,6 +149,7 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
         }
     }
     
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         encodeToBytesFromIntArray((int[])array, astart, alength, b, start);
     }
@@ -173,10 +177,10 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     
-    public final int[] generateArrayFromList(List array) {
+    public final int[] generateArrayFromList(List<Integer> array) {
         int[] idata = new int[array.size()];
         for (int i = 0; i < idata.length; i++) {
-            idata[i] = ((Integer)array.get(i)).intValue();
+            idata[i] = array.get(i);
         }
         
         return idata;

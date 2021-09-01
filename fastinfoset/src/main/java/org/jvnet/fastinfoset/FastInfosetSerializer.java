@@ -209,14 +209,14 @@ public interface FastInfosetSerializer {
      *
      * @param algorithms The set of registered algorithms.
      */
-    public void setRegisteredEncodingAlgorithms(Map algorithms);
+    public void setRegisteredEncodingAlgorithms(Map<String, EncodingAlgorithm> algorithms);
     
     /**
      * Gets the set of registered encoding algorithms.
      *
      * @return The set of registered algorithms.
      */
-    public Map getRegisteredEncodingAlgorithms();
+    public Map<String, EncodingAlgorithm> getRegisteredEncodingAlgorithms();
     
     /**
      * Gets the minimum size of character content chunks

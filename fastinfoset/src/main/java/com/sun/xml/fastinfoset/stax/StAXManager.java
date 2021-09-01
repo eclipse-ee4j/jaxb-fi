@@ -27,7 +27,7 @@ public class StAXManager {
     protected static final String STAX_NOTATIONS = "javax.xml.stream.notations";
     protected static final String STAX_ENTITIES = "javax.xml.stream.entities";
     
-    HashMap features = new HashMap();
+    HashMap<String, Object> features = new HashMap<>();
     
     public static final int CONTEXT_READER = 1;
     public static final int CONTEXT_WRITER = 2;
@@ -49,14 +49,16 @@ public class StAXManager {
             }
         }
     }
-    
+
+    // PERF: Why is this so much complicated?
+    // * delete private HashMap<String, Object> getProperties()
+    // * features.putAll(manager.features);
     public StAXManager(StAXManager manager){
-        
-        HashMap properties = manager.getProperties();
+        final HashMap<String, Object> properties = manager.getProperties();
         features.putAll(properties);
     }
     
-    private HashMap getProperties(){
+    private HashMap<String, Object> getProperties(){
         return features ;
     }
     
@@ -78,11 +80,12 @@ public class StAXManager {
         features.put(XMLOutputFactory.IS_REPAIRING_NAMESPACES , Boolean.FALSE);
     }
     
-    /**
+    /*
      * public void reset(){
-     * features.clear() ;
+     * features.clear();
      * }
      */
+
     public boolean containsProperty(String property){
         return features.containsKey(property) ;
     }
@@ -112,6 +115,7 @@ public class StAXManager {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.propertyNotSupported", new Object[]{name}));
     }
 
+    @Override
     public String toString(){
         return features.toString();
     }

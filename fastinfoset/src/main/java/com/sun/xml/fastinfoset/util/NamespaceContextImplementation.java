@@ -28,7 +28,7 @@ import javax.xml.namespace.NamespaceContext;
  * @author Paul.Sandoz@Sun.Com
  */
 final public class NamespaceContextImplementation implements NamespaceContext {
-    private static int DEFAULT_SIZE = 8;
+    private static final int DEFAULT_SIZE = 8;
     
     private String[] prefixes = new String[DEFAULT_SIZE];
     private String[] namespaceURIs = new String[DEFAULT_SIZE];
@@ -114,12 +114,12 @@ final public class NamespaceContextImplementation implements NamespaceContext {
         return null;
     }
 
-    public Iterator getPrefixes(String namespaceURI) {
+    public Iterator<String> getPrefixes(String namespaceURI) {
         if (namespaceURI == null) throw new IllegalArgumentException();
         
         // namespaceURI = namespaceURI.intern();
         
-        List l = new ArrayList();
+       final List<String> l = new ArrayList<>();
         
         NAMESPACE_LOOP: for (int i = namespacePosition - 1; i >= 0; i--) {
             final String declaredNamespaceURI = namespaceURIs[i];

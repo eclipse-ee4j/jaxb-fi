@@ -170,15 +170,15 @@ public class ParserVocabulary extends Vocabulary {
                 prefixMap, namespaceNameMap, localNameMap);                            
     }
     
-    private void addToTable(Iterator i, StringArray a) {
+    private void addToTable(Iterator<String> i, StringArray a) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), a, null);
+            addToTable(i.next(), a, null);
         }        
     }
     
-    private void addToTable(Iterator i, StringArray a, StringIntMap m) {
+    private void addToTable(Iterator<String> i, StringArray a, StringIntMap m) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), a, m);
+            addToTable(i.next(), a, m);
         }        
     }
     
@@ -191,9 +191,9 @@ public class ParserVocabulary extends Vocabulary {
         a.add(s);
     }
     
-    private void addToTable(Iterator i, PrefixArray a, StringIntMap m) {
+    private void addToTable(Iterator<String> i, PrefixArray a, StringIntMap m) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), a, m);
+            addToTable(i.next(), a, m);
         }        
     }
     
@@ -206,9 +206,9 @@ public class ParserVocabulary extends Vocabulary {
         a.add(s);
     }
     
-    private void addToTable(Iterator i, ContiguousCharArrayArray a) {
+    private void addToTable(Iterator<String> i, ContiguousCharArrayArray a) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), a);
+            addToTable(i.next(), a);
         }        
     }
     
@@ -221,9 +221,9 @@ public class ParserVocabulary extends Vocabulary {
         a.add(c, c.length);
     }
     
-    private void addToTable(Iterator i, CharArrayArray a) {
+    private void addToTable(Iterator<String> i, CharArrayArray a) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), a);
+            addToTable(i.next(), a);
         }        
     }
     
@@ -236,12 +236,12 @@ public class ParserVocabulary extends Vocabulary {
         a.add(new CharArray(c, 0, c.length, false));
     }
     
-    private void addToTable(Iterator i, QualifiedNameArray a,
+    private void addToTable(Iterator<QName> i, QualifiedNameArray a,
             boolean isAttribute, 
             StringIntMap prefixMap, StringIntMap namespaceNameMap, 
             StringIntMap localNameMap) {
         while (i.hasNext()) {
-            addToNameTable((QName)i.next(), a, isAttribute,
+            addToNameTable(i.next(), a, isAttribute,
                     prefixMap, namespaceNameMap, localNameMap);
         }        
     }

@@ -22,21 +22,32 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 import java.util.NoSuchElementException;
 
 
-public class EmptyIterator implements Iterator {
-    public static final EmptyIterator instance = new EmptyIterator();
+public class EmptyIterator<E> implements Iterator<E> {
+
+    private static final EmptyIterator<? extends Object> INSTANCE = new EmptyIterator<>();
+
     /** Creates a new instance of EmptyIterator */
     private EmptyIterator() {
     }
-    public static EmptyIterator getInstance() {
-        return instance;
+
+    @SuppressWarnings("unchecked")
+    public static <E> EmptyIterator<E> getInstance() {
+        return (EmptyIterator<E>)INSTANCE;
     }
+
+    @Override
     public boolean hasNext() {
         return false;
     }
-    public Object next() throws NoSuchElementException {
+
+    @Override
+    public E next() throws NoSuchElementException {
         throw new NoSuchElementException();
     }
+
+    @Override
     public void remove() {
-         throw new  UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.emptyIterator"));
+         throw new  UnsupportedOperationException(
+                 CommonResourceBundle.getInstance().getString("message.emptyIterator"));
     }
 }

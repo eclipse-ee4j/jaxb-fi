@@ -59,7 +59,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
     
     private static final int SIZE                   = 6;
     
-    private Map _registeredEncodingAlgorithms;
+    private Map<String, EncodingAlgorithm> _registeredEncodingAlgorithms;
     
     private int _length;
     
@@ -102,7 +102,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
      *      The registeredEncodingAlgorithms encoding algorithms.
      * @param attributes The existing Attributes object.
      */
-    public EncodingAlgorithmAttributesImpl(Map registeredEncodingAlgorithms,
+    public EncodingAlgorithmAttributesImpl(Map<String, EncodingAlgorithm> registeredEncodingAlgorithms,
             Attributes attributes) {
         _data = new String[DEFAULT_CAPACITY * SIZE];
         _algorithmIds = new int[DEFAULT_CAPACITY];
@@ -313,7 +313,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
      *
      * @param atts The attributes to copy.
      */
-    public void setAttributes(Attributes atts) {
+    public final void setAttributes(Attributes atts) {
         _length = atts.getLength();
         if (_length > 0) {
             
@@ -340,7 +340,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
      *
      * @param atts The attributes to copy.
      */
-    public void setAttributes(EncodingAlgorithmAttributes atts) {
+    public final void setAttributes(EncodingAlgorithmAttributes atts) {
         _length = atts.getLength();
         if (_length > 0) {
             
@@ -366,10 +366,12 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
     
     // org.xml.sax.Attributes
     
+    @Override
     public final int getLength() {
         return _length;
     }
     
+    @Override
     public final String getLocalName(int index) {
         if (index >= 0 && index < _length) {
             return _data[index * SIZE + LOCALNAME_OFFSET];
@@ -378,6 +380,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getQName(int index) {
         if (index >= 0 && index < _length) {
             return _data[index * SIZE + QNAME_OFFSET];
@@ -386,6 +389,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getType(int index) {
         if (index >= 0 && index < _length) {
             return _data[index * SIZE + TYPE_OFFSET];
@@ -394,6 +398,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getURI(int index) {
         if (index >= 0 && index < _length) {
             return _data[index * SIZE + URI_OFFSET];
@@ -402,6 +407,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getValue(int index) {
         if (index >= 0 && index < _length) {
             final String value = _data[index * SIZE + VALUE_OFFSET];
@@ -419,13 +425,12 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
                     _algorithmIds[index],
                     _data[index * SIZE + ALGORITHMURI_OFFSET],
                     _algorithmData[index]).toString();
-        } catch (IOException e) {
-            return null;
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             return null;
         }
     }
     
+    @Override
     public final int getIndex(String qName) {
         for (int index = 0; index < _length; index++) {
             if (qName.equals(_data[index * SIZE + QNAME_OFFSET])) {
@@ -435,6 +440,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         return -1;
     }
     
+    @Override
     public final String getType(String qName) {
         int index = getIndex(qName);
         if (index >= 0) {
@@ -444,6 +450,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getValue(String qName) {
         int index = getIndex(qName);
         if (index >= 0) {
@@ -453,6 +460,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final int getIndex(String uri, String localName) {
         for (int index = 0; index < _length; index++) {
             if (localName.equals(_data[index * SIZE + LOCALNAME_OFFSET]) &&
@@ -463,6 +471,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         return -1;
     }
     
+    @Override
     public final String getType(String uri, String localName) {
         int index = getIndex(uri, localName);
         if (index >= 0) {
@@ -472,6 +481,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final String getValue(String uri, String localName) {
         int index = getIndex(uri, localName);
         if (index >= 0) {
@@ -483,6 +493,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
     
     // EncodingAlgorithmAttributes
     
+    @Override
     public final String getAlgorithmURI(int index) {
         if (index >= 0 && index < _length) {
             return _data[index * SIZE + ALGORITHMURI_OFFSET];
@@ -491,6 +502,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final int getAlgorithmIndex(int index) {
         if (index >= 0 && index < _length) {
             return _algorithmIds[index];
@@ -499,6 +511,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final Object getAlgorithmData(int index) {
         if (index >= 0 && index < _length) {
             return _algorithmData[index];
@@ -509,6 +522,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
     
     // ExtendedAttributes
     
+    @Override
     public final String getAlpababet(int index) {
         if (index >= 0 && index < _length) {
             return _alphabets[index];
@@ -517,6 +531,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         }
     }
     
+    @Override
     public final boolean getToIndex(int index) {
         if (index >= 0 && index < _length) {
             return _toIndex[index];
@@ -527,11 +542,11 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
     
     // -----
     
-    private final String replaceNull(String s) {
+    private String replaceNull(String s) {
         return (s != null) ? s : "";
     }
     
-    private final void resizeNoCopy() {
+    private void resizeNoCopy() {
         final int newLength = _length * 3 / 2 + 1;
         
         _data = new String[newLength * SIZE];
@@ -539,7 +554,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         _algorithmData = new Object[newLength];
     }
     
-    private final void resize() {
+    private void resize() {
         final int newLength = _length * 3 / 2 + 1;
         
         String[] data = new String[newLength * SIZE];
@@ -561,7 +576,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
         _toIndex = toIndex;
     }
     
-    private final StringBuffer convertEncodingAlgorithmDataToString(
+    private StringBuffer convertEncodingAlgorithmDataToString(
             int identifier, String URI, Object data) throws FastInfosetException, IOException {
         EncodingAlgorithm ea = null;
         if (identifier < EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
@@ -575,7 +590,7 @@ public class EncodingAlgorithmAttributesImpl implements EncodingAlgorithmAttribu
                         CommonResourceBundle.getInstance().getString("message.URINotPresent") + identifier);
             }
             
-            ea = (EncodingAlgorithm)_registeredEncodingAlgorithms.get(URI);
+            ea = _registeredEncodingAlgorithms.get(URI);
             if (ea == null) {
                 throw new EncodingAlgorithmException(
                         CommonResourceBundle.getInstance().getString("message.algorithmNotRegistered") + URI);

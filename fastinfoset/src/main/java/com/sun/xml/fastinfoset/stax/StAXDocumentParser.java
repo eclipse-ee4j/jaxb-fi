@@ -195,6 +195,7 @@ public class StAXDocumentParser extends Decoder
     
     // -- XMLStreamReader Interface -------------------------------------------
     
+    @Override
     public Object getProperty(java.lang.String name)
     throws java.lang.IllegalArgumentException {
         if (_manager != null) {
@@ -203,6 +204,7 @@ public class StAXDocumentParser extends Decoder
         return null;
     }
     
+    @Override
     public int next() throws XMLStreamException {
         try {
             if (_internalState != INTERNAL_STATE_VOID) {
@@ -505,6 +507,7 @@ public class StAXDocumentParser extends Decoder
      * @param localName the localName of the event, may be null
      * @throws XMLStreamException if the required values are not matched.
      */
+    @Override
     public final void require(int type, String namespaceURI, String localName)
     throws XMLStreamException {
         if( type != _eventType)
@@ -521,6 +524,7 @@ public class StAXDocumentParser extends Decoder
      * @throws XMLStreamException if the current event is not a START_ELEMENT or if
      * a non text element is encountered
      */
+    @Override
     public final String getElementText() throws XMLStreamException {
         
         if(getEventType() != START_ELEMENT) {
@@ -577,6 +581,7 @@ public class StAXDocumentParser extends Decoder
      * @return the event type of the element read
      * @throws XMLStreamException if the current event is not white space
      */
+    @Override
     public final int nextTag() throws XMLStreamException {
         next();
         return nextTag(true);
@@ -602,10 +607,12 @@ public class StAXDocumentParser extends Decoder
         return eventType;
     }
     
+    @Override
     public final boolean hasNext() throws XMLStreamException {
         return (_eventType != END_DOCUMENT);
     }
     
+    @Override
     public void close() throws XMLStreamException {
         try {
             super.closeIfRequired();
@@ -613,6 +620,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getNamespaceURI(String prefix) {
         String namespace = getNamespaceDecl(prefix);
         if (namespace == null) {
@@ -624,14 +632,17 @@ public class StAXDocumentParser extends Decoder
         return namespace;
     }
     
+    @Override
     public final boolean isStartElement() {
         return (_eventType == START_ELEMENT);
     }
     
+    @Override
     public final boolean isEndElement() {
         return (_eventType == END_ELEMENT);
     }
     
+    @Override
     public final boolean isCharacters() {
         return (_eventType == CHARACTERS);
     }
@@ -642,6 +653,7 @@ public class StAXDocumentParser extends Decoder
      *  for the same event.
      * @return true if the cursor points to all whitespace, false otherwise
      */
+    @Override
     public final boolean isWhiteSpace() {
         if(isCharacters() || (_eventType == CDATA)){
             char [] ch = this.getTextCharacters();
@@ -657,6 +669,7 @@ public class StAXDocumentParser extends Decoder
         return false;
     }
     
+    @Override
     public final String getAttributeValue(String namespaceURI, String localName) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -684,6 +697,7 @@ public class StAXDocumentParser extends Decoder
         return null;
     }
     
+    @Override
     public final int getAttributeCount() {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -692,6 +706,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getLength();
     }
     
+    @Override
     public final javax.xml.namespace.QName getAttributeName(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -699,6 +714,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getQualifiedName(index).getQName();
     }
     
+    @Override
     public final String getAttributeNamespace(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -707,6 +723,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getURI(index);
     }
     
+    @Override
     public final String getAttributeLocalName(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -714,6 +731,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getLocalName(index);
     }
     
+    @Override
     public final String getAttributePrefix(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -721,6 +739,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getPrefix(index);
     }
     
+    @Override
     public final String getAttributeType(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -728,6 +747,7 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getType(index);
     }
     
+    @Override
     public final String getAttributeValue(int index) {
         if (_eventType != START_ELEMENT) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetAttributeValue"));
@@ -735,10 +755,12 @@ public class StAXDocumentParser extends Decoder
         return _attributes.getValue(index);
     }
     
+    @Override
     public final boolean isAttributeSpecified(int index) {
         return false;   // non-validating parser
     }
     
+    @Override
     public final int getNamespaceCount() {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return (_currentNamespaceAIIsEnd > 0) ? (_currentNamespaceAIIsEnd - _currentNamespaceAIIsStart) : 0;
@@ -747,6 +769,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getNamespacePrefix(int index) {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _namespaceAIIsPrefix[_currentNamespaceAIIsStart + index];
@@ -755,6 +778,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getNamespaceURI(int index) {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _namespaceAIIsNamespaceName[_currentNamespaceAIIsStart + index];
@@ -763,14 +787,17 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final NamespaceContext getNamespaceContext() {
         return _nsContext;
     }
     
+    @Override
     public final int getEventType() {
         return _eventType;
     }
     
+    @Override
     public final String getText() {
         if (_characters == null) {
             checkTextState();
@@ -783,6 +810,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final char[] getTextCharacters() {
         if (_characters == null) {
             checkTextState();
@@ -791,6 +819,7 @@ public class StAXDocumentParser extends Decoder
         return _characters;
     }
     
+    @Override
     public final int getTextStart() {
         if (_characters == null) {
             checkTextState();
@@ -799,6 +828,7 @@ public class StAXDocumentParser extends Decoder
         return _charactersOffset;
     }
     
+    @Override
     public final int getTextLength() {
         if (_characters == null) {
             checkTextState();
@@ -807,6 +837,7 @@ public class StAXDocumentParser extends Decoder
         return _charBufferLength;
     }
     
+    @Override
     public final int getTextCharacters(int sourceStart, char[] target,
             int targetStart, int length) throws XMLStreamException {
         if (_characters == null) {
@@ -835,20 +866,24 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getEncoding() {
         return _characterEncodingScheme;
     }
     
+    @Override
     public final boolean hasText() {
         return (_characters != null);
     }
     
+    @Override
     public final Location getLocation() {
         //location should be created in next()
         //returns a nil location for now
         return EventLocation.getNilLocation();
     }
     
+    @Override
     public final QName getName() {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _qualifiedName.getQName();
@@ -857,6 +892,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getLocalName() {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _qualifiedName.localName;
@@ -865,10 +901,12 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final boolean hasName() {
         return (_eventType == START_ELEMENT || _eventType == END_ELEMENT);
     }
     
+    @Override
     public final String getNamespaceURI() {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _qualifiedName.namespaceName;
@@ -877,6 +915,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getPrefix() {
         if (_eventType == START_ELEMENT || _eventType == END_ELEMENT) {
             return _qualifiedName.prefix;
@@ -885,22 +924,27 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public final String getVersion() {
         return null;
     }
     
+    @Override
     public final boolean isStandalone() {
         return false;
     }
     
+    @Override
     public final boolean standaloneSet() {
         return false;
     }
     
+    @Override
     public final String getCharacterEncodingScheme() {
         return null;
     }
     
+    @Override
     public final String getPITarget() {
         if (_eventType != PROCESSING_INSTRUCTION) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetPITarget"));
@@ -909,6 +953,7 @@ public class StAXDocumentParser extends Decoder
         return _piTarget;
     }
     
+    @Override
     public final String getPIData() {
         if (_eventType != PROCESSING_INSTRUCTION) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.invalidCallingGetPIData"));
@@ -955,6 +1000,7 @@ public class StAXDocumentParser extends Decoder
      * 
      * @return 
      */
+    @Deprecated
     public final byte[] getTextAlgorithmBytes() {
         // Do not return the actual _algorithmData due to security reasons
 //        return _algorithmData;
@@ -998,6 +1044,7 @@ public class StAXDocumentParser extends Decoder
     
     // FastInfosetStreamReader impl
     
+    @Override
     public final int peekNext() throws XMLStreamException {
         try {
             switch(DecoderStateTables.EII(peek(this))) {
@@ -1041,6 +1088,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
+    @Override
     public void onBeforeOctetBufferOverwrite() {
         if (_algorithmData != null) {
             _algorithmData = getTextAlgorithmBytesClone();
@@ -1051,22 +1099,27 @@ public class StAXDocumentParser extends Decoder
     
     // Faster access methods without checks
     
+    @Override
     public final int accessNamespaceCount() {
         return (_currentNamespaceAIIsEnd > 0) ? (_currentNamespaceAIIsEnd - _currentNamespaceAIIsStart) : 0;
     }
     
+    @Override
     public final String accessLocalName() {
         return _qualifiedName.localName;
     }
     
+    @Override
     public final String accessNamespaceURI() {
         return _qualifiedName.namespaceName;
     }
     
+    @Override
     public final String accessPrefix() {
         return _qualifiedName.prefix;
     }
     
+    @Override
     public final char[] accessTextCharacters() {
         if (_characters == null) return null;
         
@@ -1076,10 +1129,12 @@ public class StAXDocumentParser extends Decoder
         return clonedCharacters;
     }
     
+    @Override
     public final int accessTextStart() {
         return _charactersOffset;
     }
     
+    @Override
     public final int accessTextLength() {
         return _charBufferLength;
     }
@@ -1295,7 +1350,8 @@ public class StAXDocumentParser extends Decoder
         _namespaceAIIsStartStack[_stackCount] = _currentNamespaceAIIsStart;
         _namespaceAIIsEndStack[_stackCount] = _currentNamespaceAIIsEnd;
     }
-    
+
+    @SuppressWarnings("fallthrough")
     protected final void processAIIs() throws FastInfosetException, IOException {
         QualifiedName name;
         int b;
@@ -1650,9 +1706,9 @@ public class StAXDocumentParser extends Decoder
         if (_identifier >= EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START) {
             URI = _v.encodingAlgorithm.get(_identifier - EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START);
             if (URI == null) {
-                throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.URINotPresent", new Object[]{Integer.valueOf(_identifier)}));
+                throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.URINotPresent", new Object[]{_identifier}));
             } else if (_registeredEncodingAlgorithms != null) {
-                ea = (EncodingAlgorithm)_registeredEncodingAlgorithms.get(URI);
+                ea = _registeredEncodingAlgorithms.get(URI);
             }
         } else if (_identifier >= EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
             if (_identifier == EncodingAlgorithmIndexes.CDATA) {
@@ -1702,7 +1758,7 @@ public class StAXDocumentParser extends Decoder
             _charactersOffset = 0;
             return;
         } else if (_algorithmId >= EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START) {
-            final EncodingAlgorithm ea = (EncodingAlgorithm)_registeredEncodingAlgorithms.get(_algorithmURI);
+            final EncodingAlgorithm ea = _registeredEncodingAlgorithms.get(_algorithmURI);
             if (ea != null) {
                 final Object data = ea.decodeFromBytes(_octetBuffer, _octetBufferStart, _octetBufferLength);
                 ea.convertToCharacters(data, buffer);
@@ -1806,15 +1862,18 @@ public class StAXDocumentParser extends Decoder
     }
     
     protected class NamespaceContextImpl implements NamespaceContext {
+        @Override
         public final String getNamespaceURI(String prefix) {
             return _prefixTable.getNamespaceFromPrefix(prefix);
         }
         
+        @Override
         public final String getPrefix(String namespaceURI) {
             return _prefixTable.getPrefixFromNamespace(namespaceURI);
         }
         
-        public final Iterator getPrefixes(String namespaceURI) {
+        @Override
+        public final Iterator<String> getPrefixes(String namespaceURI) {
             return _prefixTable.getPrefixesFromNamespace(namespaceURI);
         }
     }
@@ -1827,7 +1886,7 @@ public class StAXDocumentParser extends Decoder
         return getNamespaceDecl(prefix);
     }
     
-    public final Iterator getPrefixes() {
+    public final Iterator<String> getPrefixes() {
         return _prefixTable.getPrefixes();
     }
     

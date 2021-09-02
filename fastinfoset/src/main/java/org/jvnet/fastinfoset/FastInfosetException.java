@@ -19,6 +19,8 @@
 package org.jvnet.fastinfoset;
 
 public class FastInfosetException extends Exception {
+
+    private static final long serialVersionUID = 0L;
     
     public FastInfosetException(String message) {
         super(message);

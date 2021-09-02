@@ -127,9 +127,9 @@ public class NamespacesScopeTest extends TestCase {
         }
         
         int i = 0;
-        Iterator p = _prefixArray.getPrefixes();
+        Iterator<String> p = _prefixArray.getPrefixes();
         while (p.hasNext()) {
-            String prefix = (String)p.next();
+            String prefix = p.next();
             if (i == 0) {
                 assertEquals("xml", prefix);
             } else {
@@ -146,17 +146,12 @@ public class NamespacesScopeTest extends TestCase {
         }
         
         int i = 1;
-        Iterator p = _prefixArray.getPrefixesFromNamespace("n");
+        Iterator<String> p = _prefixArray.getPrefixesFromNamespace("n");
         while (p.hasNext()) {
-            String prefix = (String)p.next();
+            String prefix = p.next();
             assertEquals("p" + i, prefix);
             i++;
         }
-    }
-    
-    private void add(String prefix, String namespaceName, int prefixIndex, int namespaceNameIndex) throws Exception {
-        _prefixArray.add(prefix);
-        _prefixArray.pushScopeWithPrefixEntry(prefix, namespaceName, prefixIndex, namespaceNameIndex);
     }
     
     public static Test suite() {

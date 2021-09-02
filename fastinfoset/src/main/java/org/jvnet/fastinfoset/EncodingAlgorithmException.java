@@ -19,7 +19,9 @@
 package org.jvnet.fastinfoset;
 
 public class EncodingAlgorithmException extends FastInfosetException {
-    
+
+    private static final long serialVersionUID = 0L;
+
     public EncodingAlgorithmException(String message) {
         super(message);
     }

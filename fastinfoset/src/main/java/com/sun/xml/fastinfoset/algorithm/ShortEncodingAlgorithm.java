@@ -37,19 +37,22 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
  */
 public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
 
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         if (octetLength % SHORT_SIZE != 0) {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().
-                    getString("message.lengthNotMultipleOfShort", new Object[]{Integer.valueOf(SHORT_SIZE)}));
+                    getString("message.lengthNotMultipleOfShort", new Object[]{SHORT_SIZE}));
         }
 
         return octetLength / SHORT_SIZE;
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength * SHORT_SIZE;
     }
 
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         short[] data = new short[getPrimtiveLengthFromOctetLength(length)];
         decodeFromBytesToShortArray(data, 0, b, start, length);
@@ -57,11 +60,13 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
         return data;
     }
 
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         return decodeFromInputStreamToShortArray(s);
     }
 
 
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof short[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotShortArray"));
@@ -73,22 +78,20 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
 
 
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List shortList = new ArrayList();
+        final List<Short> shortList = new ArrayList<>();
 
-        matchWhiteSpaceDelimnatedWords(cb,
-                new WordListener() {
-            public void word(int start, int end) {
-                String iStringValue = cb.subSequence(start, end).toString();
-                shortList.add(Short.valueOf(iStringValue));
-            }
-        }
-        );
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            String iStringValue = cb.subSequence(start1, end).toString();
+            shortList.add(Short.valueOf(iStringValue));
+        });
 
         return generateArrayFromList(shortList);
     }
 
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (!(data instanceof short[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotShortArray"));
@@ -109,7 +112,7 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
 
     public final short[] decodeFromInputStreamToShortArray(InputStream s) throws IOException {
-        final List shortList = new ArrayList();
+        final List<Short> shortList = new ArrayList<>();
         final byte[] b = new byte[SHORT_SIZE];
 
         while (true) {
@@ -130,7 +133,7 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
 
             final int i = ((b[0] & 0xFF) << 8) |
                     (b[1] & 0xFF);
-            shortList.add(Short.valueOf((short)i));
+            shortList.add((short)i);
         }
 
         return generateArrayFromList(shortList);
@@ -145,6 +148,7 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
         }
     }
 
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         encodeToBytesFromShortArray((short[])array, astart, alength, b, start);
     }
@@ -170,10 +174,10 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
 
 
-    public final short[] generateArrayFromList(List array) {
+    public final short[] generateArrayFromList(List<Short> array) {
         short[] sdata = new short[array.size()];
         for (int i = 0; i < sdata.length; i++) {
-            sdata[i] = ((Short)array.get(i)).shortValue();
+            sdata[i] = array.get(i);
         }
 
         return sdata;

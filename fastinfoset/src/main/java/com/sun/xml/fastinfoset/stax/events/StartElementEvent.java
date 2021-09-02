@@ -35,8 +35,8 @@ import javax.xml.stream.events.StartElement;
 
 public class StartElementEvent extends EventBase implements StartElement {
     
-    private Map _attributes;
-    private List _namespaces;
+    private Map<QName, Attribute> _attributes;
+    private List<Namespace> _namespaces;
     private NamespaceContext _context = null;
     private QName _qname;
     
@@ -69,10 +69,10 @@ public class StartElementEvent extends EventBase implements StartElement {
         addNamespaces(startelement.getNamespaces());
     }
     
-    protected void init() {
+    protected final void init() {
         setEventType(XMLStreamConstants.START_ELEMENT);
-        _attributes = new HashMap();
-        _namespaces = new ArrayList();
+        _attributes = new HashMap<>();
+        _namespaces = new ArrayList<>();
     }
     
     // ---------------------methods defined by StartElement-----------------//
@@ -80,6 +80,7 @@ public class StartElementEvent extends EventBase implements StartElement {
     * Get the name of this event
     * @return the qualified name of this event
     */
+    @Override
     public QName getName() {
         return _qname;
     }
@@ -93,10 +94,11 @@ public class StartElementEvent extends EventBase implements StartElement {
     * @return a readonly Iterator over Attribute interfaces, or an
     * empty iterator
     */
-    public Iterator getAttributes() {
-        if(_attributes != null){
-            Collection coll = _attributes.values();
-            return new ReadIterator(coll.iterator());
+    @Override
+    public Iterator<Attribute> getAttributes() {
+        if (_attributes != null) {
+            Collection<Attribute> coll = _attributes.values();
+            return new ReadIterator<>(coll.iterator());
         }
         return EmptyIterator.getInstance();
     }
@@ -122,9 +124,10 @@ public class StartElementEvent extends EventBase implements StartElement {
    * empty iterator if there are no namespaces.
    *
    */
-    public Iterator getNamespaces() {
-        if(_namespaces != null){
-            return new ReadIterator(_namespaces.iterator());
+    @Override
+    public Iterator<Namespace> getNamespaces() {
+        if (_namespaces != null) {
+            return new ReadIterator<>(_namespaces.iterator());
         }
         return EmptyIterator.getInstance();
     }
@@ -134,10 +137,11 @@ public class StartElementEvent extends EventBase implements StartElement {
    * @param qname the qname of the desired name
    * @return the attribute corresponding to the name value or null
    */
+    @Override
     public Attribute getAttributeByName(QName qname) {
-        if(qname == null)
+        if (qname == null)
             return null;
-        return (Attribute)_attributes.get(qname);
+        return _attributes.get(qname);
     }
     
     /** Gets a read-only namespace context. If no context is
@@ -147,6 +151,7 @@ public class StartElementEvent extends EventBase implements StartElement {
      *
      * @return the current namespace context
      */
+    @Override
     public NamespaceContext getNamespaceContext() {
         return _context;
     }
@@ -168,6 +173,7 @@ public class StartElementEvent extends EventBase implements StartElement {
     * @param prefix the prefix to lookup
     * @return the uri bound to the prefix or null
     */
+    @Override
     public String getNamespaceURI(String prefix) {
         //first check if the URI was supplied when creating this startElement event
         if( getNamespace() != null ) return getNamespace();
@@ -177,25 +183,24 @@ public class StartElementEvent extends EventBase implements StartElement {
         return null;
     }
     
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(64);
         
         sb.append('<').append(nameAsString());
         
         if(_attributes != null){
-            Iterator it = this.getAttributes();
-            Attribute attr = null;
+            Iterator<? extends Attribute> it = this.getAttributes();
             while(it.hasNext()){
-                attr = (Attribute)it.next();
+                Attribute attr = it.next();
                 sb.append(' ').append(attr.toString());
             }
         }
         
         if(_namespaces != null){
-            Iterator it = _namespaces.iterator();
-            Namespace attr = null;
+            Iterator<? extends Namespace> it = _namespaces.iterator();
             while(it.hasNext()){
-                attr = (Namespace)it.next();
+                Namespace attr = it.next();
                 sb.append(' ').append(attr.toString());
             }
         }
@@ -224,10 +229,10 @@ public class StartElementEvent extends EventBase implements StartElement {
         _attributes.put(attr.getName(),attr);
     }
     
-    public void addAttributes(Iterator attrs){
+    public final void addAttributes(Iterator<? extends Attribute> attrs){
         if(attrs != null) {
             while(attrs.hasNext()){
-                Attribute attr = (Attribute)attrs.next();
+                Attribute attr = attrs.next();
                 _attributes.put(attr.getName(),attr);
             }            
         }
@@ -239,10 +244,10 @@ public class StartElementEvent extends EventBase implements StartElement {
         }        
     }
     
-    public void addNamespaces(Iterator namespaces){
+    public final void addNamespaces(Iterator<? extends Namespace> namespaces){
         if(namespaces != null) {
             while(namespaces.hasNext()){
-                Namespace namespace = (Namespace)namespaces.next();
+                Namespace namespace = namespaces.next();
                 _namespaces.add(namespace);
             }            
         }

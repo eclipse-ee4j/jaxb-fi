@@ -34,7 +34,7 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 public class AttributesHolder implements EncodingAlgorithmAttributes {
     private static final int DEFAULT_CAPACITY = 8;
 
-    private Map _registeredEncodingAlgorithms;
+    private Map<String, EncodingAlgorithm> _registeredEncodingAlgorithms;
     
     private int _attributeCount;
     
@@ -54,33 +54,39 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         _algorithmData = new Object[DEFAULT_CAPACITY];
     }
 
-    public AttributesHolder(Map registeredEncodingAlgorithms) {
+    public AttributesHolder(Map<String, EncodingAlgorithm> registeredEncodingAlgorithms) {
         this();
         _registeredEncodingAlgorithms = registeredEncodingAlgorithms;
     }
     
     // org.xml.sax.Attributes
     
+    @Override
     public final int getLength() {
         return _attributeCount;
     }
 
+    @Override
     public final String getLocalName(int index) {
         return _names[index].localName;
     }
 
+    @Override
     public final String getQName(int index) {
         return _names[index].getQNameString();
     }
 
+    @Override
     public final String getType(int index) {
         return "CDATA";
     }
 
+    @Override
     public final String getURI(int index) {
         return _names[index].namespaceName;
     }
 
+    @Override
     public final String getValue(int index) {
         final String value = _values[index];
         if (value != null) {
@@ -98,13 +104,12 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
                     _algorithmIds[index],
                     _algorithmURIs[index],
                     _algorithmData[index]).toString();
-        } catch (IOException e) {
-            return null;
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             return null;
         }
     }
 
+    @Override
     public final int getIndex(String qName) {
         int i = qName.indexOf(':');
         String prefix = "";
@@ -124,6 +129,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         return -1;
     }
 
+    @Override
     public final String getType(String qName) {
         int index = getIndex(qName);
         if (index >= 0) {
@@ -133,6 +139,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         }
     }
 
+    @Override
     public final String getValue(String qName) {
         int index = getIndex(qName);
         if (index >= 0) {
@@ -142,6 +149,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         }
     }
 
+    @Override
     public final int getIndex(String uri, String localName) {
         for (int i = 0; i < _attributeCount; i++) {
             QualifiedName name = _names[i];
@@ -153,6 +161,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         return -1;
     }
 
+    @Override
     public final String getType(String uri, String localName) {
         int index = getIndex(uri, localName);
         if (index >= 0) {
@@ -162,6 +171,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         }
     }
 
+    @Override
     public final String getValue(String uri, String localName) {
         int index = getIndex(uri, localName);
         if (index >= 0) {
@@ -181,22 +191,27 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
 
     // EncodingAlgorithmAttributes
     
+    @Override
     public final String getAlgorithmURI(int index) {
         return _algorithmURIs[index];
     }
  
+    @Override
     public final int getAlgorithmIndex(int index) {
         return _algorithmIds[index];
     }
     
+    @Override
     public final Object getAlgorithmData(int index) {
         return _algorithmData[index];
     }
 
+    @Override
     public String getAlpababet(int index) {
         return null;
     }
 
+    @Override
     public boolean getToIndex(int index) {
         return false;
     }
@@ -231,7 +246,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         return _names[index].prefix;
     }
         
-    private final void resize() {
+    private void resize() {
         final int newLength = _attributeCount * 3 / 2 + 1;
 
         QualifiedName[] names = new QualifiedName[newLength];
@@ -256,7 +271,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         _algorithmData = algorithmData;
     }
     
-    private final StringBuffer convertEncodingAlgorithmDataToString(int identifier, String URI, Object data) throws FastInfosetException, IOException {
+    private StringBuffer convertEncodingAlgorithmDataToString(int identifier, String URI, Object data) throws FastInfosetException, IOException {
         EncodingAlgorithm ea = null;
         if (identifier < EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
             ea = BuiltInEncodingAlgorithmFactory.getAlgorithm(identifier);
@@ -267,7 +282,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
                 throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.URINotPresent") + identifier);
             }
             
-            ea = (EncodingAlgorithm)_registeredEncodingAlgorithms.get(URI);
+            ea = _registeredEncodingAlgorithms.get(URI);
             if (ea == null) {
                 throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.algorithmNotRegistered") + URI);
             }

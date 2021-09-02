@@ -50,13 +50,15 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         1 << 3,
         1 << 2,
         1 << 1,
-        1 << 0};
+        1};
                 
+    @Override
     public int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         // Cannot determine the number of boolean values from just the octet length
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         if (primitiveLength < 5) {
             return 1;
@@ -66,6 +68,7 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         }         
     }
                 
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         final int blength = getPrimtiveLengthFromOctetLength(length, b[start]);
         boolean[] data = new boolean[blength];
@@ -74,8 +77,9 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         return data;
     }                
                 
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
-        final List booleanList = new ArrayList();
+        final List<Boolean> booleanList = new ArrayList<>();
 
         int value = s.read();
         if (value == -1) {
@@ -85,16 +89,14 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
                    
         int bitPosition = 4;
         int bitPositionEnd = 8;
-        int valueNext = 0;
         do {
-            valueNext = s.read();
+            int valueNext = s.read();
             if (valueNext == -1) {
                 bitPositionEnd -= unusedBits;
             }
             
             while(bitPosition < bitPositionEnd) {
-                booleanList.add(
-                        Boolean.valueOf((value & BIT_TABLE[bitPosition++]) > 0));
+                booleanList.add((value & BIT_TABLE[bitPosition++]) > 0);
             }
             
             value = valueNext;
@@ -103,6 +105,7 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         return generateArrayFromList(booleanList);
     }
                 
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof boolean[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotBoolean"));
@@ -133,29 +136,27 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         }
     }
                                 
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         if (length == 0) {
             return new boolean[0];
         }
 
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List booleanList = new ArrayList();
+        final List<Boolean> booleanList = new ArrayList<>();
 
-        matchWhiteSpaceDelimnatedWords(cb,
-            new WordListener() {
-                public void word(int start, int end) {
-                    if (cb.charAt(start) == 't') {
-                        booleanList.add(Boolean.TRUE);
-                    } else {
-                        booleanList.add(Boolean.FALSE);
-                    }
-                }
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            if (cb.charAt(start1) == 't') {
+                booleanList.add(Boolean.TRUE);
+            } else {
+                booleanList.add(Boolean.FALSE);
             }
-        );
+        });
 
         return generateArrayFromList(booleanList);
     }
 
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (data == null) {
             return;
@@ -211,6 +212,7 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         }
     }
                 
+    @Override
     public void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         if (!(array instanceof boolean[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotBoolean"));
@@ -250,10 +252,10 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
      * @param array The array
      *
      */
-    private boolean[] generateArrayFromList(List array) {
+    private boolean[] generateArrayFromList(List<Boolean> array) {
         boolean[] bdata = new boolean[array.size()];
         for (int i = 0; i < bdata.length; i++) {
-            bdata[i] = ((Boolean)array.get(i)).booleanValue();
+            bdata[i] = array.get(i);
         }
 
         return bdata;

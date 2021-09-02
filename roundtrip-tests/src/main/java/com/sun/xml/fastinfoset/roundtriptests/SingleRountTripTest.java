@@ -59,6 +59,7 @@ public class SingleRountTripTest {
     
     public void processFileOrFolder(File srcFile) {
         FileUtils.processFileOrDirectoryRecursivelly(srcFile, new FileFilter() {
+            @Override
             public boolean accept(File file) {
                 if (file.isDirectory()) {
                     return !file.getName().equals(".") && !file.getName().equals("..");
@@ -67,6 +68,7 @@ public class SingleRountTripTest {
                 }
                 return false;
             }}, new FileUtils.FileProcessorHandler() {
+                @Override
                 public void handle(final File file) {
                     processRtt(file);
                 }
@@ -81,11 +83,8 @@ public class SingleRountTripTest {
         
         RoundTripReport report = new RoundTripReport();
         new SingleRountTripTest((RoundTripRtt) Class.forName(args[0]).newInstance(), report).processFileOrFolder(new File(args[1]));
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[2])));
-        try {
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[2])))) {
             writer.print(report.generateReport());
-        } finally {
-            writer.close();
         }
     }
 }

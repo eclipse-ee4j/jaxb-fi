@@ -111,6 +111,7 @@ public class StAXDocumentSerializer extends Encoder
         _manager = manager;
     }
     
+    @Override
     public void reset() {
         super.reset();
         
@@ -128,14 +129,17 @@ public class StAXDocumentSerializer extends Encoder
     
     // -- XMLStreamWriter Interface -------------------------------------------
             
+    @Override
     public void writeStartDocument() throws XMLStreamException {
         writeStartDocument("finf", "1.0");
     }
     
+    @Override
     public void writeStartDocument(String version) throws XMLStreamException {
         writeStartDocument("finf", version);
     }
     
+    @Override
     public void writeStartDocument(String encoding, String version)
         throws XMLStreamException
     {
@@ -149,6 +153,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeEndDocument() throws XMLStreamException {
         try {
             
@@ -165,10 +170,12 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void close() throws XMLStreamException {
         reset();
     }
     
+    @Override
     public void flush() throws XMLStreamException {
         try {
             _s.flush();
@@ -178,6 +185,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeStartElement(String localName)
         throws XMLStreamException
     {
@@ -185,12 +193,14 @@ public class StAXDocumentSerializer extends Encoder
         writeStartElement("", localName, "");
     }
     
+    @Override
     public void writeStartElement(String namespaceURI, String localName)
         throws XMLStreamException
     {
         writeStartElement("", localName, namespaceURI);
     }
     
+    @Override
     public void writeStartElement(String prefix, String localName,
         String namespaceURI) throws XMLStreamException
     {
@@ -213,18 +223,21 @@ public class StAXDocumentSerializer extends Encoder
         _nsSupportContextStack[_stackCount] = false;
     }
     
+    @Override
     public void writeEmptyElement(String localName)
         throws XMLStreamException
     {
         writeEmptyElement("", localName, "");
     }
     
+    @Override
     public void writeEmptyElement(String namespaceURI, String localName)
         throws XMLStreamException
     {
         writeEmptyElement("", localName, namespaceURI);
     }
     
+    @Override
     public void writeEmptyElement(String prefix, String localName, 
         String namespaceURI) throws XMLStreamException
     {
@@ -246,6 +259,7 @@ public class StAXDocumentSerializer extends Encoder
         _nsSupportContextStack[_stackCount] = false;
     }
         
+    @Override
     public void writeEndElement() throws XMLStreamException {
         if (_inStartElement) {
             encodeTerminationAndCurrentElement(false);
@@ -266,12 +280,14 @@ public class StAXDocumentSerializer extends Encoder
     }
 
     
+    @Override
     public void writeAttribute(String localName, String value)
         throws XMLStreamException
     {
         writeAttribute("", "", localName, value);
     }
     
+    @Override
     public void writeAttribute(String namespaceURI, String localName,
         String value) throws XMLStreamException
     {
@@ -300,6 +316,7 @@ public class StAXDocumentSerializer extends Encoder
         writeAttribute(prefix, namespaceURI, localName, value);
     }
         
+    @Override
     public void writeAttribute(String prefix, String namespaceURI,
         String localName, String value) throws XMLStreamException
     {
@@ -329,6 +346,7 @@ public class StAXDocumentSerializer extends Encoder
         _attributesArray[_attributesArrayIndex++] = value;
     }
     
+    @Override
     public void writeNamespace(String prefix, String namespaceURI)
         throws XMLStreamException
     {
@@ -352,6 +370,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeDefaultNamespace(String namespaceURI)
         throws XMLStreamException
     {
@@ -370,6 +389,7 @@ public class StAXDocumentSerializer extends Encoder
         setPrefix("", namespaceURI);
     }
     
+    @Override
     public void writeComment(String data) throws XMLStreamException {
         try {
             if (getIgnoreComments()) return;
@@ -384,12 +404,14 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeProcessingInstruction(String target)
         throws XMLStreamException
     {
         writeProcessingInstruction(target, "");
     }
     
+    @Override
     public void writeProcessingInstruction(String target, String data)
         throws XMLStreamException
     {
@@ -405,6 +427,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeCData(String text) throws XMLStreamException {
          try {
             final int length = text.length();
@@ -436,14 +459,17 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeDTD(String dtd) throws XMLStreamException {
         throw new UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.notImplemented"));
     }
     
+    @Override
     public void writeEntityRef(String name) throws XMLStreamException {
         throw new UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.notImplemented"));
     }
         
+    @Override
     public void writeCharacters(String text) throws XMLStreamException {
          try {
             final int length = text.length();
@@ -476,6 +502,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public void writeCharacters(char[] text, int start, int len)
         throws XMLStreamException
     {
@@ -496,10 +523,12 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
 
+    @Override
     public String getPrefix(String uri) throws XMLStreamException {
         return _nsContext.getPrefix(uri);
     }
     
+    @Override
     public void setPrefix(String prefix, String uri) 
         throws XMLStreamException 
     {
@@ -511,6 +540,7 @@ public class StAXDocumentSerializer extends Encoder
         _nsContext.declarePrefix(prefix, uri);
     }
     
+    @Override
     public void setDefaultNamespace(String uri) throws XMLStreamException {
         setPrefix("", uri);
     }
@@ -529,16 +559,19 @@ public class StAXDocumentSerializer extends Encoder
      * @param context the namespace context to use for this writer, may not be null
      * @throws XMLStreamException
      */
+    @Override
     public void setNamespaceContext(NamespaceContext context)
         throws XMLStreamException 
     {           
         throw new UnsupportedOperationException("setNamespaceContext");
     }
     
+    @Override
     public NamespaceContext getNamespaceContext() {
         return _nsContext;
     }
     
+    @Override
     public Object getProperty(java.lang.String name) 
         throws IllegalArgumentException 
     {
@@ -648,36 +681,44 @@ public class StAXDocumentSerializer extends Encoder
     
     // LowLevelFastInfosetSerializer
     
+    @Override
     public final void initiateLowLevelWriting() throws XMLStreamException {
         encodeTerminationAndCurrentElement(false);
     }
         
+    @Override
     public final int getNextElementIndex() {
         return _v.elementName.getNextIndex();
     }
 
+    @Override
     public final int getNextAttributeIndex() {
         return _v.attributeName.getNextIndex();
     }
     
+    @Override
     public final int getLocalNameIndex() {
         return _v.localName.getIndex();
     }
     
+    @Override
     public final int getNextLocalNameIndex() {
         return _v.localName.getNextIndex();
     }
 
+    @Override
     public final void writeLowLevelTerminationAndMark() throws IOException {
         encodeTermination();
         mark();
     }
 
+    @Override
     public final void writeLowLevelStartElementIndexed(int type, int index) throws IOException {
         _b = type;
         encodeNonZeroIntegerOnThirdBit(index);
     }
     
+    @Override
     public final boolean writeLowLevelStartElement(int type, String prefix, String localName,
             String namespaceURI) throws IOException {
         final boolean isIndexed = encodeElement(type, namespaceURI, prefix, localName);
@@ -689,19 +730,23 @@ public class StAXDocumentSerializer extends Encoder
         return isIndexed;
     }
                 
+    @Override
     public final void writeLowLevelStartNamespaces() throws IOException {
         write(EncodingConstants.ELEMENT | EncodingConstants.ELEMENT_NAMESPACES_FLAG);
     }
     
+    @Override
     public final void writeLowLevelNamespace(String prefix, String namespaceName) 
         throws IOException {
         encodeNamespaceAttribute(prefix, namespaceName);
     }
     
+    @Override
     public final void writeLowLevelEndNamespaces() throws IOException {
         write(EncodingConstants.TERMINATOR);
     }
     
+    @Override
     public final void writeLowLevelStartAttributes() throws IOException {
         if (hasMark()) {
             _octetBuffer[_markIndex] |= EncodingConstants.ELEMENT_ATTRIBUTE_FLAG;
@@ -709,10 +754,12 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
         
+    @Override
     public final void writeLowLevelAttributeIndexed(int index) throws IOException {
         encodeNonZeroIntegerOnSecondBitFirstBitZero(index);
     }
     
+    @Override
     public final boolean writeLowLevelAttribute(String prefix, String namespaceURI, String localName) throws IOException {
         final boolean isIndexed = encodeAttribute(namespaceURI, prefix, localName);
 
@@ -723,12 +770,14 @@ public class StAXDocumentSerializer extends Encoder
         return isIndexed;
     }
                 
+    @Override
     public final void writeLowLevelAttributeValue(String value) throws IOException
     {
         final boolean addToTable = isAttributeValueLengthMatchesLimit(value.length());
         encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, false);
     }
     
+    @Override
     public final void writeLowLevelStartNameLiteral(int type, String prefix, byte[] utf8LocalName, 
             String namespaceURI) throws IOException {
         encodeLiteralHeader(type, namespaceURI, prefix);
@@ -736,12 +785,14 @@ public class StAXDocumentSerializer extends Encoder
         write(utf8LocalName, 0, utf8LocalName.length);
     }
     
+    @Override
     public final void writeLowLevelStartNameLiteral(int type, String prefix, int localNameIndex, 
             String namespaceURI) throws IOException {
         encodeLiteralHeader(type, namespaceURI, prefix);
         encodeNonZeroIntegerOnSecondBitFirstBitOne(localNameIndex);
     }
      
+    @Override
     public final void writeLowLevelEndStartElement() throws IOException {
         if (hasMark()) {
             resetMark();
@@ -752,10 +803,12 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public final void writeLowLevelEndElement() throws IOException {
         encodeElementTermination();
     }
     
+    @Override
     public final void writeLowLevelText(char[] text, int length) throws IOException {
         if (length == 0)
             return;
@@ -765,6 +818,7 @@ public class StAXDocumentSerializer extends Encoder
         encodeCharacters(text, 0, length);
     }
     
+    @Override
     public final void writeLowLevelText(String text) throws IOException {
         final int length = text.length();
         if (length == 0)
@@ -781,6 +835,7 @@ public class StAXDocumentSerializer extends Encoder
         }
     }
     
+    @Override
     public final void writeLowLevelOctets(byte[] octets, int length) throws IOException {
         if (length == 0)
             return;

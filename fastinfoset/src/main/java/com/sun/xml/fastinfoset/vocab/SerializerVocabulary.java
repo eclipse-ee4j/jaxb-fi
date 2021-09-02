@@ -100,8 +100,8 @@ public class SerializerVocabulary extends Vocabulary {
     }
     
     public void clear() {
-        for (int i = 0; i < tables.length; i++) {
-            tables[i].clear();
+        for (KeyIntMap table : tables) {
+            table.clear();
         }
     }
     
@@ -120,9 +120,9 @@ public class SerializerVocabulary extends Vocabulary {
         addToTable(v.attributes.iterator(), attributeName);                            
     }
     
-    private void addToTable(Iterator i, StringIntMap m) {
+    private void addToTable(Iterator<String> i, StringIntMap m) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), m);
+            addToTable(i.next(), m);
         }        
     }
     
@@ -134,9 +134,9 @@ public class SerializerVocabulary extends Vocabulary {
         m.obtainIndex(s);
     }
     
-    private void addToTable(Iterator i, CharArrayIntMap m) {
+    private void addToTable(Iterator<String> i, CharArrayIntMap m) {
         while (i.hasNext()) {
-            addToTable((String)i.next(), m);
+            addToTable(i.next(), m);
         }        
     }
     
@@ -149,9 +149,9 @@ public class SerializerVocabulary extends Vocabulary {
         m.obtainIndex(c, 0, c.length, false);
     }
     
-    private void addToTable(Iterator i, LocalNameQualifiedNamesMap m) {
+    private void addToTable(Iterator<QName> i, LocalNameQualifiedNamesMap m) {
         while (i.hasNext()) {
-            addToNameTable((QName)i.next(), m);
+            addToNameTable(i.next(), m);
         }        
     }
     
@@ -181,7 +181,7 @@ public class SerializerVocabulary extends Vocabulary {
                 m.getNextIndex(), 
                 prefixIndex, namespaceURIIndex, localNameIndex);
         
-        LocalNameQualifiedNamesMap.Entry entry = null;
+        final LocalNameQualifiedNamesMap.Entry entry;
         if (_useLocalNameAsKey) {
             entry = m.obtainEntry(n.getLocalPart());
         } else {

@@ -35,7 +35,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
+
 import java.util.Set;
+
+import javax.xml.namespace.QName;
+
 import org.jvnet.fastinfoset.FastInfosetSerializer;
 
 public class VocabularyGenerator extends DefaultHandler implements LexicalHandler {
@@ -184,7 +188,7 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
     }
 
     
-    public void addToTable(String s, Set v, StringIntMap m, StringArray a) {
+    public void addToTable(String s, Set<String> v, StringIntMap m, StringArray a) {
         if (s.length() == 0) {
             return;
         }
@@ -196,7 +200,7 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
         v.add(s);
     }
 
-    public void addToTable(String s, Set v, StringIntMap m, PrefixArray a) {
+    public void addToTable(String s, Set<String> v, StringIntMap m, PrefixArray a) {
         if (s.length() == 0) {
             return;
         }
@@ -217,13 +221,13 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
     }
 
     public void addToNameTable(String namespaceURI, String qName, String localName, 
-            Set v, LocalNameQualifiedNamesMap m, QualifiedNameArray a,
+            Set<QName> v, LocalNameQualifiedNamesMap m, QualifiedNameArray a,
             boolean isAttribute) throws SAXException {        
         LocalNameQualifiedNamesMap.Entry entry = m.obtainEntry(qName);
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+                if (namespaceURI.equals(names[i].namespaceName)) {
                     return;
                 }
             }                
@@ -233,24 +237,23 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
         
         int namespaceURIIndex = -1;
         int prefixIndex = -1;
-        int localNameIndex = -1;
         if (namespaceURI.length() > 0) {
             namespaceURIIndex = _serializerVocabulary.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 throw new SAXException(CommonResourceBundle.getInstance().
-                        getString("message.namespaceURINotIndexed", new Object[]{Integer.valueOf(namespaceURIIndex)}));
+                        getString("message.namespaceURINotIndexed", new Object[]{namespaceURIIndex}));
             }
             
             if (prefix.length() > 0) {
                 prefixIndex = _serializerVocabulary.prefix.get(prefix);
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     throw new SAXException(CommonResourceBundle.getInstance().
-                            getString("message.prefixNotIndexed", new Object[]{Integer.valueOf(prefixIndex)}));
+                            getString("message.prefixNotIndexed", new Object[]{prefixIndex}));
                 }
             }
         }
         
-        localNameIndex = _serializerVocabulary.localName.obtainIndex(localName);
+        int localNameIndex = _serializerVocabulary.localName.obtainIndex(localName);
         if (localNameIndex == KeyIntMap.NOT_PRESENT) {
             _parserVocabulary.localName.add(localName);
             localNameIndex = _parserVocabulary.localName.getSize() - 1;

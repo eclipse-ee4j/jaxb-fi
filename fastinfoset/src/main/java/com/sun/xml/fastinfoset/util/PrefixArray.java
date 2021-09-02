@@ -38,7 +38,7 @@ public class PrefixArray extends ValueArray {
         private int prefixId;
     }
 
-    private PrefixEntry[] _prefixMap = new PrefixEntry[PREFIX_MAP_SIZE];
+    private final PrefixEntry[] _prefixMap = new PrefixEntry[PREFIX_MAP_SIZE];
     
     private PrefixEntry _prefixPool;
     
@@ -81,7 +81,7 @@ public class PrefixArray extends ValueArray {
         this(DEFAULT_CAPACITY, MAXIMUM_CAPACITY);
     }
 
-    private final void initializeEntries() {
+    private void initializeEntries() {
         _inScopeNamespaces[0] = _namespacePool;
         _namespacePool = _namespacePool.next;
         _inScopeNamespaces[0].next = null;        
@@ -117,7 +117,7 @@ public class PrefixArray extends ValueArray {
         _prefixMap[index].prefixId = 1;
     }
     
-    private final void increaseNamespacePool(int capacity) {
+    private void increaseNamespacePool(int capacity) {
         if (_namespacePool == null) {
             _namespacePool = new NamespaceEntry();
         }
@@ -129,7 +129,7 @@ public class PrefixArray extends ValueArray {
         }
     }
     
-    private final void increasePrefixPool(int capacity) {
+    private void increasePrefixPool(int capacity) {
         if (_prefixPool == null) {
             _prefixPool = new PrefixEntry();
         }
@@ -161,6 +161,7 @@ public class PrefixArray extends ValueArray {
         return i;
     }
     
+    @Override
     public final void clear() {
         for (int i = _readOnlyArraySize; i < _size; i++) {
             _array[i] = null;
@@ -203,6 +204,7 @@ public class PrefixArray extends ValueArray {
         return clonedArray;
     }
         
+    @Override
     public final void setReadOnlyArray(ValueArray readOnlyArray, boolean clear) {
         if (!(readOnlyArray instanceof PrefixArray)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
@@ -410,7 +412,7 @@ public class PrefixArray extends ValueArray {
         PrefixEntry pe = _prefixMap[index];
         while (pe != null) {
             final NamespaceEntry ne = _inScopeNamespaces[pe.prefixId];
-            if (prefix == ne.prefix || prefix.equals(ne.prefix)) {
+            if (prefix.equals(ne.prefix)) {
                 return ne.namespaceName;
             }
             pe = pe.next;
@@ -431,16 +433,18 @@ public class PrefixArray extends ValueArray {
         return null;
     }
     
-    public final Iterator getPrefixes() {
-        return new Iterator() {
+    public final Iterator<String> getPrefixes() {
+        return new Iterator<String>() {
             int _position = 1;
             NamespaceEntry _ne = _inScopeNamespaces[_position];
             
+            @Override
             public boolean hasNext() {
                 return _ne != null;
             }
             
-            public Object next() {
+            @Override
+            public String next() {
                 if (_position == _size + 2) {
                     throw new NoSuchElementException();
                 }
@@ -450,11 +454,12 @@ public class PrefixArray extends ValueArray {
                 return prefix;
             }
             
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
             
-            private final void moveToNext() {
+            private void moveToNext() {
                 while (++_position < _size + 2) {
                     _ne = _inScopeNamespaces[_position];
                     if (_ne != null) {
@@ -467,8 +472,8 @@ public class PrefixArray extends ValueArray {
         };        
     }
     
-    public final Iterator getPrefixesFromNamespace(final String namespaceName) {
-        return new Iterator() {
+    public final Iterator<String> getPrefixesFromNamespace(final String namespaceName) {
+        return new Iterator<String>() {
             String _namespaceName = namespaceName;
             int _position = 0;
             NamespaceEntry _ne;
@@ -477,11 +482,13 @@ public class PrefixArray extends ValueArray {
                 moveToNext();
             }
             
+            @Override
             public boolean hasNext() {
                 return _ne != null;
             }
             
-            public Object next() {
+            @Override
+            public String next() {
                 if (_position == _size + 2) {
                     throw new NoSuchElementException();
                 }
@@ -491,11 +498,12 @@ public class PrefixArray extends ValueArray {
                 return prefix;
             }
             
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
             
-            private final void moveToNext() {
+            private void moveToNext() {
                 while (++_position < _size + 2) {
                     _ne = _inScopeNamespaces[_position];
                     if (_ne != null && _namespaceName.equals(_ne.namespaceName)) {

@@ -40,6 +40,7 @@ public class EventLocation implements Location{
     * returns -1 if none is available.
     * @return the current line number
     */
+    @Override
     public int getLineNumber(){
         return _line;
     }
@@ -48,6 +49,7 @@ public class EventLocation implements Location{
     * returns -1 if none is available.
     * @return the current column number
     */
+    @Override
     public int getColumnNumber() {
         return _column;
     }
@@ -60,6 +62,7 @@ public class EventLocation implements Location{
    * Returns -1 if there is no offset available.
    * @return the current offset
    */
+    @Override
     public int getCharacterOffset(){
         return _charOffset;
     }
@@ -68,6 +71,7 @@ public class EventLocation implements Location{
     * Returns the public ID of the XML
     * @return the public ID, or null if not available
     */
+    @Override
     public String getPublicId(){
         return _publicId;
     }
@@ -76,6 +80,7 @@ public class EventLocation implements Location{
    * Returns the system ID of the XML
    * @return the system ID, or null if not available
    */
+    @Override
     public String getSystemId(){
         return _systemId;
     }
@@ -96,6 +101,7 @@ public class EventLocation implements Location{
         _systemId = id;
     }
     
+    @Override
     public String toString(){
         StringBuffer sbuffer = new StringBuffer() ;
         sbuffer.append("Line number = " + _line);

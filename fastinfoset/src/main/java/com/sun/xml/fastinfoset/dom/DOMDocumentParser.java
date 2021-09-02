@@ -69,6 +69,8 @@ public class DOMDocumentParser extends Decoder {
      *
      * @param d the {@link Document} instance.
      * @param s the input stream containing the fast infoset document.
+     * @throws org.jvnet.fastinfoset.FastInfosetException
+     * @throws java.io.IOException
      */
     public void parse(Document d, InputStream s) throws FastInfosetException, IOException {
         _currentNode = _document = d;
@@ -109,6 +111,7 @@ public class DOMDocumentParser extends Decoder {
         }
     }
     
+    @SuppressWarnings("fallthrough")
     protected final void processDII() throws FastInfosetException, IOException {
         _b = read();
         if (_b > 0) {
@@ -287,6 +290,7 @@ public class DOMDocumentParser extends Decoder {
         }
     }
     
+    @SuppressWarnings("fallthrough")
     protected final void processEII(QualifiedName name, boolean hasAttributes) throws FastInfosetException, IOException {
         if (_prefixTable._currentInScope[name.prefixIndex] != name.namespaceNameIndex) {
             throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.qnameOfEIINotInScope"));
@@ -515,7 +519,7 @@ public class DOMDocumentParser extends Decoder {
         }
     }
 
-    private final String processUtf8CharacterString() throws FastInfosetException, IOException {
+    private String processUtf8CharacterString() throws FastInfosetException, IOException {
         if ((_b & EncodingConstants.CHARACTER_CHUNK_ADD_TO_TABLE_FLAG) > 0) {
             _characterContentChunkTable.ensureSize(_octetBufferLength);
             final int charactersOffset = _characterContentChunkTable._arrayIndex;
@@ -729,6 +733,7 @@ public class DOMDocumentParser extends Decoder {
         }
     }
     
+    @SuppressWarnings("fallthrough")
     protected final void processAIIs() throws FastInfosetException, IOException {
         QualifiedName name;
         int b;
@@ -1034,7 +1039,7 @@ public class DOMDocumentParser extends Decoder {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.CDATAAlgorithmNotSupported"));
         } else if (_identifier >= EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START) {
             final String URI = _v.encodingAlgorithm.get(_identifier - EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START);
-            final EncodingAlgorithm ea = (EncodingAlgorithm)_registeredEncodingAlgorithms.get(URI);
+            final EncodingAlgorithm ea = _registeredEncodingAlgorithms.get(URI);
             if (ea != null) {
                 final Object data = ea.decodeFromBytes(_octetBuffer, _octetBufferStart, _octetBufferLength);
                 ea.convertToCharacters(data, buffer);

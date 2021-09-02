@@ -86,9 +86,9 @@ public class StAXInputFactory extends XMLInputFactory {
     }
 
     /**
-     * @param inputstream
-     * @throws XMLStreamException
-     * @return
+     * @param xmlfile source XML file
+     * @return new instance of XML Reader
+     * @throws XMLStreamException on error
      */    
     XMLStreamReader getXMLStreamReader(Reader xmlfile) 
         throws XMLStreamException{

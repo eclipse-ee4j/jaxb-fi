@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 /** <p>Writing a FI document directly with StAXDocumentSerializer.</p>
  *  This sample demonstrates the use of StAXDocumentSerializer to write out an FI document
  *  with following content:
+ * <pre> {@code
  * <ns1:invoice xmlns:ns1="http://www.sun.com/schema/spidermarkexpress/sm-inv">
  *   <Header>
  *     <IssueDateTime>2003-03-13T13:13:32-08:00</IssueDateTime>
@@ -34,6 +35,7 @@ import java.io.FileOutputStream;
  *     <POIdentifier schemeName="Generic" schemeAgencyName="ISO">691</POIdentifier>
  *   </Header>
  * </ns1:invoice>
+ * } </pre>
  *
  * You may use tool "fitosaxtoxml" provided in the FastInfoset package to verify the result.
  */

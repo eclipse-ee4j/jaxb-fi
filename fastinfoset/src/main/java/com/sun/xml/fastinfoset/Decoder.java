@@ -1955,12 +1955,12 @@ public abstract class Decoder implements FastInfosetParser {
                 _octetBuffer[3] != EncodingConstants.BINARY_HEADER[3]) {
             
             // Check for each form of XML declaration
-            for (byte[] XML_DECLARATION_VALUES : EncodingConstants.XML_DECLARATION_VALUES) {
-                _octetBufferLength = XML_DECLARATION_VALUES.length - _octetBufferOffset;
+            for (byte[] values : EncodingConstants.XML_DECLARATION_VALUES) {
+                _octetBufferLength = values.length - _octetBufferOffset;
                 ensureOctetBufferSize();
                 _octetBufferOffset += _octetBufferLength;
                 // Check XML declaration
-                if (arrayEquals(_octetBuffer, 0, XML_DECLARATION_VALUES, XML_DECLARATION_VALUES.length)) {
+                if (arrayEquals(_octetBuffer, 0, values, values.length)) {
                     _octetBufferLength = EncodingConstants.BINARY_HEADER.length;
                     ensureOctetBufferSize();
                     

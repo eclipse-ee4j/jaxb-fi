@@ -332,6 +332,7 @@
                     <target>9</target>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
+                        <arg>-Xdoclint:-missing</arg>
                     </compilerArgs>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>

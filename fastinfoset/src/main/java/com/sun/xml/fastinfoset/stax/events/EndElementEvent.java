@@ -26,12 +26,11 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.Namespace;
 
-import com.sun.xml.fastinfoset.stax.events.EmptyIterator;
 
 
 public class EndElementEvent extends EventBase implements EndElement {
     
-    List _namespaces = null;
+    List<Namespace> _namespaces = null;
     QName _qname ;
     
     public void reset() {
@@ -56,6 +55,7 @@ public class EndElementEvent extends EventBase implements EndElement {
    * Get the name of this event
    * @return the qualified name of this event
    */
+    @Override
     public QName getName() {
         return _qname;
     }
@@ -71,7 +71,8 @@ public class EndElementEvent extends EventBase implements EndElement {
      * @return an Iterator over Namespace interfaces, or an
      * empty iterator
      */
-    public Iterator getNamespaces() {
+    @Override
+    public Iterator<Namespace> getNamespaces() {
         if(_namespaces != null)
             return _namespaces.iterator();
         return EmptyIterator.getInstance();
@@ -79,15 +80,16 @@ public class EndElementEvent extends EventBase implements EndElement {
     
     public void addNamespace(Namespace namespace){
         if (_namespaces == null) {
-            _namespaces = new ArrayList();
+            _namespaces = new ArrayList<>();
         }
         _namespaces.add(namespace);
     }
     
+    @Override
     public String toString() { 
-        StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         sb.append("</").append(nameAsString());
-        Iterator namespaces = getNamespaces();
+        Iterator<Namespace> namespaces = getNamespaces();
         while(namespaces.hasNext()) {
             sb.append(" ").append(namespaces.next().toString());
         }

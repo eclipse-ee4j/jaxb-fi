@@ -41,7 +41,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
     /**
      * List of namespace decl for upcoming element.
      */
-    ArrayList _namespaces = new ArrayList();
+    ArrayList<QualifiedName> _namespaces = new ArrayList<>();
     
     public SAX2StAXWriter(XMLStreamWriter writer) {
         _writer = writer;
@@ -51,6 +51,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         return _writer;
     }
     
+    @Override
     public void startDocument() throws SAXException {
         try {
             _writer.writeStartDocument();
@@ -60,6 +61,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }
     }
     
+    @Override
     public void endDocument() throws SAXException {
         try {
             _writer.writeEndDocument();
@@ -70,6 +72,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }
     }
     
+    @Override
     public void characters(char[] ch, int start, int length) 
         throws SAXException 
     {
@@ -81,6 +84,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }
     }    
     
+    @Override
     public void startElement(String namespaceURI, String localName, 
         String qName, Attributes atts) throws SAXException 
     {
@@ -91,7 +95,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
             
             int length = _namespaces.size();
             for (int i = 0; i < length; i++) {
-                QualifiedName nsh = (QualifiedName) _namespaces.get(i);
+                QualifiedName nsh = _namespaces.get(i);
                 _writer.writeNamespace(nsh.prefix, nsh.namespaceName);
             }
             _namespaces.clear();
@@ -108,6 +112,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }                
     }
     
+    @Override
     public void endElement(String namespaceURI, String localName, 
         String qName) throws SAXException 
     {
@@ -120,6 +125,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }        
     }
     
+    @Override
     public void startPrefixMapping(String prefix, String uri) 
         throws SAXException 
     {
@@ -134,15 +140,18 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
 //        }
     }
     
+    @Override
     public void endPrefixMapping(String prefix) throws SAXException {
     }
     
+    @Override
     public void ignorableWhitespace(char[] ch, int start, int length) 
         throws SAXException 
     {
         characters(ch, start, length);
     }
     
+    @Override
     public void processingInstruction(String target, String data) 
         throws SAXException 
     {
@@ -154,12 +163,15 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }
     }
     
+    @Override
     public void setDocumentLocator(Locator locator) {
     }
     
+    @Override
     public void skippedEntity(String name) throws SAXException {
     }
     
+    @Override
     public void comment(char[] ch, int start, int length) 
         throws SAXException 
     {
@@ -171,21 +183,27 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
         }        
     }    
     
+    @Override
     public void endCDATA() throws SAXException {
     }
     
+    @Override
     public void endDTD() throws SAXException {
     }
     
+    @Override
     public void endEntity(String name) throws SAXException {
     }
     
+    @Override
     public void startCDATA() throws SAXException {
     }
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException {
     }
     
+    @Override
     public void startEntity(String name) throws SAXException {
     }
     

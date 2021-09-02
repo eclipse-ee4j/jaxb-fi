@@ -43,6 +43,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLStreamReader;
 import junit.framework.*;
+import org.jvnet.fastinfoset.EncodingAlgorithm;
 import org.jvnet.fastinfoset.EncodingAlgorithmIndexes;
 import org.jvnet.fastinfoset.FastInfosetParser;
 import org.jvnet.fastinfoset.sax.EncodingAlgorithmAttributes;
@@ -633,7 +634,7 @@ public class AlgorithmTest extends TestCase {
         ParserVocabulary externalVocabulary = new ParserVocabulary();
         externalVocabulary.encodingAlgorithm.add(APPLICATION_DEFINED_ALGORITHM_URI);
 
-        Map externalVocabularies = new HashMap();
+        Map<String, ParserVocabulary> externalVocabularies = new HashMap<>();
         externalVocabularies.put(EXTERNAL_VOCABULARY_URI_STRING, externalVocabulary);
         p.setProperty(FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY, externalVocabularies);
 
@@ -741,11 +742,11 @@ public class AlgorithmTest extends TestCase {
         ParserVocabulary externalVocabulary = new ParserVocabulary();
         externalVocabulary.encodingAlgorithm.add(APPLICATION_DEFINED_ALGORITHM_URI);
 
-        Map externalVocabularies = new HashMap();
+        Map<String, ParserVocabulary> externalVocabularies = new HashMap<>();
         externalVocabularies.put(EXTERNAL_VOCABULARY_URI_STRING, externalVocabulary);
         p.setProperty(FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY, externalVocabularies);
 
-        Map algorithms = new HashMap();
+        Map<String, EncodingAlgorithm> algorithms = new HashMap<>();
         algorithms.put(APPLICATION_DEFINED_ALGORITHM_URI, new FloatEncodingAlgorithm());
         p.setRegisteredEncodingAlgorithms(algorithms);
 
@@ -774,7 +775,7 @@ public class AlgorithmTest extends TestCase {
 
         s.setVocabulary(initialVocabulary);
 
-        Map algorithms = new HashMap();
+        Map<String, EncodingAlgorithm> algorithms = new HashMap<>();
         algorithms.put(APPLICATION_DEFINED_ALGORITHM_URI, new FloatEncodingAlgorithm());
         s.setRegisteredEncodingAlgorithms(algorithms);
 
@@ -893,6 +894,7 @@ public class AlgorithmTest extends TestCase {
         while(dp.hasNext()) {
             int e = dp.next();
             if (e == XMLStreamReader.CHARACTERS) {
+                @SuppressWarnings("deprecation")
                 byte[] b = dp.getTextAlgorithmBytes();
                 assertEquals(EncodingAlgorithmIndexes.BASE64, dp.getTextAlgorithmIndex());
                 assertTrue(b != null);

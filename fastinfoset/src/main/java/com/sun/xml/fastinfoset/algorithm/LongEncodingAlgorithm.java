@@ -31,19 +31,22 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
 
+    @Override
     public int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         if (octetLength % LONG_SIZE != 0) {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().
-                    getString("message.lengthNotMultipleOfLong", new Object[]{Integer.valueOf(LONG_SIZE)}));
+                    getString("message.lengthNotMultipleOfLong", new Object[]{LONG_SIZE}));
         }
         
         return octetLength / LONG_SIZE;
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength * LONG_SIZE;
     }
     
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         long[] data = new long[getPrimtiveLengthFromOctetLength(length)];
         decodeFromBytesToLongArray(data, 0, b, start, length);
@@ -51,11 +54,13 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
         return data;
     }
     
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         return decodeFromInputStreamToIntArray(s);
     }
     
     
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof long[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotLongArray"));
@@ -67,22 +72,20 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     
+    @Override
     public Object convertFromCharacters(char[] ch, int start, int length) {
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List longList = new ArrayList();
+        final List<Long> longList = new ArrayList<>();
         
-        matchWhiteSpaceDelimnatedWords(cb,
-                new WordListener() {
-            public void word(int start, int end) {
-                String lStringValue = cb.subSequence(start, end).toString();
-                longList.add(Long.valueOf(lStringValue));
-            }
-        }
-        );
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            String lStringValue = cb.subSequence(start1, end).toString();
+            longList.add(Long.valueOf(lStringValue));
+        });
         
         return generateArrayFromList(longList);
     }
     
+    @Override
     public void convertToCharacters(Object data, StringBuffer s) {
         if (!(data instanceof long[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotLongArray"));
@@ -110,7 +113,7 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     public final long[] decodeFromInputStreamToIntArray(InputStream s) throws IOException {
-        final List longList = new ArrayList();
+        final List<Long> longList = new ArrayList<>();
         final byte[] b = new byte[LONG_SIZE];
         
         while (true) {
@@ -137,9 +140,9 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
                     ((long) (b[4] & 0xFF) << 24) +
                     ((b[5] & 0xFF) << 16) +
                     ((b[6] & 0xFF) << 8) +
-                    ((b[7] & 0xFF) << 0));
+                    ((b[7] & 0xFF)));
 
-            longList.add(Long.valueOf(l));
+            longList.add(l);
         }
         
         return generateArrayFromList(longList);
@@ -160,6 +163,7 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
         }
     }
     
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         encodeToBytesFromLongArray((long[])array, astart, alength, b, start);
     }
@@ -191,10 +195,10 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     
-    public final long[] generateArrayFromList(List array) {
+    public final long[] generateArrayFromList(List<Long> array) {
         long[] ldata = new long[array.size()];
         for (int i = 0; i < ldata.length; i++) {
-            ldata[i] = ((Long)array.get(i)).longValue();
+            ldata[i] = array.get(i);
         }
         
         return ldata;

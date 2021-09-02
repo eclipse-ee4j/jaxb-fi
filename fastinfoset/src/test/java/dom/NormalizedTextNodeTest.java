@@ -53,7 +53,7 @@ public class NormalizedTextNodeTest extends TestCase {
         ByteArrayInputStream inputFI = new ByteArrayInputStream(os.toByteArray());
         documentParser.parse(document, inputFI);
         
-        Element element = (Element) document.getDocumentElement();
+        Element element = document.getDocumentElement();
         
         assertEquals(element.getAttribute(attrName), attrValueExpected);
         assertEquals(element.getFirstChild().getNodeValue(), textNodeValueExpected);

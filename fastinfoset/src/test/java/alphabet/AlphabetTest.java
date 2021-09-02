@@ -198,7 +198,7 @@ public class AlphabetTest extends TestCase {
         ParserVocabulary externalVocabulary = new ParserVocabulary();
         externalVocabulary.restrictedAlphabet.add(new CharArrayString(a));
         
-        Map externalVocabularies = new HashMap();
+        Map<String, ParserVocabulary> externalVocabularies = new HashMap<>();
         externalVocabularies.put(EXTERNAL_VOCABULARY_URI_STRING, externalVocabulary);
         p.setProperty(FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY, externalVocabularies);
         

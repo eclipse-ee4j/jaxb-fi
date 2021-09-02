@@ -142,7 +142,8 @@ public interface FastInfosetParser {
      *     the same entries as the map set by {@link #setExternalVocabularies} 
      *     method.
      */
-    public Map getExternalVocabularies();
+    @Deprecated
+    public Map<String, ParserVocabulary> getExternalVocabularies();
     
     /**
      * Set the parse fragments property.

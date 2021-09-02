@@ -104,7 +104,7 @@ public class DecodingTest extends TestCase {
                 EXTERNAL_VOCABULARY_URI_STRING,
                 serializerExternalVocabulary, false);
 
-        Map externalVocabularies = new HashMap();
+        Map<String, ParserVocabulary> externalVocabularies = new HashMap<>();
         externalVocabularies.put(EXTERNAL_VOCABULARY_URI_STRING, parserExternalVocabulary);
         
         
@@ -135,7 +135,7 @@ public class DecodingTest extends TestCase {
                 EXTERNAL_VOCABULARY_URI_STRING,
                 vocabularyGenerator.getVocabulary());
         
-        Map externalVocabularies = new HashMap();
+        Map<String, ExternalVocabulary> externalVocabularies = new HashMap<>();
         externalVocabularies.put(ev.URI, ev);
                 
         SAXDocumentSerializer documentSerializer = new SAXDocumentSerializer();

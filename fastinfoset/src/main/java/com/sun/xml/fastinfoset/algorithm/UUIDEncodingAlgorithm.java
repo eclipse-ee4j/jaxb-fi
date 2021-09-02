@@ -26,33 +26,32 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class UUIDEncodingAlgorithm extends LongEncodingAlgorithm {
     
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         if (octetLength % (LONG_SIZE * 2) != 0) {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().
-                    getString("message.lengthNotMultipleOfUUID",new Object[]{Integer.valueOf(LONG_SIZE * 2)}));
+                    getString("message.lengthNotMultipleOfUUID",new Object[]{LONG_SIZE * 2}));
         }
         
         return octetLength / LONG_SIZE;
     }
     
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         final CharBuffer cb = CharBuffer.wrap(ch, start, length);
-        final List longList = new ArrayList();
+        final List<Long> longList = new ArrayList<>();
         
-        matchWhiteSpaceDelimnatedWords(cb,
-                new WordListener() {
-            public void word(int start, int end) {
-                String uuidValue = cb.subSequence(start, end).toString();
-                fromUUIDString(uuidValue);
-                longList.add(Long.valueOf(_msb));
-                longList.add(Long.valueOf(_lsb));
-            }
-        }
-        );
+        matchWhiteSpaceDelimnatedWords(cb, (int start1, int end) -> {
+            String uuidValue = cb.subSequence(start1, end).toString();
+            fromUUIDString(uuidValue);
+            longList.add(_msb);
+            longList.add(_lsb);
+        });
         
         return generateArrayFromList(longList);
     }
     
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (!(data instanceof long[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotLongArray"));

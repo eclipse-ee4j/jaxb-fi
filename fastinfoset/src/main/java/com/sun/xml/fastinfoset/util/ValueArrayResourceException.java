@@ -19,6 +19,8 @@
 package com.sun.xml.fastinfoset.util;
 
 public class ValueArrayResourceException extends RuntimeException {
+
+    private static final long serialVersionUID = 0L;
     
     public ValueArrayResourceException() {
     }

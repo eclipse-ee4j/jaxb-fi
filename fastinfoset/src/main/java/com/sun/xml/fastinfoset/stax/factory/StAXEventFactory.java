@@ -40,6 +40,7 @@ public class StAXEventFactory extends XMLEventFactory {
     * information set the location to null.
     * @param location the location to set on each event created
     */
+    @Override
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -52,6 +53,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param value the attribute value to set, may not be null
    * @return the Attribute with specified values
    */
+    @Override
     public Attribute createAttribute(String prefix, String namespaceURI, String localName, String value) {
         AttributeBase attr =  new AttributeBase(prefix, namespaceURI, localName, value, null);
         if(location != null)attr.setLocation(location);
@@ -64,12 +66,14 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param value the attribute value to set, may not be null
    * @return the Attribute with specified values
    */
+    @Override
     public Attribute createAttribute(String localName, String value) {
         AttributeBase attr =  new AttributeBase(localName, value);
         if(location != null)attr.setLocation(location);
         return attr;
     }
     
+    @Override
     public Attribute createAttribute(QName name, String value) {
         AttributeBase attr =  new AttributeBase(name, value);
         if(location != null)attr.setLocation(location);
@@ -81,6 +85,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param namespaceURI the default namespace uri
    * @return the Namespace with the specified value
    */
+    @Override
     public Namespace createNamespace(String namespaceURI) {
         NamespaceBase event =  new NamespaceBase(namespaceURI);
         if(location != null)event.setLocation(location);
@@ -93,6 +98,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param namespaceURI the attribute value is set to this value, may not be null
    * @return the Namespace with the specified values
    */
+    @Override
     public Namespace createNamespace(String prefix, String namespaceURI) {
         NamespaceBase event =  new NamespaceBase(prefix, namespaceURI);
         if(location != null)event.setLocation(location);
@@ -108,21 +114,28 @@ public class StAXEventFactory extends XMLEventFactory {
    * implement Namespace to add to the new StartElement, may be null
    * @return an instance of the requested StartElement
    */
-    public StartElement createStartElement(QName name, Iterator attributes, Iterator namespaces) {
+    @Override
+    public StartElement createStartElement(QName name,
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
         return createStartElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), attributes, namespaces);
     }
     
+    @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName) {
         StartElementEvent event =  new StartElementEvent(prefix, namespaceUri, localName);
         if(location != null)event.setLocation(location);
         return event;
     }
     
-    public StartElement createStartElement(String prefix, String namespaceUri, String localName, Iterator attributes, Iterator namespaces) {
+    @Override
+    public StartElement createStartElement(String prefix, String namespaceUri, String localName,
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
         return createStartElement(prefix, namespaceUri, localName, attributes, namespaces, null);
     }
     
-    public StartElement createStartElement(String prefix, String namespaceUri, String localName, Iterator attributes, Iterator namespaces, NamespaceContext context) {
+    @Override
+    public StartElement createStartElement(String prefix, String namespaceUri, String localName,
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces, NamespaceContext context) {
         StartElementEvent elem =  new StartElementEvent(prefix, namespaceUri, localName);
         elem.addAttributes(attributes);
         elem.addNamespaces(namespaces);
@@ -138,7 +151,8 @@ public class StAXEventFactory extends XMLEventFactory {
    * implement Namespace that have gone out of scope, may be null
    * @return an instance of the requested EndElement
    */
-    public EndElement createEndElement(QName name, Iterator namespaces) {
+    @Override
+    public EndElement createEndElement(QName name, Iterator<? extends Namespace> namespaces) {
         return createEndElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), namespaces);
     }
     
@@ -149,6 +163,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param prefix the prefix of the QName of the new StartElement
    * @return an instance of the requested EndElement
    */
+    @Override
     public EndElement createEndElement(String prefix, String namespaceUri, String localName) {
         EndElementEvent event =  new EndElementEvent(prefix, namespaceUri, localName);
         if(location != null)event.setLocation(location);
@@ -164,7 +179,9 @@ public class StAXEventFactory extends XMLEventFactory {
    * Namespace that have gone out of scope, may be null
    * @return an instance of the requested EndElement
    */
-    public EndElement createEndElement(String prefix, String namespaceUri, String localName, Iterator namespaces) {
+    @Override
+    public EndElement createEndElement(String prefix, String namespaceUri,
+            String localName, Iterator<? extends Namespace> namespaces) {
         
         EndElementEvent event =  new EndElementEvent(prefix, namespaceUri, localName);
         if(namespaces!=null){
@@ -181,6 +198,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param content the string to create
    * @return a Characters event
    */
+    @Override
     public Characters createCharacters(String content) {
         CharactersEvent charEvent =  new CharactersEvent(content);
         if(location != null)charEvent.setLocation(location);
@@ -192,6 +210,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param content the string to create
    * @return a Characters event
    */
+    @Override
     public Characters createCData(String content) {
         CharactersEvent charEvent =  new CharactersEvent(content, true);
         if(location != null)charEvent.setLocation(location);
@@ -203,6 +222,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param content the content of the space to create
    * @return a Characters event
    */
+    @Override
     public Characters createSpace(String content) {
         CharactersEvent event =  new CharactersEvent(content);
         event.setSpace(true);
@@ -214,6 +234,7 @@ public class StAXEventFactory extends XMLEventFactory {
     * @param content the space to create
     * @return a Characters event
     */
+    @Override
     public Characters createIgnorableSpace(String content) {
         CharactersEvent event =  new CharactersEvent(content, false);
         event.setSpace(true);
@@ -225,6 +246,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * Creates a new instance of a StartDocument event
    * @return a StartDocument event
    */    
+    @Override
     public StartDocument createStartDocument() {
         StartDocumentEvent event = new StartDocumentEvent();
         if(location != null)event.setLocation(location);
@@ -237,6 +259,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param encoding the encoding style
    * @return a StartDocument event
    */
+    @Override
     public StartDocument createStartDocument(String encoding) {
         StartDocumentEvent event =  new StartDocumentEvent(encoding);
         if(location != null)event.setLocation(location);
@@ -250,6 +273,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param version the XML version
    * @return a StartDocument event
    */
+    @Override
     public StartDocument createStartDocument(String encoding, String version) {
         StartDocumentEvent event =  new StartDocumentEvent(encoding, version);
         if(location != null)event.setLocation(location);
@@ -264,6 +288,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @param standalone the status of standalone may be set to "true" or "false"
    * @return a StartDocument event
    */
+    @Override
     public StartDocument createStartDocument(String encoding, String version, boolean standalone) {
         StartDocumentEvent event =  new StartDocumentEvent(encoding, version);
         event.setStandalone(standalone);
@@ -271,6 +296,7 @@ public class StAXEventFactory extends XMLEventFactory {
         return event;
     }
 
+    @Override
     public EndDocument createEndDocument() {
         EndDocumentEvent event =new EndDocumentEvent();
         if(location != null)event.setLocation(location);
@@ -283,6 +309,7 @@ public class StAXEventFactory extends XMLEventFactory {
     * @param entityDeclaration the declaration for the event
     * @return an EntityReference event
     */
+    @Override
     public EntityReference createEntityReference(String name, EntityDeclaration entityDeclaration) {
         EntityReferenceEvent event =  new EntityReferenceEvent(name, entityDeclaration);
         if(location != null)event.setLocation(location);
@@ -293,7 +320,9 @@ public class StAXEventFactory extends XMLEventFactory {
     * Create a comment
     * @param text The text of the comment
     * a Comment event
+     * @return 
     */
+    @Override
     public Comment createComment(String text) {
         CommentEvent charEvent =  new CommentEvent(text);
         if(location != null)charEvent.setLocation(location);
@@ -307,6 +336,7 @@ public class StAXEventFactory extends XMLEventFactory {
     * @param dtd the text of the document type definition
     * @return a DTD event
     */
+    @Override
     public DTD createDTD(String dtd) {
         DTDEvent dtdEvent = new DTDEvent(dtd);
         if(location != null)dtdEvent.setLocation(location);
@@ -320,14 +350,11 @@ public class StAXEventFactory extends XMLEventFactory {
     * @param data The text of the processing instruction
     * @return a ProcessingInstruction event
     */
+    @Override
     public ProcessingInstruction createProcessingInstruction(String target, String data) {
         ProcessingInstructionEvent event =  new ProcessingInstructionEvent(target, data);
         if(location != null)event.setLocation(location);
         return event;
     }
-    
 
-
-
-        
 }

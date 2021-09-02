@@ -30,7 +30,7 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class StAXEventWriter implements XMLEventWriter {
     
-    private XMLStreamWriter _streamWriter ;
+    private final XMLStreamWriter _streamWriter ;
     /**
      *
      * @param streamWriter
@@ -43,6 +43,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * Writes any cached events to the underlying output mechanism
     * @throws XMLStreamException
     */
+    @Override
     public void flush() throws XMLStreamException {
         _streamWriter.flush();
     }
@@ -50,6 +51,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * Frees any resources associated with this stream
     * @throws XMLStreamException
     */
+    @Override
     public void close() throws javax.xml.stream.XMLStreamException {
         _streamWriter.close();
     }
@@ -59,6 +61,7 @@ public class StAXEventWriter implements XMLEventWriter {
      * @param eventReader
      * @throws XMLStreamException
      */
+    @Override
     public void add(XMLEventReader eventReader) throws XMLStreamException {
         if(eventReader == null) throw new XMLStreamException(CommonResourceBundle.getInstance().getString("message.nullEventReader"));
         while(eventReader.hasNext()){
@@ -74,6 +77,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * @param event
     * @throws XMLStreamException
     */
+    @Override
     public void add(XMLEvent event) throws XMLStreamException {
         int type = event.getEventType();
         switch(type){
@@ -92,15 +96,15 @@ public class StAXEventWriter implements XMLEventWriter {
                 QName qname = startElement.getName();
                 _streamWriter.writeStartElement(qname.getPrefix(), qname.getLocalPart(), qname.getNamespaceURI());
                 
-                Iterator iterator = startElement.getNamespaces();
+                Iterator<Namespace> iterator = startElement.getNamespaces();
                 while(iterator.hasNext()){
-                    Namespace namespace = (Namespace)iterator.next();
+                    Namespace namespace = iterator.next();
                     _streamWriter.writeNamespace(namespace.getPrefix(), namespace.getNamespaceURI());
                 }
 
-                Iterator attributes = startElement.getAttributes();
+                Iterator<Attribute> attributes = startElement.getAttributes();
                 while(attributes.hasNext()){
-                    Attribute attribute = (Attribute)attributes.next();
+                    Attribute attribute = attributes.next();
                     QName name = attribute.getName();
                     _streamWriter.writeAttribute(name.getPrefix(), name.getNamespaceURI(), 
                                                 name.getLocalPart(),attribute.getValue());
@@ -165,15 +169,17 @@ public class StAXEventWriter implements XMLEventWriter {
             default:
                 throw new XMLStreamException(CommonResourceBundle.getInstance().getString("message.eventTypeNotSupported", new Object[]{Util.getEventTypeString(type)}));
             //throw new XMLStreamException("Unknown Event type = " + type);
-        };
+        }
         
     }
     
     /**
     * Gets the prefix the uri is bound to
     * @param uri the uri to look up
+    * @return 
     * @throws XMLStreamException
     */
+    @Override
     public String getPrefix(String uri) throws XMLStreamException {
         return _streamWriter.getPrefix(uri);
     }
@@ -183,6 +189,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * Returns the current namespace context.
     * @return the current namespace context
     */
+    @Override
     public NamespaceContext getNamespaceContext() {
         return _streamWriter.getNamespaceContext();
     }
@@ -197,6 +204,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * @param uri the uri to bind to the default namespace
     * @throws XMLStreamException
     */
+    @Override
     public void setDefaultNamespace(String uri) throws XMLStreamException {
         _streamWriter.setDefaultNamespace(uri);
     }
@@ -211,6 +219,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * @param namespaceContext the namespace context to use for this writer
     * @throws XMLStreamException
     */
+    @Override
     public void setNamespaceContext(NamespaceContext namespaceContext) throws XMLStreamException {
         _streamWriter.setNamespaceContext(namespaceContext);
     }
@@ -223,6 +232,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * @param uri the uri to bind to the prefix
     * @throws XMLStreamException
     */
+    @Override
     public void setPrefix(String prefix, String uri) throws XMLStreamException {
         _streamWriter.setPrefix(prefix, uri);
     }

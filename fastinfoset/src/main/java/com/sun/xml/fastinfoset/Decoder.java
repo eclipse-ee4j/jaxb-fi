@@ -334,6 +334,7 @@ public abstract class Decoder implements FastInfosetParser {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setExternalVocabularies(Map<String, ParserVocabulary> referencedVocabualries) {
         if (referencedVocabualries != null) {
             // Clone the input map

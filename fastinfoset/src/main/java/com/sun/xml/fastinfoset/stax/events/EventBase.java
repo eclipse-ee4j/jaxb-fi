@@ -50,7 +50,7 @@ public abstract class EventBase implements XMLEvent {
         return _eventType;
     }
 
-    protected void setEventType(int eventType){
+    protected final void setEventType(int eventType){
         _eventType = eventType;
     }
 

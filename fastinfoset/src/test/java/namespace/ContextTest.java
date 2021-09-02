@@ -146,14 +146,14 @@ public class ContextTest extends TestCase {
         nc.declarePrefix("x", "http://x");        
         nc.declarePrefix("y", "http://y");        
         
-        Set prefixes = new HashSet();
+        Set<String> prefixes = new HashSet<>();
         prefixes.add("a");
         prefixes.add("b");
         prefixes.add("c");
         
-        Iterator i = nc.getPrefixes("http://a");
+        Iterator<String> i = nc.getPrefixes("http://a");
         while (i.hasNext()) {
-            Object p = i.next();
+            String p = i.next();
             assertTrue(prefixes.contains(p));
             prefixes.remove(p);
         }

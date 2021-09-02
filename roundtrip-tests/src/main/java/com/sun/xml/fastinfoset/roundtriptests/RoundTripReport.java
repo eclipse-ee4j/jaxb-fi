@@ -62,17 +62,17 @@ public class RoundTripReport {
     static final String TEST_DOMSAX = "domsaxroundtrip";
     static final String TEST_SAXSTAX = "saxstaxdiff";
     
-    static final List<String> RTT_NAMES = new ArrayList(Arrays.<String>asList(new String[] {TEST_SAX, TEST_STAX, TEST_DOM, TEST_DOMSAX, TEST_SAXSTAX}));
+    static final List<String> RTT_NAMES = new ArrayList<>(Arrays.<String>asList(new String[] {TEST_SAX, TEST_STAX, TEST_DOM, TEST_DOMSAX, TEST_SAXSTAX}));
     static final int SAX_RTT = 0;
     static final int STAX_RTT = 1;
     static final int DOM_RTT = 2;
     static final int DOM_SAX_RTT = 3;
     static final int SAX_STAX_RTT = 4;
     
-    private int[] passed = new int[RTT_NAMES.size()];
-    private int[] failed = new int[RTT_NAMES.size()];
+    private final int[] passed = new int[RTT_NAMES.size()];
+    private final int[] failed = new int[RTT_NAMES.size()];
     
-    private Map<String, FailedTestRecord> failedTests = new HashMap<String, FailedTestRecord>();
+    private final Map<String, FailedTestRecord> failedTests = new HashMap<>();
     
     /** Creates a new instance of RoundTripReport */
     public RoundTripReport() {

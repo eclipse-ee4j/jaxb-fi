@@ -2103,16 +2103,15 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
     }
 
     /**
-     * Encode a non zero integer on the second bit of an octet, setting
-     * the first bit to 1.Implementation of clause C.24 of ITU-T Rec.
-     * X.891 | ISO/IEC 24824-1.
-
- <p>
+     * Encode a non zero integer on the second bit of an octet, setting the
+     * first bit to 1.Implementation of clause C.24 of ITU-T Rec. X.891 |
+     * ISO/IEC 24824-1.
+     * <p>
      * The first bit of the first octet is set, as specified in clause C.13 of
      * ITU-T Rec. X.891 | ISO/IEC 24824-1
      *
-     * @param i The integer to encode, which is a member of the interval
-     *          [0, 1048575]. In the specification the interval is [1, 1048576]
+     * @param i The integer to encode, which is a member of the interval [0,
+     * 1048575]. In the specification the interval is [1, 1048576]
      * @throws java.io.IOException on error
      *
      */
@@ -2143,16 +2142,15 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
     }
 
     /**
-     * Encode a non zero integer on the second bit of an octet, setting
-     * the first bit to 0.Implementation of clause C.25 of ITU-T Rec.
-     * X.891 | ISO/IEC 24824-1.
-
- <p>
+     * Encode a non zero integer on the second bit of an octet, setting the
+     * first bit to 0.Implementation of clause C.25 of ITU-T Rec. X.891 |
+     * ISO/IEC 24824-1.
+     * <p>
      * The first bit of the first octet is set, as specified in clause C.13 of
      * ITU-T Rec. X.891 | ISO/IEC 24824-1
      *
-     * @param i The integer to encode, which is a member of the interval
-     *          [0, 1048575]. In the specification the interval is [1, 1048576]
+     * @param i The integer to encode, which is a member of the interval [0,
+     * 1048575]. In the specification the interval is [1, 1048576]
      * @throws java.io.IOException on error
      *
      */

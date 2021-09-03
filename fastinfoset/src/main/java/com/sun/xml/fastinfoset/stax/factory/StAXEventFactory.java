@@ -116,7 +116,7 @@ public class StAXEventFactory extends XMLEventFactory {
    */
     @Override
     public StartElement createStartElement(QName name,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
+            Iterator attributes, Iterator namespaces) {
         return createStartElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), attributes, namespaces);
     }
     
@@ -129,13 +129,13 @@ public class StAXEventFactory extends XMLEventFactory {
     
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
+            Iterator attributes, Iterator namespaces) {
         return createStartElement(prefix, namespaceUri, localName, attributes, namespaces, null);
     }
     
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces, NamespaceContext context) {
+            Iterator attributes, Iterator namespaces, NamespaceContext context) {
         StartElementEvent elem =  new StartElementEvent(prefix, namespaceUri, localName);
         elem.addAttributes(attributes);
         elem.addNamespaces(namespaces);
@@ -152,7 +152,7 @@ public class StAXEventFactory extends XMLEventFactory {
    * @return an instance of the requested EndElement
    */
     @Override
-    public EndElement createEndElement(QName name, Iterator<? extends Namespace> namespaces) {
+    public EndElement createEndElement(QName name, Iterator namespaces) {
         return createEndElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), namespaces);
     }
     
@@ -181,7 +181,7 @@ public class StAXEventFactory extends XMLEventFactory {
    */
     @Override
     public EndElement createEndElement(String prefix, String namespaceUri,
-            String localName, Iterator<? extends Namespace> namespaces) {
+            String localName, Iterator namespaces) {
         
         EndElementEvent event =  new EndElementEvent(prefix, namespaceUri, localName);
         if(namespaces!=null){

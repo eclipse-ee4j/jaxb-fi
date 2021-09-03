@@ -114,9 +114,10 @@ public class StAXEventFactory extends XMLEventFactory {
    * implement Namespace to add to the new StartElement, may be null
    * @return an instance of the requested StartElement
    */
+    // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(QName name,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
+            Iterator attributes, Iterator namespaces) {
         return createStartElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), attributes, namespaces);
     }
     
@@ -126,16 +127,18 @@ public class StAXEventFactory extends XMLEventFactory {
         if(location != null)event.setLocation(location);
         return event;
     }
-    
+
+    // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
+            Iterator attributes, Iterator namespaces) {
         return createStartElement(prefix, namespaceUri, localName, attributes, namespaces, null);
     }
-    
+
+    // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces, NamespaceContext context) {
+            Iterator attributes, Iterator namespaces, NamespaceContext context) {
         StartElementEvent elem =  new StartElementEvent(prefix, namespaceUri, localName);
         elem.addAttributes(attributes);
         elem.addNamespaces(namespaces);
@@ -151,8 +154,9 @@ public class StAXEventFactory extends XMLEventFactory {
    * implement Namespace that have gone out of scope, may be null
    * @return an instance of the requested EndElement
    */
+    // Generics removed because they break build with release=8
     @Override
-    public EndElement createEndElement(QName name, Iterator<? extends Namespace> namespaces) {
+    public EndElement createEndElement(QName name, Iterator namespaces) {
         return createEndElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), namespaces);
     }
     
@@ -179,9 +183,10 @@ public class StAXEventFactory extends XMLEventFactory {
    * Namespace that have gone out of scope, may be null
    * @return an instance of the requested EndElement
    */
+    // Generics removed because they break build with release=8
     @Override
     public EndElement createEndElement(String prefix, String namespaceUri,
-            String localName, Iterator<? extends Namespace> namespaces) {
+            String localName, Iterator namespaces) {
         
         EndElementEvent event =  new EndElementEvent(prefix, namespaceUri, localName);
         if(namespaces!=null){

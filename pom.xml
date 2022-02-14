@@ -2,7 +2,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2012-2021 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012-2022 Oracle and/or its affiliates. All rights reserved.
 
     Oracle licenses this file to You under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <relativePath/>
     </parent>
 
@@ -78,24 +78,26 @@
     </mailingLists>
 
     <properties>
-        <copyright.exclude>etc/config/copyright-exclude</copyright.exclude>
+        <project.build.commonResourcesDirectory>${project.build.directory}/common-resources</project.build.commonResourcesDirectory>
+        <legal.doc.source>${project.build.commonResourcesDirectory}/legal</legal.doc.source>
+        <copyright.exclude>${project.build.commonResourcesDirectory}/config/copyright-exclude</copyright.exclude>
         <copyright.ignoreyear>false</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>etc/config/copyright.txt</copyright.template>
+        <copyright.template>${project.build.commonResourcesDirectory}/config/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
-        <spotbugs.exclude>etc/config/spotbugs-exclude.xml</spotbugs.exclude>
+        <spotbugs.common>${project.build.commonResourcesDirectory}/config/spotbugs-exclude.xml</spotbugs.common>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.3.0</spotbugs.version>
+        <spotbugs.version>4.5.3.0</spotbugs.version>
 
-        <xsom.version>3.0.0</xsom.version>
+        <xsom.version>4.0.0-M2</xsom.version>
         <streambuffer.version>2.1.0-M1</streambuffer.version>
-        <junit.version>4.13.1</junit.version>
-        <activation-api.version>2.1.0-RC1</activation-api.version>
+        <junit.version>4.13.2</junit.version>
+        <activation-api.version>2.1.0</activation-api.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <legal.doc.source>${maven.multiModuleProjectDirectory}</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
 
     <modules>
@@ -150,7 +152,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -163,17 +165,17 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.4</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.2.2</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -185,7 +187,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.1</version>
+                    <version>5.1.4</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
@@ -197,7 +199,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.2</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -206,12 +208,14 @@
                         </archive>
                         <release>11</release>
                         <notimestamp>true</notimestamp>
+                        <quiet>true</quiet>
+                        <doclint>all,-missing</doclint>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M3</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -221,7 +225,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -281,14 +295,6 @@
                     <ignoreYear>${copyright.ignoreyear}</ignoreYear>
                     <quiet>false</quiet>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
@@ -313,10 +319,6 @@
                             <resources>
                                 <resource>
                                     <directory>${legal.doc.source}</directory>
-                                    <includes>
-                                        <include>NOTICE.md</include>
-                                        <include>LICENSE</include>
-                                    </includes>
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
@@ -326,9 +328,53 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>common-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/resources.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.fastinfoset</groupId>
+                                    <artifactId>fastinfoset-project</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>resources</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.commonResourcesDirectory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>9</release>
+                    <release>11</release>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                         <arg>-Xdoclint:-missing</arg>
@@ -336,20 +382,6 @@
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>base-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>8</release>
-                            <excludes>
-                                <exclude>module-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -378,7 +410,7 @@
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.8.6</version>
+                            <version>0.8.7</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>

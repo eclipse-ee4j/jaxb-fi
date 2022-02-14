@@ -85,7 +85,7 @@ public interface EncodingAlgorithmContentHandler {
      *
      * <p>Such notifications will occur for a Fast Infoset SAX parser
      * when processing encoding algorithm data that is converted from an 
-     * array of byte to an object more suitable for processing.<p>
+     * array of byte to an object more suitable for processing.</p>
      * 
      * @param URI the URI of the encoding algorithm
      * @param algorithm the encoding algorithm index

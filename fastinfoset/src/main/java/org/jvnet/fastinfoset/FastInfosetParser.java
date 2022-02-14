@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -95,7 +95,7 @@ public interface FastInfosetParser {
      *
      * <p>The size of the buffer for parsing is set using this
      * method. Requests for sizes smaller then the current size will be ignored.
-     * Otherwise the buffer will be resized when the next parse is performed.<p>
+     * Otherwise the buffer will be resized when the next parse is performed.</p>
      *
      * @param bufferSize The requested buffer size.
      */

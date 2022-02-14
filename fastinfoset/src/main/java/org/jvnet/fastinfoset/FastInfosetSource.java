@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -32,11 +32,11 @@ import com.sun.xml.fastinfoset.sax.SAXDocumentParser;
  *  infoset document for use by applications that expect a Source.
  *
  *  <P>The derivation of FISource from SAXSource is an implementation
- *  detail.<P>
+ *  detail.</P>
  *
  *  <P>This implementation is designed for interoperation with JAXP and is not
  *  not designed with performance in mind. It is recommended that for performant
- *  interoperation alternative parser specific solutions be used.<P>
+ *  interoperation alternative parser specific solutions be used.</P>
  *
  *  <P>Applications shall obey the following restrictions:
  *   <UL>

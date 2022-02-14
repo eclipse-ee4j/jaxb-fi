@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  * SAX parser to receive notification of data encoded using the
  * following built-in encoding algorithms specified in ITU-T Rec. X.891 | ISO/IEC 24824-1
  * (Fast Infoset), clause 10: "boolean", "base64", "short", "int", "long",
- * "float", "double" and "uuid" encoding algorithms.<p>
+ * "float", "double" and "uuid" encoding algorithms.</p>
  *
  * <p>To set the PrimitiveTypeContentHandler for an XML reader, use the
  * {@link org.xml.sax.XMLReader#setProperty setProperty} method
@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
  *
  * <p>To set the PrimitiveTypeContentHandler for an Fast Infoset reader, use
  * {@link org.jvnet.fastinfoset.sax.FastInfosetReader#setPrimitiveTypeContentHandler
- *  setPrimitiveTypeContentHandler} method.<p>
+ *  setPrimitiveTypeContentHandler} method.</p>
 
  * <p>The Parser will call methods of this interface to report each 
  * chunk of character data that has been converted to an array of primitive 

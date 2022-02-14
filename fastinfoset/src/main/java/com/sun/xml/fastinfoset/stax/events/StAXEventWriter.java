@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -33,7 +33,6 @@ public class StAXEventWriter implements XMLEventWriter {
     private final XMLStreamWriter _streamWriter ;
     /**
      *
-     * @param streamWriter
      */
     public StAXEventWriter(XMLStreamWriter streamWriter){
         _streamWriter = streamWriter;
@@ -41,16 +40,14 @@ public class StAXEventWriter implements XMLEventWriter {
 
     /**
     * Writes any cached events to the underlying output mechanism
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void flush() throws XMLStreamException {
         _streamWriter.flush();
     }
     /**
     * Frees any resources associated with this stream
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void close() throws javax.xml.stream.XMLStreamException {
         _streamWriter.close();
@@ -58,8 +55,6 @@ public class StAXEventWriter implements XMLEventWriter {
     
     /**
      *
-     * @param eventReader
-     * @throws XMLStreamException
      */
     @Override
     public void add(XMLEventReader eventReader) throws XMLStreamException {
@@ -74,9 +69,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * Adding a START_ELEMENT will open a new namespace scope that 
     * will be closed when the corresponding END_ELEMENT is written.
     *
-    * @param event
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void add(XMLEvent event) throws XMLStreamException {
         int type = event.getEventType();
@@ -176,9 +169,7 @@ public class StAXEventWriter implements XMLEventWriter {
     /**
     * Gets the prefix the uri is bound to
     * @param uri the uri to look up
-    * @return 
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public String getPrefix(String uri) throws XMLStreamException {
         return _streamWriter.getPrefix(uri);
@@ -202,8 +193,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * If this method is called before a START_ELEMENT has been written
     * the uri is bound in the root scope.
     * @param uri the uri to bind to the default namespace
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void setDefaultNamespace(String uri) throws XMLStreamException {
         _streamWriter.setDefaultNamespace(uri);
@@ -217,8 +207,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * the context passed to the method as the root context for resolving
     * namespaces.
     * @param namespaceContext the namespace context to use for this writer
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void setNamespaceContext(NamespaceContext namespaceContext) throws XMLStreamException {
         _streamWriter.setNamespaceContext(namespaceContext);
@@ -230,8 +219,7 @@ public class StAXEventWriter implements XMLEventWriter {
     * the prefix is bound in the root scope.
     * @param prefix the prefix to bind to the uri
     * @param uri the uri to bind to the prefix
-    * @throws XMLStreamException
-    */
+     */
     @Override
     public void setPrefix(String prefix, String uri) throws XMLStreamException {
         _streamWriter.setPrefix(prefix, uri);

@@ -210,6 +210,7 @@
                         <notimestamp>true</notimestamp>
                         <quiet>true</quiet>
                         <doclint>all,-missing</doclint>
+                        <failOnWarnings>true</failOnWarnings>
                     </configuration>
                 </plugin>
                 <plugin>

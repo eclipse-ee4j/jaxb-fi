@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -100,7 +100,6 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
      * Implements java.util.ResourceBundle.handleGetObject; inherits that
      * javadoc information.
      *
-     * @return
      * @see java.util.ResourceBundle#handleGetObject(String)
      */
     @Override
@@ -114,7 +113,6 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
      * java.util.ResourceBundle.getKeys; inherits that javadoc information.
      *
      *
-     * @return
      * @see java.util.ResourceBundle#getKeys()
      */
     @Override

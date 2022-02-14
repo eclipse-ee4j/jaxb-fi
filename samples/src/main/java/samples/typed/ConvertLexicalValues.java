@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -194,11 +194,11 @@ public class ConvertLexicalValues {
      * <p>
      */
     public static void main(String[] args) throws Exception {
-        /**
-         * Process the schema to obtain a mapping of attribute/element
-         * local name to a set of XS data types.
+        /*
+          Process the schema to obtain a mapping of attribute/element
+          local name to a set of XS data types.
          */
-        SchemaProcessor sp = new SchemaProcessor(new File(args[0]).toURL());
+        SchemaProcessor sp = new SchemaProcessor(new File(args[0]).toURI().toURL());
         sp.process();
         
         // Create an instance of the SAX document serializer

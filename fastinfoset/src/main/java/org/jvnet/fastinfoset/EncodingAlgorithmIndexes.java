@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -23,7 +23,7 @@ package org.jvnet.fastinfoset;
  *
  * <p>The indexes of the built-in encoding algorithms are specified
  * in ITU-T Rec. X.891 | ISO/IEC 24824-1 (Fast Infoset), clause
- * 10. The indexes start from 0 instead of 1 as specified.<p>
+ * 10. The indexes start from 0 instead of 1 as specified.
  *
  * @see org.jvnet.fastinfoset.sax.EncodingAlgorithmContentHandler
  * @see org.jvnet.fastinfoset.sax.EncodingAlgorithmAttributes

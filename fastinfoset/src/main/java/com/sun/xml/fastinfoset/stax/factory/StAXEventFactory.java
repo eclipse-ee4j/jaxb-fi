@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -325,8 +325,7 @@ public class StAXEventFactory extends XMLEventFactory {
     * Create a comment
     * @param text The text of the comment
     * a Comment event
-     * @return 
-    */
+     */
     @Override
     public Comment createComment(String text) {
         CommentEvent charEvent =  new CommentEvent(text);

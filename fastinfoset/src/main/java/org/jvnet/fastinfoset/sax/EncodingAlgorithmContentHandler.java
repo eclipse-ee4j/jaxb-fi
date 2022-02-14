@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  * SAX parser to receive notification of encoding algorithm data specified 
  * in ITU-T Rec. X.891 | ISO/IEC 24824-1 (Fast Infoset) clause 10 and for 
  * application defined encoding algorithms specified as part of the 
- * initial vocabulary of a fast infoset document.<p>
+ * initial vocabulary of a fast infoset document.</p>
  *
  * <p>To set the EncodingAlgorithmContentHandler for an XML reader, use the
  * {@link org.xml.sax.XMLReader#setProperty setProperty} method
@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
  *
  * <p>To set the EncodingAlgorithmContentHandler for an Fast Infoset reader, use
  * {@link org.jvnet.fastinfoset.sax.FastInfosetReader#setEncodingAlgorithmContentHandler 
- *  setEncodingAlgorithmContentHandler} method.<p>
+ *  setEncodingAlgorithmContentHandler} method.</p>
  *
  * @see org.jvnet.fastinfoset.sax.PrimitiveTypeContentHandler
  * @see org.jvnet.fastinfoset.sax.FastInfosetReader
@@ -58,7 +58,7 @@ public interface EncodingAlgorithmContentHandler {
      * outside of the specified range.</p>
      *
      * <p>Such notifications will occur for a Fast Infoset SAX parser
-     * when processing encoding algorithm data.<p>
+     * when processing encoding algorithm data.
      *
      * <p>The Parser will call the method of this interface to report each 
      * encoding algorithm data. Parsers MUST return all contiguous 

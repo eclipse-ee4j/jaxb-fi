@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -46,7 +46,6 @@ import org.xml.sax.Attributes;
  * <p>
  * Any namespace declarations with a namespace URI that is not present in
  * the map are added.
- * <p>
  */
 public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerializer {
     protected Map<String, String> _namespaceToPrefixMapping;

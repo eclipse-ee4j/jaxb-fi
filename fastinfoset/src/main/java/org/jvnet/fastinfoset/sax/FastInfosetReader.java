@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -143,11 +143,11 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * FastInfosetReader object, possibly with a different byte stream.</p>
      *
      * <p>During the parse, the FastInfosetReader will provide information about
-     * the fast infoset document through the registered event handlers.<p>
+     * the fast infoset document through the registered event handlers.</p>
      *
      * <p> This method is synchronous: it will not return until parsing has ended.
      * If a client application wants to terminate parsing early, it should throw
-     * an exception.<p>
+     * an exception.</p>
      *
      * @param s The byte stream to parse from.
      */

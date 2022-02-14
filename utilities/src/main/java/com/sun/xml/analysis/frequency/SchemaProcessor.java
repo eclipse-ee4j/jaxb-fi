@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -534,7 +534,7 @@ public class SchemaProcessor {
     }
     
     public static void main(String[] args) throws Exception {
-        SchemaProcessor v = new SchemaProcessor(new File(args[0]).toURL(), true, true);
+        SchemaProcessor v = new SchemaProcessor(new File(args[0]).toURI().toURL(), true, true);
         v.process();
         v.print();
     }

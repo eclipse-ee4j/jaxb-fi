@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -49,7 +49,6 @@ public class DTDEvent extends EventBase implements DTD{
      * If it is not null it must return the entire Document Type Declaration
      * which matches the doctypedecl production in the XML 1.0 specification
      *
-     * @return
      */
     @Override
     public String getDocumentTypeDeclaration() {
@@ -89,7 +88,6 @@ public class DTDEvent extends EventBase implements DTD{
      * Returns an implementation defined representation of the DTD.This method
      * may return null if no representation is available.
      *
-     * @return
      */
     @Override
     public Object getProcessedDTD() {

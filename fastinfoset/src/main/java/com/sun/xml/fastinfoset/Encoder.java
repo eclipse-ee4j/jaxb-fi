@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -799,7 +799,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @param offset the offset into the array of characters.
      * @param length the length of characters.
      * @param addToTable if characters should be added to table.
-     * @throws org.jvnet.fastinfoset.FastInfosetException
      * @throws java.io.IOException on error
      * @throws ArrayIndexOutOfBoundsException on error
      */
@@ -1053,8 +1052,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      *
      * @param namespaceURI the namespace URI of the qualified name.
      * @param prefix the prefix of the qualified name.
-     * @param localName
-     * @param entry
      * @throws java.io.IOException localName the local name of the qualified name.
      */
     protected final void encodeLiteralElementQualifiedNameOnThirdBit(String namespaceURI, String prefix, String localName,
@@ -1142,7 +1139,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @param namespaceURI the namespace URI of the qualified name.
      * @param prefix the prefix of the qualified name.
      * @param localName the local name of the qualified name.
-     * @param entry
      * @return  localName the local name of the qualified name.
      * @throws java.io.IOException on error
      */
@@ -1553,7 +1549,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      *        identifier
      * @param offset the offset into the array of bytes.
      * @param length the length of bytes.
-     * @throws java.io.IOException
      */
     protected final void encodeAIIBuiltInAlgorithmData(int id, Object data, int offset, int length) throws IOException {
         // Encode identification and top four bits of encoding algorithm id
@@ -2361,7 +2356,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
     /**
      * Write a byte to the buffered stream.
-     * @param i
      * @throws java.io.IOException on error
      */
     protected final void write(int i) throws IOException {
@@ -2487,7 +2481,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * Encode a string using the UTF-8 encoding.
      *
      * @param s the string to encode.
-     * @return 
      * @throws java.io.IOException on error
      */
     protected final int encodeUTF8String(String s) throws IOException {
@@ -2514,7 +2507,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @param ch the array of characters.
      * @param offset the offset into the array of characters.
      * @param length the length of characters.
-     * @return 
      * @throws java.io.IOException on error
      */
     protected final int encodeUTF8String(char[] ch, int offset, int length) throws IOException {
@@ -2582,7 +2574,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * Encode a string using the UTF-16 encoding.
      *
      * @param s the string to encode.
-     * @return 
      * @throws java.io.IOException on error
      */
     protected final int encodeUtf16String(String s) throws IOException {
@@ -2609,7 +2600,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @param ch the array of characters.
      * @param offset the offset into the array of characters.
      * @param length the length of characters.
-     * @return 
      * @throws java.io.IOException on error
      */
     protected final int encodeUtf16String(char[] ch, int offset, int length) throws IOException {

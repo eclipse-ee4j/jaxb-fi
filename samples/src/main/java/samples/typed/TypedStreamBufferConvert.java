@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -55,23 +55,23 @@ public class TypedStreamBufferConvert {
      */
     public static void main(String[] args) throws Exception {
 
-        /**
-         * Process the schema to obtain a mapping of attribute/element
-         * local name to a set of XS data types.
+        /*
+          Process the schema to obtain a mapping of attribute/element
+          local name to a set of XS data types.
          */
-        SchemaProcessor sp = new SchemaProcessor(new File(args[0]).toURL());
+        SchemaProcessor sp = new SchemaProcessor(new File(args[0]).toURI().toURL());
         sp.process();
 
-        /**
-         * Create the typed stream buffer
+        /*
+          Create the typed stream buffer
          */
         XMLStreamBuffer typedSource = TypedSAXBufferCreator.create(
                 sp.getElementToXSDataTypeMap(),
                 sp.getAttributeToXSDataTypeMap(),
                 new BufferedInputStream(new FileInputStream(args[1])));
 
-        /**
-         * Serialize the typed stream buffer to a fast infoset document
+        /*
+          Serialize the typed stream buffer to a fast infoset document
          */
         ByteArrayOutputStream fiDocumentOut = new ByteArrayOutputStream();
         FastInfosetWriter fiWriter = new SAXDocumentSerializer();
@@ -80,8 +80,8 @@ public class TypedStreamBufferConvert {
                 new FastInfosetWriterSAXBufferProcessor(typedSource);
         p.process(fiWriter);
         
-        /**
-         * Parse the fast infoset document to a typed stream buffer
+        /*
+          Parse the fast infoset document to a typed stream buffer
          */
         ByteArrayInputStream fiDocumentIn = new ByteArrayInputStream(fiDocumentOut.toByteArray());
         FastInfosetReader fiReader = new SAXDocumentParser();

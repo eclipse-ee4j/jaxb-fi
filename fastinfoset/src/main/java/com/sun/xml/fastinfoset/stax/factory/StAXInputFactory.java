@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -51,7 +51,6 @@ public class StAXInputFactory extends XMLInputFactory {
   /**
    * Create a new XMLStreamReader from a reader
    * @param xmlfile the XML data to read from
-   * @throws XMLStreamException 
    */
     public XMLStreamReader createXMLStreamReader(Reader xmlfile) throws XMLStreamException {
         return getXMLStreamReader(xmlfile);
@@ -115,8 +114,6 @@ public class StAXInputFactory extends XMLInputFactory {
            
     
     /**
-     * @param inputstream
-     * @throws XMLStreamException
      * @return XMLEventReader
      */
     public XMLEventReader createXMLEventReader(InputStream inputstream) throws XMLStreamException {
@@ -148,7 +145,6 @@ public class StAXInputFactory extends XMLInputFactory {
      * the XMLStreamReader must not be used.
      * @param streamReader the XMLStreamReader to read from (may not be modified)
      * @return a new XMLEventReader
-     * @throws XMLStreamException
      */
     public XMLEventReader createXMLEventReader(XMLStreamReader streamReader) throws XMLStreamException {
         return new StAXEventReader(streamReader);
@@ -179,7 +175,6 @@ public class StAXInputFactory extends XMLInputFactory {
     /** Create a filtered event reader that wraps the filter around the event reader
      * @param reader the event reader to wrap
      * @param filter the filter to apply to the event reader
-     * @throws XMLStreamException
      */
     public XMLEventReader createFilteredReader(XMLEventReader reader, EventFilter filter) throws XMLStreamException {
         return new StAXFilteredEvent(reader, filter);
@@ -188,7 +183,6 @@ public class StAXInputFactory extends XMLInputFactory {
     /** Create a filtered reader that wraps the filter around the reader
      * @param reader the reader to filter
      * @param filter the filter to apply to the reader
-     * @throws XMLStreamException
      */
     public XMLStreamReader createFilteredReader(XMLStreamReader reader, StreamFilter filter) throws XMLStreamException {
         

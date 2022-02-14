@@ -326,7 +326,7 @@ public class SchemaProcessor {
     
     /**
      * Process the schema.
-     * <p>
+     *
      * @param filter if not null only include elements/attributes with simple
      * types if it is present in the Set of XS data type. Otherwise all 
      * elements/attributes with simple types are included.

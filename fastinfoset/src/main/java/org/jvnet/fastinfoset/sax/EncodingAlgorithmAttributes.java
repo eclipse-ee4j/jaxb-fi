@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -47,7 +47,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      *    algorithm then the URI of the algorithm is returned.</p>
      *
      * <p>If {@link #getAlgorithmData(int)} returns null then the result of 
-     *    this method is undefined.<p>
+     *    this method is undefined.</p>
      *
      * @param index The attribute index (zero-based). 
      * @return The URI. If the index is out of range then null is returned.
@@ -58,7 +58,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      * Return the index of the encoding algorithm.
      *
      * <p>If {@link #getAlgorithmData(int)} returns null then the result of 
-     *    this method is undefined.<p>
+     *    this method is undefined.</p>
      *
      * @param index The attribute index (zero-based).
      * @return The algorithm index. If index is out of range then -1 is returned.
@@ -79,7 +79,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      *    from the registeredEncodingAlgorithm is returned.</p>
      *
      * <p>If there no encoding algorithm data associated an attribute then 
-     *    <code>null</code> is returned.<p>
+     *    <code>null</code> is returned.</p>
      *
      * @param index The attribute index (zero-based).
      * @return The data. If the index is out of range then null is returned.

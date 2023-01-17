@@ -56,7 +56,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -334,7 +336,10 @@ public class SchemaProcessor {
     public void process(Set<XSDataType> filter) throws Exception {
         _filter = filter;
         
-        XSOMParser parser = new XSOMParser();
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        XSOMParser parser = new XSOMParser(factory);
         parser.setErrorHandler(new ErrorHandlerImpl());
         
         for (URL u : _schema) {

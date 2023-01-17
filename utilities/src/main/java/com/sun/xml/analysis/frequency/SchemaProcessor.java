@@ -42,6 +42,7 @@ import com.sun.xml.xsom.XSUnionSimpleType;
 import com.sun.xml.xsom.XSWildcard;
 import com.sun.xml.xsom.XSXPath;
 import com.sun.xml.xsom.parser.XSOMParser;
+import com.sun.xml.xsom.parser.JAXPParser;
 import com.sun.xml.xsom.visitor.XSSimpleTypeVisitor;
 import com.sun.xml.xsom.visitor.XSVisitor;
 import java.io.File;
@@ -56,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -415,7 +417,10 @@ public class SchemaProcessor {
      * information items.
      */
     public void process() throws Exception {
-        XSOMParser parser = new XSOMParser();
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        XSOMParser parser = new XSOMParser(factory);
         parser.setErrorHandler(new ErrorHandlerImpl());
         
         for (URL u : _schema) {

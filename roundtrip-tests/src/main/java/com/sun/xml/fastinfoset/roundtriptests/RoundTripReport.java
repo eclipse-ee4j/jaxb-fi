@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -137,7 +138,7 @@ public class RoundTripReport {
             String content = reportContent(filename, args);
             osr = new OutputStreamWriter(
                     new FileOutputStream(
-                    new File(filename)));
+                    new File(filename)), StandardCharsets.UTF_8);
             osr.write(content);
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,7 +205,7 @@ public class RoundTripReport {
             
             // Convert our input stream to a
             // DataInputStream
-            in = new BufferedReader(new InputStreamReader(fstream));
+            in = new BufferedReader(new InputStreamReader(fstream, StandardCharsets.UTF_8));
             
             String s;
             while ((s = in.readLine()) != null) {

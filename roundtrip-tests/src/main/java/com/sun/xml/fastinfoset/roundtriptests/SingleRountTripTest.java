@@ -24,6 +24,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
@@ -83,7 +84,7 @@ public class SingleRountTripTest {
         
         RoundTripReport report = new RoundTripReport();
         new SingleRountTripTest((RoundTripRtt) Class.forName(args[0]).getConstructor().newInstance(), report).processFileOrFolder(new File(args[1]));
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[2])))) {
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[2])), false, StandardCharsets.UTF_8)) {
             writer.print(report.generateReport());
         }
     }

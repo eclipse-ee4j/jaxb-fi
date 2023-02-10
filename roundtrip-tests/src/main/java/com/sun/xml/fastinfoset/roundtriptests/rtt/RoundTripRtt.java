@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -87,7 +88,7 @@ public abstract class RoundTripRtt {
     }
 
     public boolean diffBinary(String fileName1, String fileName2, String diffFileName) throws IOException {
-        PrintWriter diffWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(diffFileName))));
+        PrintWriter diffWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(diffFileName))), false, StandardCharsets.UTF_8);
         InputStream file1InputStream = null;
         InputStream file2InputStream = null;
         
@@ -163,9 +164,9 @@ public abstract class RoundTripRtt {
         PrintWriter diffWriter = null;
         
         try {
-            file1Reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName1)));
-            file2Reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName2)));
-            diffWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(diffFileName))));
+            file1Reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName1), StandardCharsets.UTF_8));
+            file2Reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName2), StandardCharsets.UTF_8));
+            diffWriter = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(diffFileName))), false, StandardCharsets.UTF_8);
             
             boolean passed = true;
             String line1 = null;

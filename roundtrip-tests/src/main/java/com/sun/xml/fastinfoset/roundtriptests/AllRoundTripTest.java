@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Alexey Stashok
@@ -51,7 +52,7 @@ public class AllRoundTripTest {
         cleanupDiffs(testSrcFile);
         
         try {
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(report)));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(report)), false, StandardCharsets.UTF_8);
             try {
                 writer.print(reporter.generateReport());
             } finally {

@@ -1033,10 +1033,8 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((prefix.equals(names[i].prefix)
-                        || prefix.equals(names[i].prefix))
-                        && (namespaceURI.equals(names[i].namespaceName)
-                        || namespaceURI.equals(names[i].namespaceName))) {
+                if (prefix.equals(names[i].prefix)
+                        && namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnThirdBit(names[i].index);
                     return;
                 }
@@ -1119,10 +1117,8 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((prefix.equals(names[i].prefix)
-                        || prefix.equals(names[i].prefix))
-                        && (namespaceURI.equals(names[i].namespaceName)
-                        || namespaceURI.equals(names[i].namespaceName))) {
+                if (prefix.equals(names[i].prefix)
+                        && namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnSecondBitFirstBitZero(names[i].index);
                     return;
                 }
@@ -1149,8 +1145,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (namespaceURI.length() > 0) {
             namespaceURIIndex = _v.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
-                if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)
-                        || namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
+                if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
                     return false;
                 } else {
                     throw new IOException(CommonResourceBundle.getInstance().getString("message.namespaceURINotIndexed", new Object[]{namespaceURI}));

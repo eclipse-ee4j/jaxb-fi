@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -44,6 +44,15 @@ import com.sun.xml.xsom.XSXPath;
 import com.sun.xml.xsom.parser.XSOMParser;
 import com.sun.xml.xsom.visitor.XSSimpleTypeVisitor;
 import com.sun.xml.xsom.visitor.XSVisitor;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
@@ -54,12 +63,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * A Schema processor that collects the namespaces, local names, elements
@@ -415,7 +418,7 @@ public class SchemaProcessor {
      * information items.
      */
     public void process() throws Exception {
-        XSOMParser parser = new XSOMParser();
+        XSOMParser parser = new XSOMParser(createParserFactory());
         parser.setErrorHandler(new ErrorHandlerImpl());
         
         for (URL u : _schema) {
@@ -537,5 +540,36 @@ public class SchemaProcessor {
         SchemaProcessor v = new SchemaProcessor(new File(args[0]).toURI().toURL(), true, true);
         v.process();
         v.print();
+    }
+
+    /**
+     * Returns properly configured (e.g. security features) parser factory
+     * - namespaceAware == true
+     * - securityProcessing == is set based on security processing property, default is true
+     */
+    private static SAXParserFactory createParserFactory() throws IllegalStateException {
+        try {
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            try {
+                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            } catch (SAXException se) {
+            }
+            return factory;
+        } catch (ParserConfigurationException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 }

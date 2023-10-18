@@ -90,10 +90,10 @@
         <spotbugs.threshold>Low</spotbugs.threshold>
         <spotbugs.version>4.7.3.6</spotbugs.version>
 
-        <xsom.version>4.0.0-M2</xsom.version>
+        <xsom.version>4.0.4</xsom.version>
         <streambuffer.version>2.1.0</streambuffer.version>
         <junit.version>4.13.2</junit.version>
-        <activation-api.version>2.1.0</activation-api.version>
+        <activation-api.version>2.1.2</activation-api.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vendor.name>Eclipse Foundation</vendor.name>

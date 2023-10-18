@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -41,62 +41,83 @@ import org.xml.sax.helpers.DefaultHandler;
 public class FastInfosetDefaultHandler extends DefaultHandler implements
         LexicalHandler, EncodingAlgorithmContentHandler, PrimitiveTypeContentHandler {
 
+    public FastInfosetDefaultHandler() {
+        super();
+    }
+
     // LexicalHandler
     
+    @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
     }
   
+    @Override
     public void startCDATA() throws SAXException {
     }
   
+    @Override
     public void endCDATA() throws SAXException {
     }
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException {
     }
 
+    @Override
     public void endDTD() throws SAXException {
     }
     
+    @Override
     public void startEntity(String name) throws SAXException {
     }
 
+    @Override
     public void endEntity(String name) throws SAXException {
     }
 
     
     // EncodingAlgorithmContentHandler
     
+    @Override
     public void octets(String URI, int algorithm, byte[] b, int start, int length)  throws SAXException {
     }
 
+    @Override
     public void object(String URI, int algorithm, Object o)  throws SAXException {
     }
     
     
     // PrimitiveTypeContentHandler
     
+    @Override
     public void booleans(boolean[] b, int start, int length) throws SAXException {
     }
 
+    @Override
     public void bytes(byte[] b, int start, int length) throws SAXException {
     }
     
+    @Override
     public void shorts(short[] s, int start, int length) throws SAXException {
     }
     
+    @Override
     public void ints(int[] i, int start, int length) throws SAXException {
     }
     
+    @Override
     public void longs(long[] l, int start, int length) throws SAXException {
     }
     
+    @Override
     public void floats(float[] f, int start, int length) throws SAXException {
     }
     
+    @Override
     public void doubles(double[] d, int start, int length) throws SAXException {
     }
 
+    @Override
     public void uuids(long[] msblsb, int start, int length) throws SAXException {
     }
 }

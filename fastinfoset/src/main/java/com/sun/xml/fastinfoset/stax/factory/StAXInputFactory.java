@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -31,13 +31,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 
-import javax.xml.stream.*;
+import javax.xml.stream.EventFilter;
+import javax.xml.stream.StreamFilter;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLReporter;
+import javax.xml.stream.XMLResolver;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.util.XMLEventAllocator ;
 import javax.xml.transform.Source;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
 
-public class StAXInputFactory extends XMLInputFactory {    
+public class StAXInputFactory extends XMLInputFactory {
     //List of supported properties and default values.
     private StAXManager _manager = new StAXManager(StAXManager.CONTEXT_READER) ;
     
@@ -52,27 +58,33 @@ public class StAXInputFactory extends XMLInputFactory {
    * Create a new XMLStreamReader from a reader
    * @param xmlfile the XML data to read from
    */
+    @Override
     public XMLStreamReader createXMLStreamReader(Reader xmlfile) throws XMLStreamException {
         return getXMLStreamReader(xmlfile);
     }    
     
+    @Override
     public XMLStreamReader createXMLStreamReader(InputStream s) throws XMLStreamException {
         return new StAXDocumentParser(s, _manager);
     }
     
+    @Override
     public XMLStreamReader createXMLStreamReader(String systemId, Reader xmlfile) throws XMLStreamException {
         return getXMLStreamReader(xmlfile);
     }
     
+    @Override
     public XMLStreamReader createXMLStreamReader(Source source) throws XMLStreamException {
         return null;
     }
     
+    @Override
     public XMLStreamReader createXMLStreamReader(String systemId, InputStream inputstream) throws XMLStreamException {
         return createXMLStreamReader(inputstream);
     }
     
     
+    @Override
     public XMLStreamReader createXMLStreamReader(InputStream inputstream, String encoding) throws XMLStreamException {
         return createXMLStreamReader(inputstream);
     }
@@ -116,26 +128,32 @@ public class StAXInputFactory extends XMLInputFactory {
     /**
      * @return XMLEventReader
      */
+    @Override
     public XMLEventReader createXMLEventReader(InputStream inputstream) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(inputstream));
     }
     
+    @Override
     public XMLEventReader createXMLEventReader(Reader reader) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(reader));
     }
     
+    @Override
     public XMLEventReader createXMLEventReader(Source source) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(source));
     }
     
+    @Override
     public XMLEventReader createXMLEventReader(String systemId, InputStream inputstream) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(systemId, inputstream));
     }
     
+    @Override
     public XMLEventReader createXMLEventReader(java.io.InputStream stream, String encoding) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(stream, encoding));
     }
     
+    @Override
     public XMLEventReader createXMLEventReader(String systemId, Reader reader) throws XMLStreamException {
         return new StAXEventReader(createXMLStreamReader(systemId, reader));
     }
@@ -146,28 +164,34 @@ public class StAXInputFactory extends XMLInputFactory {
      * @param streamReader the XMLStreamReader to read from (may not be modified)
      * @return a new XMLEventReader
      */
+    @Override
     public XMLEventReader createXMLEventReader(XMLStreamReader streamReader) throws XMLStreamException {
         return new StAXEventReader(streamReader);
     }
 
+    @Override
     public XMLEventAllocator getEventAllocator() {
         return (XMLEventAllocator)getProperty(XMLInputFactory.ALLOCATOR);
     }
     
+    @Override
     public XMLReporter getXMLReporter() {
         return (XMLReporter)_manager.getProperty(XMLInputFactory.REPORTER);
     }
     
+    @Override
     public XMLResolver getXMLResolver() {
         Object object = _manager.getProperty(XMLInputFactory.RESOLVER);
         return (XMLResolver)object;
         //return (XMLResolver)_manager.getProperty(XMLInputFactory.RESOLVER);
     }
     
+    @Override
     public void setXMLReporter(XMLReporter xmlreporter) {
         _manager.setProperty(XMLInputFactory.REPORTER, xmlreporter);
     }
     
+    @Override
     public void setXMLResolver(XMLResolver xmlresolver) {
         _manager.setProperty(XMLInputFactory.RESOLVER, xmlresolver);
     }
@@ -176,6 +200,7 @@ public class StAXInputFactory extends XMLInputFactory {
      * @param reader the event reader to wrap
      * @param filter the filter to apply to the event reader
      */
+    @Override
     public XMLEventReader createFilteredReader(XMLEventReader reader, EventFilter filter) throws XMLStreamException {
         return new StAXFilteredEvent(reader, filter);
     }
@@ -184,6 +209,7 @@ public class StAXInputFactory extends XMLInputFactory {
      * @param reader the reader to filter
      * @param filter the filter to apply to the reader
      */
+    @Override
     public XMLStreamReader createFilteredReader(XMLStreamReader reader, StreamFilter filter) throws XMLStreamException {
         
         if( reader != null && filter != null )
@@ -199,6 +225,7 @@ public class StAXInputFactory extends XMLInputFactory {
      * @return The value of the property
      * @throws IllegalArgumentException if the property is not supported
      */
+    @Override
     public Object getProperty(String name) throws IllegalArgumentException {
         if(name == null){
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.nullPropertyName"));
@@ -213,6 +240,7 @@ public class StAXInputFactory extends XMLInputFactory {
      * @param name The name of the property (may not be null)
      * @return true if the property is supported and false otherwise
      */
+    @Override
     public boolean isPropertySupported(String name) {
         if(name == null)
             return false ;
@@ -223,6 +251,7 @@ public class StAXInputFactory extends XMLInputFactory {
     /** Set a user defined event allocator for events
      * @param allocator the user defined allocator
      */
+    @Override
     public void setEventAllocator(XMLEventAllocator allocator) {
         _manager.setProperty(XMLInputFactory.ALLOCATOR, allocator);
     }
@@ -234,6 +263,7 @@ public class StAXInputFactory extends XMLInputFactory {
      * @param value The value of the property
      * @throws IllegalArgumentException if the property is not supported
      */
+    @Override
     public void setProperty(String name, Object value) throws IllegalArgumentException {
         _manager.setProperty(name,value);
     }

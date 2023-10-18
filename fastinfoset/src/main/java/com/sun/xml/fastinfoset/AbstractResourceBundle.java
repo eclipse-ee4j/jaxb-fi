@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -32,15 +32,18 @@ import java.util.ResourceBundle;
 public abstract class AbstractResourceBundle extends ResourceBundle {
         
     public static final String LOCALE = "com.sun.xml.fastinfoset.locale";
-    
+
+    protected AbstractResourceBundle() {
+    }
+
     /**
-     * Gets 'key' from ResourceBundle and format mesage using 'args'.
+     * Gets 'key' from ResourceBundle and format message using 'args'.
      *
      * @param key String key for message.
      * @param args Array of arguments for message.
      * @return String formatted message.
      */
-    public String getString(String key, Object args[]) {
+    public String getString(String key, Object[] args) {
         String pattern = getBundle().getString(key);
         return MessageFormat.format(pattern, args);
     }
@@ -61,13 +64,13 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
                 String[] args = localeString.split("_");
                 switch (args.length) {
                     case 1:
-                        locale = new Locale(args[0]);
+                        locale = new Locale.Builder().setLanguage(args[0]).build();
                         break;
                     case 2:
-                        locale = new Locale(args[0], args[1]);
+                        locale = new Locale.Builder().setLanguage(args[0]).setRegion(args[1]).build();
                         break;
                     case 3:
-                        locale = new Locale(args[0], args[1], args[2]);
+                        locale = new Locale.Builder().setLanguage(args[0]).setRegion(args[1]).setVariant(args[2]).build();
                         break;
                     default:
                         break;
@@ -84,7 +87,7 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
      * correct resource bundle is passed to methods in this class
      *
      * @return
-     *  A java.util.ResourceBundle from the subsclass. Methods in this class
+     *  A java.util.ResourceBundle from the subclass. Methods in this class
      *  will use this reference.
      */
     public abstract ResourceBundle getBundle();
@@ -96,11 +99,9 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
      * work around protected access to ResourceBundle.handleGetObject().
      * Happily, this means parent tree of delegate bundle is searched for a
      * match.
-     *
+     * <p>
      * Implements java.util.ResourceBundle.handleGetObject; inherits that
      * javadoc information.
-     *
-     * @see java.util.ResourceBundle#handleGetObject(String)
      */
     @Override
     protected Object handleGetObject(String key) {
@@ -111,9 +112,6 @@ public abstract class AbstractResourceBundle extends ResourceBundle {
      * Since we are changing the ResourceBundle extension point, must implement
      * getKeys() using delegate getBundle().Implements
      * java.util.ResourceBundle.getKeys; inherits that javadoc information.
-     *
-     *
-     * @see java.util.ResourceBundle#getKeys()
      */
     @Override
     public final Enumeration<String> getKeys() {

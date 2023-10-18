@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -35,6 +35,7 @@ public class XML_DOM_SAX_FI extends TransformInputOutput {
     public XML_DOM_SAX_FI() {
     }
     
+    @Override
     public void parse(InputStream document, OutputStream finf, String workingDirectory) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
@@ -49,6 +50,7 @@ public class XML_DOM_SAX_FI extends TransformInputOutput {
         t.transform(new DOMSource(d), new FastInfosetResult(finf));
     }
     
+    @Override
     public void parse(InputStream document, OutputStream finf) throws Exception {
         parse(document, finf, null);
     }

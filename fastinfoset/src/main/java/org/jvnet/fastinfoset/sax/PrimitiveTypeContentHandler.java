@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * <p>To set the PrimitiveTypeContentHandler for an XML reader, use the
  * {@link org.xml.sax.XMLReader#setProperty setProperty} method
  * with the property name
- * <code>URI TO BE DEFINED</code>
+ * {@code URI TO BE DEFINED}
  * and an object implementing this interface (or null) as the value.
  * If the reader does not report primitive data types, it will throw a
  * {@link org.xml.sax.SAXNotRecognizedException SAXNotRecognizedException}</p>
@@ -75,8 +75,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of boolean to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void booleans(boolean [] b, int start, int length) throws SAXException;
+     */
+    void booleans(boolean[] b, int start, int length) throws SAXException;
 
     /**
      * Receive notification of character data as an array of byte.
@@ -99,8 +99,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of byte to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void bytes(byte[] b, int start, int length) throws SAXException;
+     */
+    void bytes(byte[] b, int start, int length) throws SAXException;
     
     /**
      * Receive notification of character data as an array of short.
@@ -117,8 +117,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of short to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void shorts(short[] s, int start, int length) throws SAXException;
+     */
+    void shorts(short[] s, int start, int length) throws SAXException;
     
     /**
      * Receive notification of character data as an array of int.
@@ -135,8 +135,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of int to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void ints(int [] i, int start, int length) throws SAXException;
+     */
+    void ints(int[] i, int start, int length) throws SAXException;
     
     /**
      * Receive notification of character data as an array of long.
@@ -153,8 +153,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of long to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void longs(long [] l, int start, int length) throws SAXException;
+     */
+    void longs(long[] l, int start, int length) throws SAXException;
     
     /**
      * Receive notification of character data as an array of float.
@@ -171,8 +171,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of float to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void floats(float [] f, int start, int length) throws SAXException;
+     */
+    void floats(float[] f, int start, int length) throws SAXException;
     
     /**
      * Receive notification of character data as an array of double.
@@ -189,8 +189,8 @@ public interface PrimitiveTypeContentHandler {
      * @param length the number of double to read from the array
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void doubles(double [] d, int start, int length) throws SAXException;
+     */
+    void doubles(double[] d, int start, int length) throws SAXException;
 
     /**
      * Receive notification of character data as an two array of UUID.
@@ -209,6 +209,6 @@ public interface PrimitiveTypeContentHandler {
      * be twice the number of UUIDs, which are pairs of two long values
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
-     */    
-    public void uuids(long[] msblsb, int start, int length) throws SAXException;
+     */
+    void uuids(long[] msblsb, int start, int length) throws SAXException;
 }

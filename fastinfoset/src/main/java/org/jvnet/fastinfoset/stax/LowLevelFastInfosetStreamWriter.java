@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -81,7 +81,7 @@ public interface LowLevelFastInfosetStreamWriter {
      * <p>
      * This method must be invoked before other low level method.
      */
-    public void initiateLowLevelWriting()
+    void initiateLowLevelWriting()
     throws XMLStreamException;
 
     /**
@@ -95,7 +95,7 @@ public interface LowLevelFastInfosetStreamWriter {
      * </pre>
      * @return the index.
      */
-    public int getNextElementIndex();
+    int getNextElementIndex();
 
     /**
      * Get the next index to apply to an Attribute Information Item.
@@ -107,7 +107,7 @@ public interface LowLevelFastInfosetStreamWriter {
      * </pre>
      * @return the index.
      */
-    public int getNextAttributeIndex();
+    int getNextAttributeIndex();
 
     /**
      * Get the current index that was applied to an [local name] of an
@@ -115,7 +115,7 @@ public interface LowLevelFastInfosetStreamWriter {
      *
      * @return the index.
      */
-    public int getLocalNameIndex();
+    int getLocalNameIndex();
 
     /**
      * Get the next index to apply to an [local name] of an Element or Attribute
@@ -128,12 +128,12 @@ public interface LowLevelFastInfosetStreamWriter {
      * </pre>
      * @return the index.
      */
-    public int getNextLocalNameIndex();
+    int getNextLocalNameIndex();
 
-    public void writeLowLevelTerminationAndMark()
+    void writeLowLevelTerminationAndMark()
     throws IOException;
 
-    public void writeLowLevelStartElementIndexed(int type, int index)
+    void writeLowLevelStartElementIndexed(int type, int index)
     throws IOException;
 
     /**
@@ -141,23 +141,23 @@ public interface LowLevelFastInfosetStreamWriter {
      *
      * @return true if element is indexed, otherwise false.
      */
-    public boolean writeLowLevelStartElement(int type,
-            String prefix, String localName, String namespaceURI)
+    boolean writeLowLevelStartElement(int type,
+                                      String prefix, String localName, String namespaceURI)
             throws IOException;
 
-    public void writeLowLevelStartNamespaces()
+    void writeLowLevelStartNamespaces()
     throws IOException;
 
-    public void writeLowLevelNamespace(String prefix, String namespaceName)
+    void writeLowLevelNamespace(String prefix, String namespaceName)
         throws IOException;
 
-    public void writeLowLevelEndNamespaces()
+    void writeLowLevelEndNamespaces()
     throws IOException;
 
-    public void writeLowLevelStartAttributes()
+    void writeLowLevelStartAttributes()
     throws IOException;
 
-    public void writeLowLevelAttributeIndexed(int index)
+    void writeLowLevelAttributeIndexed(int index)
     throws IOException;
 
     /**
@@ -165,33 +165,33 @@ public interface LowLevelFastInfosetStreamWriter {
      *
      * @return true if attribute is indexed, otherwise false.
      */
-    public boolean writeLowLevelAttribute(
+    boolean writeLowLevelAttribute(
             String prefix, String namespaceURI, String localName)
             throws IOException;
 
-    public void writeLowLevelAttributeValue(String value)
+    void writeLowLevelAttributeValue(String value)
     throws IOException;
 
-    public void writeLowLevelStartNameLiteral(int type,
-            String prefix, byte[] utf8LocalName, String namespaceURI)
+    void writeLowLevelStartNameLiteral(int type,
+                                       String prefix, byte[] utf8LocalName, String namespaceURI)
             throws IOException;
 
-    public void writeLowLevelStartNameLiteral(int type,
-            String prefix, int localNameIndex, String namespaceURI)
+    void writeLowLevelStartNameLiteral(int type,
+                                       String prefix, int localNameIndex, String namespaceURI)
             throws IOException;
 
-    public void writeLowLevelEndStartElement()
+    void writeLowLevelEndStartElement()
     throws IOException;
 
-    public void writeLowLevelEndElement()
+    void writeLowLevelEndElement()
     throws IOException;
 
-    public void writeLowLevelText(char[] text, int length)
+    void writeLowLevelText(char[] text, int length)
     throws IOException;
 
-    public void writeLowLevelText(String text)
+    void writeLowLevelText(String text)
     throws IOException;
 
-    public void writeLowLevelOctets(byte[] octets, int length)
+    void writeLowLevelOctets(byte[] octets, int length)
     throws IOException;
 }

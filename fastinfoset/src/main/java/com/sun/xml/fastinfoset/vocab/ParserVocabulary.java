@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -183,7 +183,7 @@ public class ParserVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, StringArray a, StringIntMap m) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -198,7 +198,7 @@ public class ParserVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, PrefixArray a, StringIntMap m) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -213,7 +213,7 @@ public class ParserVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, ContiguousCharArrayArray a) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -228,7 +228,7 @@ public class ParserVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, CharArrayArray a) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -252,14 +252,14 @@ public class ParserVocabulary extends Vocabulary {
             StringIntMap localNameMap) {            
         int namespaceURIIndex = -1;
         int prefixIndex = -1;
-        if (n.getNamespaceURI().length() > 0) {
+        if (!n.getNamespaceURI().isEmpty()) {
             namespaceURIIndex = namespaceNameMap.obtainIndex(n.getNamespaceURI());
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 namespaceURIIndex = namespaceName.getSize();
                 namespaceName.add(n.getNamespaceURI());
             }
             
-            if (n.getPrefix().length() > 0) {
+            if (!n.getPrefix().isEmpty()) {
                 prefixIndex = prefixMap.obtainIndex(n.getPrefix());
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     prefixIndex = prefix.getSize();

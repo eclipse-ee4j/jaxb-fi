@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -35,6 +35,7 @@ public class CharArrayArray extends ValueArray {
         this(DEFAULT_CAPACITY, MAXIMUM_CAPACITY);
     }
     
+    @Override
     public final void clear() {
         for (int i = 0; i < _size; i++) {
             _array[i] = null;
@@ -54,6 +55,7 @@ public class CharArrayArray extends ValueArray {
         return clonedArray;
     }
     
+    @Override
     public final void setReadOnlyArray(ValueArray readOnlyArray, boolean clear) {
         if (!(readOnlyArray instanceof CharArrayArray)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.illegalClass", new Object[]{readOnlyArray}));

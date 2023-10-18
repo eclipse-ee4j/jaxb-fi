@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -117,7 +117,7 @@ public class StAXEventFactory extends XMLEventFactory {
     // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(QName name,
-            Iterator attributes, Iterator namespaces) {
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
         return createStartElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), attributes, namespaces);
     }
     
@@ -131,14 +131,14 @@ public class StAXEventFactory extends XMLEventFactory {
     // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator attributes, Iterator namespaces) {
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces) {
         return createStartElement(prefix, namespaceUri, localName, attributes, namespaces, null);
     }
 
     // Generics removed because they break build with release=8
     @Override
     public StartElement createStartElement(String prefix, String namespaceUri, String localName,
-            Iterator attributes, Iterator namespaces, NamespaceContext context) {
+            Iterator<? extends Attribute> attributes, Iterator<? extends Namespace> namespaces, NamespaceContext context) {
         StartElementEvent elem =  new StartElementEvent(prefix, namespaceUri, localName);
         elem.addAttributes(attributes);
         elem.addNamespaces(namespaces);
@@ -156,7 +156,7 @@ public class StAXEventFactory extends XMLEventFactory {
    */
     // Generics removed because they break build with release=8
     @Override
-    public EndElement createEndElement(QName name, Iterator namespaces) {
+    public EndElement createEndElement(QName name, Iterator<? extends Namespace> namespaces) {
         return createEndElement(name.getPrefix(), name.getNamespaceURI(), name.getLocalPart(), namespaces);
     }
     
@@ -186,12 +186,12 @@ public class StAXEventFactory extends XMLEventFactory {
     // Generics removed because they break build with release=8
     @Override
     public EndElement createEndElement(String prefix, String namespaceUri,
-            String localName, Iterator namespaces) {
+            String localName, Iterator<? extends Namespace> namespaces) {
         
         EndElementEvent event =  new EndElementEvent(prefix, namespaceUri, localName);
         if(namespaces!=null){
             while(namespaces.hasNext())
-                event.addNamespace((Namespace)namespaces.next());
+                event.addNamespace(namespaces.next());
         }
         if(location != null)event.setLocation(location);
         return event;

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -52,6 +52,7 @@ public class ContiguousCharArrayArray extends ValueArray {
                 INITIAL_CHARACTER_SIZE, MAXIMUM_CHARACTER_SIZE);
     }
     
+    @Override
     public final void clear() {
         _arrayIndex = _readOnlyArrayIndex;
         _size = _readOnlyArraySize;
@@ -67,6 +68,7 @@ public class ContiguousCharArrayArray extends ValueArray {
         return _arrayIndex;
     }
     
+    @Override
     public final void setReadOnlyArray(ValueArray readOnlyArray, boolean clear) {
         if (!(readOnlyArray instanceof ContiguousCharArrayArray)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.illegalClass", new Object[]{readOnlyArray}));

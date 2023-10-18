@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -71,12 +71,12 @@ public abstract class KeyIntMap {
     public KeyIntMap(int initialCapacity, float loadFactor) {
         if (initialCapacity < 0)
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
-                    getString("message.illegalInitialCapacity", new Object[]{Integer.valueOf(initialCapacity)}));
+                    getString("message.illegalInitialCapacity", new Object[]{initialCapacity}));
         if (initialCapacity > MAXIMUM_CAPACITY)
             initialCapacity = MAXIMUM_CAPACITY;
         if (loadFactor <= 0 || Float.isNaN(loadFactor))
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
-                    getString("message.illegalLoadFactor", new Object[]{Float.valueOf(loadFactor)}));
+                    getString("message.illegalLoadFactor", new Object[]{loadFactor}));
 
         // Find a power of 2 >= initialCapacity
         if (initialCapacity != DEFAULT_INITIAL_CAPACITY) {

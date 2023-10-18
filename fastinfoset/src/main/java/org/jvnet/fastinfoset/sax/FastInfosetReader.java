@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -100,7 +100,7 @@ import org.xml.sax.ext.LexicalHandler;
  *    <li>If an EncodingAlgorithmContentHandler is registered and there is no
  *        EncodingAlgorithm registered for an application-defined encoding algorithm
  *        then decoded data for such an algoroithm is reported as Java Object,
- *        that is an instance of <code>byte[]</code>,
+ *        that is an instance of {@code byte[]},
  *        using {@link EncodingAlgorithmAttributes#getAlgorithmData(int)};
  *        otherwise</li>
  *    <li>If there is an EncodingAlgorithm registered for the application-defined
@@ -120,7 +120,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * EncodingAlgorithmContentHandler.
      *
      */
-    public static final String ENCODING_ALGORITHM_CONTENT_HANDLER_PROPERTY =
+    String ENCODING_ALGORITHM_CONTENT_HANDLER_PROPERTY =
             "http://jvnet.org/fastinfoset/sax/properties/encoding-algorithm-content-handler";
 
     /**
@@ -128,7 +128,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * PrimtiveTypeContentHandler.
      *
      */
-    public static final String PRIMITIVE_TYPE_CONTENT_HANDLER_PROPERTY =
+    String PRIMITIVE_TYPE_CONTENT_HANDLER_PROPERTY =
             "http://jvnet.org/fastinfoset/sax/properties/primitive-type-content-handler";
 
     /**
@@ -151,7 +151,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      *
      * @param s The byte stream to parse from.
      */
-    public void parse(InputStream s) throws IOException, FastInfosetException, SAXException;
+    void parse(InputStream s) throws IOException, FastInfosetException, SAXException;
 
     /**
      * Allow an application to register a lexical handler.
@@ -163,7 +163,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * @param handler The lexical handler.
      * @see #getLexicalHandler
      */
-    public void setLexicalHandler(LexicalHandler handler);
+    void setLexicalHandler(LexicalHandler handler);
 
     /**
      * Return the current lexical handler.
@@ -172,7 +172,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      *         has been registered.
      * @see #setLexicalHandler
      */
-    public LexicalHandler getLexicalHandler();
+    LexicalHandler getLexicalHandler();
 
     /**
      * Allow an application to register a DTD declaration handler.
@@ -184,7 +184,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * @param handler The DTD declaration handler.
      * @see #getLexicalHandler
      */
-    public void setDeclHandler(DeclHandler handler);
+    void setDeclHandler(DeclHandler handler);
 
     /**
      * Return the current DTD declaration handler.
@@ -193,7 +193,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      *         has been registered.
      * @see #setLexicalHandler
      */
-    public DeclHandler getDeclHandler();
+    DeclHandler getDeclHandler();
 
     /**
      * Allow an application to register an encoding algorithm handler.
@@ -205,7 +205,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * @param handler The encoding algorithm handler.
      * @see #getEncodingAlgorithmContentHandler
      */
-    public void setEncodingAlgorithmContentHandler(EncodingAlgorithmContentHandler handler);
+    void setEncodingAlgorithmContentHandler(EncodingAlgorithmContentHandler handler);
 
     /**
      * Return the current encoding algorithm handler.
@@ -214,7 +214,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      *         has been registered.
      * @see #setEncodingAlgorithmContentHandler
      */
-    public EncodingAlgorithmContentHandler getEncodingAlgorithmContentHandler();
+    EncodingAlgorithmContentHandler getEncodingAlgorithmContentHandler();
 
     /**
      * Allow an application to register a primitive type handler.
@@ -226,7 +226,7 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      * @param handler The primitive type handler.
      * @see #getPrimitiveTypeContentHandler
      */
-    public void setPrimitiveTypeContentHandler(PrimitiveTypeContentHandler handler);
+    void setPrimitiveTypeContentHandler(PrimitiveTypeContentHandler handler);
 
 
     /**
@@ -236,5 +236,5 @@ public interface FastInfosetReader extends XMLReader, FastInfosetParser {
      *         has been registered.
      * @see #setPrimitiveTypeContentHandler
      */
-    public PrimitiveTypeContentHandler getPrimitiveTypeContentHandler();
+    PrimitiveTypeContentHandler getPrimitiveTypeContentHandler();
 }

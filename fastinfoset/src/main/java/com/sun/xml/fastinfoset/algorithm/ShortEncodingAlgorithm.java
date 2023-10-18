@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -36,6 +36,9 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
  * @author Paul Sandoz
  */
 public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
+
+    public ShortEncodingAlgorithm() {
+    }
 
     @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
@@ -166,7 +169,7 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
     public final void convertToCharactersFromShortArray(short[] sdata, StringBuffer s) {
         final int end = sdata.length - 1;
         for (int i = 0; i <= end; i++) {
-            s.append(Short.toString(sdata[i]));
+            s.append(sdata[i]);
             if (i != end) {
                 s.append(' ');
             }

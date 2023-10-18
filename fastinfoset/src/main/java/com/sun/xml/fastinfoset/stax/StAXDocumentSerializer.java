@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -98,13 +98,15 @@ public class StAXDocumentSerializer extends Encoder
         super(true);
         _manager = new StAXManager(StAXManager.CONTEXT_WRITER);
     }
-    
+
+    @SuppressWarnings({"this-escape"})
     public StAXDocumentSerializer(OutputStream outputStream) {
         super(true);
         setOutputStream(outputStream);
         _manager = new StAXManager(StAXManager.CONTEXT_WRITER);
     }
 
+    @SuppressWarnings({"this-escape"})
     public StAXDocumentSerializer(OutputStream outputStream, StAXManager manager) {
         super(true);
         setOutputStream(outputStream);
@@ -267,14 +269,11 @@ public class StAXDocumentSerializer extends Encoder
             
         try {            
             encodeElementTermination();
-            if (_nsSupportContextStack[_stackCount--] == true) {
+            if (_nsSupportContextStack[_stackCount--]) {
                 _nsContext.popContext();
             }
         }
-        catch (IOException e) {
-            throw new XMLStreamException(e);
-        }
-        catch (EmptyStackException e) {
+        catch (IOException | EmptyStackException e) {
             throw new XMLStreamException(e);
         }
     }
@@ -294,11 +293,11 @@ public class StAXDocumentSerializer extends Encoder
         String prefix = "";
         
         // Find prefix for attribute, ignoring default namespace
-        if (namespaceURI.length() > 0) {            
+        if (!namespaceURI.isEmpty()) {
             prefix = _nsContext.getNonDefaultPrefix(namespaceURI);
 
             // Undeclared prefix or ignorable default ns?
-            if (prefix == null || prefix.length() == 0) {
+            if (prefix == null || prefix.isEmpty()) {
                 // Workaround for BUG in SAX NamespaceSupport helper
                 // which incorrectly defines namespace declaration URI
                 if (namespaceURI == EncodingConstants.XMLNS_NAMESPACE_NAME || 
@@ -350,7 +349,7 @@ public class StAXDocumentSerializer extends Encoder
     public void writeNamespace(String prefix, String namespaceURI)
         throws XMLStreamException
     {
-        if (prefix == null || prefix.length() == 0 || prefix.equals(EncodingConstants.XMLNS_NAMESPACE_PREFIX)) {
+        if (prefix == null || prefix.isEmpty() || prefix.equals(EncodingConstants.XMLNS_NAMESPACE_PREFIX)) {
             writeDefaultNamespace(namespaceURI);
         }
         else {
@@ -446,7 +445,7 @@ public class StAXDocumentSerializer extends Encoder
                 text.getChars(0, length, _charBuffer, 0);
                 encodeCIIBuiltInAlgorithmDataAsCDATA(_charBuffer, 0, length);
             } else {
-                final char ch[] = text.toCharArray();
+                final char[] ch = text.toCharArray();
                 if (getIgnoreWhiteSpaceTextContent() &&
                         isWhiteSpace(ch, 0, length)) return;
 
@@ -488,7 +487,7 @@ public class StAXDocumentSerializer extends Encoder
                 text.getChars(0, length, _charBuffer, 0);
                 encodeCharacters(_charBuffer, 0, length);
             } else {
-                final char ch[] = text.toCharArray();
+                final char[] ch = text.toCharArray();
                 if (getIgnoreWhiteSpaceTextContent() && 
                         isWhiteSpace(ch, 0, length)) return;
                 
@@ -532,7 +531,7 @@ public class StAXDocumentSerializer extends Encoder
     public void setPrefix(String prefix, String uri) 
         throws XMLStreamException 
     {
-        if (_stackCount > -1 && _nsSupportContextStack[_stackCount] == false) {
+        if (_stackCount > -1 && !_nsSupportContextStack[_stackCount]) {
             _nsSupportContextStack[_stackCount] = true;
             _nsContext.pushContext();
         }
@@ -631,8 +630,8 @@ public class StAXDocumentSerializer extends Encoder
                 }
 
                 // If element's prefix is empty - apply default scope namespace
-                if (_currentPrefix.length() == 0) {
-                    if (_currentUri.length() == 0) {
+                if (_currentPrefix.isEmpty()) {
+                    if (_currentUri.isEmpty()) {
                         _currentUri = _nsContext.getNamespaceURI("");
                     } else {
                         String tmpPrefix = getPrefix(_currentUri);
@@ -661,7 +660,7 @@ public class StAXDocumentSerializer extends Encoder
 
                 if (_isEmptyElement) {
                     encodeElementTermination();
-                    if (_nsSupportContextStack[_stackCount--] == true) {
+                    if (_nsSupportContextStack[_stackCount--]) {
                         _nsContext.popContext();
                     }
                     
@@ -829,7 +828,7 @@ public class StAXDocumentSerializer extends Encoder
             text.getChars(0, length, _charBuffer, 0);
             encodeCharacters(_charBuffer, 0, length);
         } else {
-            final char ch[] = text.toCharArray();
+            final char[] ch = text.toCharArray();
             encodeCharactersNoClone(ch, 0, length);
         }
     }

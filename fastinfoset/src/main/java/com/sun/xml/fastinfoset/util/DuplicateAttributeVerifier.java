@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -34,6 +34,9 @@ public class DuplicateAttributeVerifier {
         private Entry hashNext;
         
         private Entry poolNext;
+
+        public Entry() {
+        }
     }
     
     private Entry[] _map;
@@ -66,7 +69,7 @@ public class DuplicateAttributeVerifier {
         }
     }
     
-    private final void increasePool(int capacity) {
+    private void increasePool(int capacity) {
         if (_map == null) {
             _map = new Entry[MAP_SIZE];
             _poolCurrent = _poolHead;
@@ -94,9 +97,6 @@ public class DuplicateAttributeVerifier {
         final Entry head = _map[hash];
         if (head == null || head.iteration < _currentIteration) {
             newEntry.hashNext = null;
-            _map[hash] = newEntry;
-            newEntry.iteration = _currentIteration;
-            newEntry.value = value;
         } else {
             Entry e = head;
             do {
@@ -107,9 +107,9 @@ public class DuplicateAttributeVerifier {
             } while ((e = e.hashNext) != null);
             
             newEntry.hashNext = head;
-            _map[hash] = newEntry;
-            newEntry.iteration = _currentIteration;
-            newEntry.value = value;
-        }        
+        }
+        _map[hash] = newEntry;
+        newEntry.iteration = _currentIteration;
+        newEntry.value = value;
     }
 }

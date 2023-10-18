@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -31,6 +31,9 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 
 public class DoubleEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorithm {
+
+    public DoubleEncodingAlgorithm() {
+    }
 
     @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
@@ -188,7 +191,7 @@ public class DoubleEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorit
     public final void convertToCharactersFromDoubleArray(double[] fdata, StringBuffer s) {
         final int end = fdata.length - 1;
         for (int i = 0; i <= end; i++) {
-            s.append(Double.toString(fdata[i]));
+            s.append(fdata[i]);
             if (i != end) {
                 s.append(' ');
             }

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -38,7 +38,15 @@ import org.w3c.dom.NodeList;
  *
  */
 public class DOMDocumentSerializer extends Encoder {
-    
+
+    public DOMDocumentSerializer() {
+        super();
+    }
+
+    public DOMDocumentSerializer(boolean useLocalNameAsKeyForQualifiedNameLookup) {
+        super(useLocalNameAsKeyForQualifiedNameLookup);
+    }
+
     /**
      * Serialize a {@link Node}.
      *
@@ -242,7 +250,7 @@ public class DOMDocumentSerializer extends Encoder {
             encodeTermination();
             encodeCharacters(_charBuffer, 0, length);
         } else {
-            final char ch[] = text.toCharArray();
+            final char[] ch = text.toCharArray();
             if (getIgnoreWhiteSpaceTextContent() &&
                     isWhiteSpace(ch, 0, length)) return;
             
@@ -258,7 +266,7 @@ public class DOMDocumentSerializer extends Encoder {
         if (length == 0) {
             return;
         } else {
-            final char ch[] = text.toCharArray();
+            final char[] ch = text.toCharArray();
             if (getIgnoreWhiteSpaceTextContent() &&
                     isWhiteSpace(ch, 0, length)) return;
             
@@ -285,7 +293,7 @@ public class DOMDocumentSerializer extends Encoder {
             comment.getChars(0, length, _charBuffer, 0);
             encodeComment(_charBuffer, 0, length);
         } else {
-            final char ch[] = comment.toCharArray();
+            final char[] ch = comment.toCharArray();
             encodeCommentNoClone(ch, 0, length);
         }
     }

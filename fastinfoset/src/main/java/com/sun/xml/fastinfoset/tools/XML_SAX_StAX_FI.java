@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -31,6 +31,7 @@ public class XML_SAX_StAX_FI extends TransformInputOutput {
     public XML_SAX_StAX_FI() {
     }
     
+    @Override
     public void parse(InputStream xml, OutputStream finf, String workingDirectory) throws Exception {
         StAXDocumentSerializer documentSerializer = new StAXDocumentSerializer();
         documentSerializer.setOutputStream(finf);
@@ -54,6 +55,7 @@ public class XML_SAX_StAX_FI extends TransformInputOutput {
         finf.close();
     }
     
+    @Override
     public void parse(InputStream xml, OutputStream finf) throws Exception {
         parse(xml, finf, null);
     }

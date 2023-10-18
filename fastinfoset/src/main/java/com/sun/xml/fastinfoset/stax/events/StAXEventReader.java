@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -57,10 +57,12 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
         }
     }
         
-    public boolean hasNext() {        
+    @Override
+    public boolean hasNext() {
         return hasEvent;
     }    
     
+    @Override
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = null;
         XMLEvent nextEvent = null;
@@ -88,12 +90,14 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
         }        
     }
     
+    @Override
     public void remove(){
         //stream reader is read-only.
         throw new java.lang.UnsupportedOperationException();
     }
     
     
+    @Override
     public void close() throws XMLStreamException {
         _streamReader.close();
     }
@@ -104,6 +108,7 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
      * @throws XMLStreamException if the current event is not a START_ELEMENT
      * or if a non text element is encountered
      */
+    @Override
     public String getElementText() throws XMLStreamException {
         if(!hasEvent) {
             throw new NoSuchElementException();
@@ -122,6 +127,7 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
      * @return The value of the property
      * @throws IllegalArgumentException if the property is not supported
      */
+    @Override
     public Object getProperty(java.lang.String name) throws java.lang.IllegalArgumentException {
         return _streamReader.getProperty(name) ;
     }
@@ -134,6 +140,7 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
      * the DTD is missing or not interpreted.
      * @throws XMLStreamException if anything other than space characters are encountered
      */
+    @Override
     public XMLEvent nextTag() throws XMLStreamException {
         if(!hasEvent) {
             throw new NoSuchElementException();
@@ -144,6 +151,7 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
     }
     
     //XMLEventReader extends Iterator;
+    @Override
     public Object next() {
         try{
             return nextEvent();
@@ -152,6 +160,7 @@ public class StAXEventReader implements javax.xml.stream.XMLEventReader{
         }
     }
     
+    @Override
     public XMLEvent peek() throws XMLStreamException{
         if (!hasEvent)
              throw new XMLStreamException(CommonResourceBundle.getInstance().getString("message.noElement"));

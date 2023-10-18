@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -19,12 +19,14 @@
 package com.sun.xml.fastinfoset.algorithm;
 
 public abstract class IntegerEncodingAlgorithm extends BuiltInEncodingAlgorithm {
-    public final static int SHORT_SIZE  = 2;
-    public final static int INT_SIZE    = 4;
-    public final static int LONG_SIZE   = 8;
+    public static final int SHORT_SIZE  = 2;
+    public static final int INT_SIZE    = 4;
+    public static final int LONG_SIZE   = 8;
 
-    public final static int SHORT_MAX_CHARACTER_SIZE    = 6;
-    public final static int INT_MAX_CHARACTER_SIZE      = 11;
-    public final static int LONG_MAX_CHARACTER_SIZE     = 20;
-        
+    public static final int SHORT_MAX_CHARACTER_SIZE    = 6;
+    public static final int INT_MAX_CHARACTER_SIZE      = 11;
+    public static final int LONG_MAX_CHARACTER_SIZE     = 20;
+
+    protected IntegerEncodingAlgorithm() {
+    }
 }

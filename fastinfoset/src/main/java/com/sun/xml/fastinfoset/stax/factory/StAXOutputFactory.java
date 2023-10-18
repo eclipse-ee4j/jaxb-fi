@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -26,7 +26,6 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -43,22 +42,27 @@ public class StAXOutputFactory extends XMLOutputFactory {
         _manager = new StAXManager(StAXManager.CONTEXT_WRITER);
     }
     
+    @Override
     public XMLEventWriter createXMLEventWriter(Result result) throws XMLStreamException {
         return new StAXEventWriter(createXMLStreamWriter(result));
     }
     
+    @Override
     public XMLEventWriter createXMLEventWriter(Writer writer) throws XMLStreamException {
         return new StAXEventWriter(createXMLStreamWriter(writer));
     }
     
+    @Override
     public XMLEventWriter createXMLEventWriter(OutputStream outputStream) throws XMLStreamException {
         return new StAXEventWriter(createXMLStreamWriter(outputStream));
     }
     
+    @Override
     public XMLEventWriter createXMLEventWriter(OutputStream outputStream, String encoding) throws XMLStreamException {
         return new StAXEventWriter(createXMLStreamWriter(outputStream, encoding));
     }
     
+    @Override
     public XMLStreamWriter createXMLStreamWriter(Result result) throws XMLStreamException {
         if (result instanceof StreamResult) {
             StreamResult streamResult = (StreamResult) result;
@@ -71,7 +75,7 @@ public class StAXOutputFactory extends XMLOutputFactory {
                 boolean isError = true;
                 
                 try {
-                    writer = new FileWriter(new File(streamResult.getSystemId()));
+                    writer = new FileWriter(streamResult.getSystemId());
                     final XMLStreamWriter streamWriter = createXMLStreamWriter(writer);
                     isError = false;
                     
@@ -93,7 +97,7 @@ public class StAXOutputFactory extends XMLOutputFactory {
             
             try {
                 //xxx: should we be using FileOutputStream - nb.
-                writer = new FileWriter(new File(result.getSystemId()));
+                writer = new FileWriter(result.getSystemId());
                 final XMLStreamWriter streamWriter = createXMLStreamWriter(writer);
                 isError = false;
 
@@ -115,20 +119,24 @@ public class StAXOutputFactory extends XMLOutputFactory {
     /** this is assumed that user wants to write the file in xml format
      *
      */
+    @Override
     public XMLStreamWriter createXMLStreamWriter(Writer writer) throws XMLStreamException {
         throw new java.lang.UnsupportedOperationException();
     }
     
+    @Override
     public XMLStreamWriter createXMLStreamWriter(OutputStream outputStream) throws XMLStreamException {
         return new StAXDocumentSerializer(outputStream, new StAXManager(_manager));
     }
     
+    @Override
     public XMLStreamWriter createXMLStreamWriter(OutputStream outputStream, String encoding) throws XMLStreamException {
         StAXDocumentSerializer serializer = new StAXDocumentSerializer(outputStream, new StAXManager(_manager));
         serializer.setEncoding(encoding);
         return serializer;
     }
     
+    @Override
     public Object getProperty(String name) throws java.lang.IllegalArgumentException {
         if(name == null){
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.propertyNotSupported", new Object[]{null}));
@@ -138,6 +146,7 @@ public class StAXOutputFactory extends XMLOutputFactory {
         throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.propertyNotSupported", new Object[]{name}));
     }
     
+    @Override
     public boolean isPropertySupported(String name) {
         if(name == null)
             return false ;
@@ -145,6 +154,7 @@ public class StAXOutputFactory extends XMLOutputFactory {
             return _manager.containsProperty(name);
     }
     
+    @Override
     public void setProperty(String name, Object value) throws java.lang.IllegalArgumentException {
         _manager.setProperty(name,value);
         

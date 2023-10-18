@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -130,12 +130,14 @@ public class StAXDocumentParser extends Decoder
     protected String _characterEncodingScheme;
     
     protected StAXManager _manager;
-    
+
+    @SuppressWarnings({"this-escape"})
     public StAXDocumentParser() {
         reset();
         _manager = new StAXManager(StAXManager.CONTEXT_READER);
     }
-    
+
+    @SuppressWarnings({"this-escape"})
     public StAXDocumentParser(InputStream s) {
         this();
         setInputStream(s);
@@ -452,11 +454,7 @@ public class StAXDocumentParser extends Decoder
                 default:
                     throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.IllegalStateDecodingEII"));
             }
-        } catch (IOException e) {
-            resetOnError();
-            logger.log(Level.FINE, "next() exception", e);
-            throw new XMLStreamException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             resetOnError();
             logger.log(Level.FINE, "next() exception", e);
             throw new XMLStreamException(e);
@@ -467,7 +465,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
-    private final void processUtf8CharacterString(final int b) throws IOException {
+    private void processUtf8CharacterString(final int b) throws IOException {
         if ((b & EncodingConstants.CHARACTER_CHUNK_ADD_TO_TABLE_FLAG) > 0) {
             _characterContentChunkTable.ensureSize(_octetBufferLength);
             _characters = _characterContentChunkTable._array;
@@ -481,7 +479,7 @@ public class StAXDocumentParser extends Decoder
         }
     }
     
-    private final void processUtf16CharacterString(final int b) throws IOException {
+    private void processUtf16CharacterString(final int b) throws IOException {
         decodeUtf16StringAsCharBuffer();
         if ((b & EncodingConstants.CHARACTER_CHUNK_ADD_TO_TABLE_FLAG) > 0) {
             _charactersOffset = _characterContentChunkTable.add(_charBuffer, _charBufferLength);
@@ -1080,9 +1078,7 @@ public class StAXDocumentParser extends Decoder
                     throw new FastInfosetException(
                             CommonResourceBundle.getInstance().getString("message.IllegalStateDecodingEII"));
             }
-        } catch (IOException e) {
-            throw new XMLStreamException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new XMLStreamException(e);
         }
     }
@@ -1193,7 +1189,7 @@ public class StAXDocumentParser extends Decoder
         }
         
         if ((b & EncodingConstants.DOCUMENT_STANDALONE_FLAG) > 0) {
-            boolean standalone = (read() > 0) ? true : false ;
+            boolean standalone = read() > 0;
             /*
              * TODO
              * how to report the standalone flag?
@@ -1684,7 +1680,7 @@ public class StAXDocumentParser extends Decoder
         if (_algorithmId >= EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START) {
             _algorithmURI = _v.encodingAlgorithm.get(_algorithmId - EncodingConstants.ENCODING_ALGORITHM_APPLICATION_START);
             if (_algorithmURI == null) {
-                throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.URINotPresent", new Object[]{Integer.valueOf(_identifier)}));
+                throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.URINotPresent", new Object[]{_identifier}));
             }
         } else if (_algorithmId > EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
             // Reserved built-in algorithms for future use
@@ -1848,19 +1844,20 @@ public class StAXDocumentParser extends Decoder
     public boolean isBase64Follows() throws IOException {
         // Process information item
         int b = peek(this);
-        switch (DecoderStateTables.EII(b)) {
-            case DecoderStateTables.CII_EA:
-                int algorithmId = (b & 0x02) << 6;
-                int b2 = peek2(this);
-                algorithmId |= (b2 & 0xFC) >> 2;
-                
-                return algorithmId == EncodingAlgorithmIndexes.BASE64;
-            default:
-                return false;
+        if (DecoderStateTables.EII(b) == DecoderStateTables.CII_EA) {
+            int algorithmId = (b & 0x02) << 6;
+            int b2 = peek2(this);
+            algorithmId |= (b2 & 0xFC) >> 2;
+
+            return algorithmId == EncodingAlgorithmIndexes.BASE64;
         }
+        return false;
     }
     
     protected class NamespaceContextImpl implements NamespaceContext {
+        protected NamespaceContextImpl() {
+        }
+
         @Override
         public final String getNamespaceURI(String prefix) {
             return _prefixTable.getNamespaceFromPrefix(prefix);

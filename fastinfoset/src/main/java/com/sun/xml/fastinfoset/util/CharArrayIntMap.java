@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -19,6 +19,8 @@
 package com.sun.xml.fastinfoset.util;
 
 import com.sun.xml.fastinfoset.CommonResourceBundle;
+
+import java.util.Arrays;
 
 public class CharArrayIntMap extends KeyIntMap {
 
@@ -74,14 +76,14 @@ public class CharArrayIntMap extends KeyIntMap {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
 
+    @Override
     public final void clear() {
-        for (int i = 0; i < _table.length; i++) {
-            _table[i] = null;
-        }
+        Arrays.fill(_table, null);
         _size = 0;
         _totalCharacterCount = 0;
     }
 
+    @Override
     public final void setReadOnlyMap(KeyIntMap readOnlyMap, boolean clear) {
         if (!(readOnlyMap instanceof CharArrayIntMap)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
@@ -106,9 +108,9 @@ public class CharArrayIntMap extends KeyIntMap {
     
     /**
      * Method returns an index of the passed character buffer in 
-     * <code>CharArrayIntMap</code>.
+     * {@code CharArrayIntMap}.
      * 
-     * @return index of character buffer in <code>CharArrayIntMap</code>, 
+     * @return index of character buffer in {@code CharArrayIntMap},
      * otherwise NOT_PRESENT.
      */
     public final int get(char[] ch, int start, int length) {
@@ -118,10 +120,10 @@ public class CharArrayIntMap extends KeyIntMap {
 
     /**
      * Method returns an index of the passed character buffer in 
-     * <code>CharArrayIntMap</code>. If character buffer is not in 
-     * <code>CharArrayIntMap</code> - it will be added.
+     * {@code CharArrayIntMap}. If character buffer is not in
+     * {@code CharArrayIntMap} - it will be added.
      * 
-     * @return index of character buffer in <code>CharArrayIntMap</code>, or
+     * @return index of character buffer in {@code CharArrayIntMap}, or
      * NOT_PRESENT if character buffer was just added.
      */
     public final int obtainIndex(char[] ch, int start, int length, boolean clone) {
@@ -157,7 +159,7 @@ public class CharArrayIntMap extends KeyIntMap {
         return _totalCharacterCount;
     }
 
-    private final int get(char[] ch, int start, int length, int hash) {
+    private int get(char[] ch, int start, int length, int hash) {
         if (_readOnlyMap != null) {
             final int i = _readOnlyMap.get(ch, start, length, hash);
             if (i != -1) {
@@ -175,7 +177,7 @@ public class CharArrayIntMap extends KeyIntMap {
         return NOT_PRESENT;
     }
 
-    private final void addEntry(char[] ch, int start, int length, int hash, int value, int bucketIndex) {
+    private void addEntry(char[] ch, int start, int length, int hash, int value, int bucketIndex) {
 	Entry e = _table[bucketIndex];
         _table[bucketIndex] = new Entry(ch, start, length, hash, value, e);
         _totalCharacterCount += length;
@@ -184,7 +186,7 @@ public class CharArrayIntMap extends KeyIntMap {
         }        
     }
     
-    private final void resize(int newCapacity) {
+    private void resize(int newCapacity) {
         _capacity = newCapacity;
         Entry[] oldTable = _table;
         int oldCapacity = oldTable.length;
@@ -199,7 +201,7 @@ public class CharArrayIntMap extends KeyIntMap {
         _threshold = (int)(_capacity * _loadFactor);        
     }
 
-    private final void transfer(Entry[] newTable) {
+    private void transfer(Entry[] newTable) {
         Entry[] src = _table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {

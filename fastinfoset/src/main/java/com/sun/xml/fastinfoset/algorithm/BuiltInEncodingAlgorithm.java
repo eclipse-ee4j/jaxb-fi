@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -25,7 +25,7 @@ import org.jvnet.fastinfoset.EncodingAlgorithm;
 import org.jvnet.fastinfoset.EncodingAlgorithmException;
 
 public abstract class BuiltInEncodingAlgorithm implements EncodingAlgorithm {
-    protected final static Pattern SPACE_PATTERN = Pattern.compile("\\s");
+    protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s");
 
     public abstract int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException;
 
@@ -34,9 +34,12 @@ public abstract class BuiltInEncodingAlgorithm implements EncodingAlgorithm {
     public abstract void encodeToBytes(Object array, int astart, int alength, byte[] b, int start);
         
     public interface WordListener {
-        public void word(int start, int end);
+        void word(int start, int end);
     }
-    
+
+    protected BuiltInEncodingAlgorithm() {
+    }
+
     public void matchWhiteSpaceDelimnatedWords(CharBuffer cb, WordListener wl) {
         Matcher m = SPACE_PATTERN.matcher(cb);
         int i = 0;

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -39,4 +39,7 @@ public final class EncodingAlgorithmIndexes {
     public static final int DOUBLE      = 7;
     public static final int UUID        = 8;
     public static final int CDATA       = 9;
+
+    private EncodingAlgorithmIndexes() {
+    }
 }

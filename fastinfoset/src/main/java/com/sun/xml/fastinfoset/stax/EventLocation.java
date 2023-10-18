@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -103,16 +103,16 @@ public class EventLocation implements Location{
     
     @Override
     public String toString(){
-        StringBuffer sbuffer = new StringBuffer() ;
-        sbuffer.append("Line number = " + _line);
+        StringBuilder sbuffer = new StringBuilder() ;
+        sbuffer.append("Line number = ").append(_line);
         sbuffer.append("\n") ;
-        sbuffer.append("Column number = " + _column);
+        sbuffer.append("Column number = ").append(_column);
         sbuffer.append("\n") ;
-        sbuffer.append("System Id = " + _systemId);
+        sbuffer.append("System Id = ").append(_systemId);
         sbuffer.append("\n") ;
-        sbuffer.append("Public Id = " + _publicId);
+        sbuffer.append("Public Id = ").append(_publicId);
         sbuffer.append("\n") ;
-        sbuffer.append("CharacterOffset = " + _charOffset);
+        sbuffer.append("CharacterOffset = ").append(_charOffset);
         sbuffer.append("\n") ;
         return sbuffer.toString();
     }

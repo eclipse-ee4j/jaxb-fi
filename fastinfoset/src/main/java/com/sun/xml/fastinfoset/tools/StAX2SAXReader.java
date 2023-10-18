@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -112,7 +112,7 @@ public class StAX2SAXReader {
 
                     _handler.startElement(_reader.getNamespaceURI(),
                                           localPart, 
-                                          (prefix.length() > 0) ? 
+                                          (!prefix.isEmpty()) ?
                                               (prefix + ":" + localPart) : localPart, 
                                           attrs);
                     break;
@@ -125,7 +125,7 @@ public class StAX2SAXReader {
 
                     _handler.endElement(_reader.getNamespaceURI(),
                                         localPart, 
-                                        (prefix.length() > 0) ?
+                                        (!prefix.isEmpty()) ?
                                             (prefix + ":" + localPart) : localPart); 
 
                     // Report end namespace events
@@ -147,7 +147,7 @@ public class StAX2SAXReader {
                 case XMLStreamConstants.END_DOCUMENT:
                     break;
                 default:
-                    throw new RuntimeException(CommonResourceBundle.getInstance().getString("message.StAX2SAXReader", new Object[]{Integer.valueOf(event)}));
+                    throw new RuntimeException(CommonResourceBundle.getInstance().getString("message.StAX2SAXReader", new Object[]{event}));
                 } // switch
             }
         }

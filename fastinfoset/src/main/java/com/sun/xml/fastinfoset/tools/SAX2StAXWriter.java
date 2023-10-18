@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
@@ -139,11 +138,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
 //            throw new SAXException(e);
 //        }
     }
-    
-    @Override
-    public void endPrefixMapping(String prefix) throws SAXException {
-    }
-    
+
     @Override
     public void ignorableWhitespace(char[] ch, int start, int length) 
         throws SAXException 
@@ -162,15 +157,7 @@ public class SAX2StAXWriter extends DefaultHandler implements LexicalHandler {
             throw new SAXException(e);
         }
     }
-    
-    @Override
-    public void setDocumentLocator(Locator locator) {
-    }
-    
-    @Override
-    public void skippedEntity(String name) throws SAXException {
-    }
-    
+
     @Override
     public void comment(char[] ch, int start, int length) 
         throws SAXException 

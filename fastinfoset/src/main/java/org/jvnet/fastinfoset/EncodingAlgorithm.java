@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -24,16 +24,16 @@ import java.io.OutputStream;
 
 public interface EncodingAlgorithm {
     
-    public Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException;
+    Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException;
     
-    public Object decodeFromInputStream(InputStream s) throws EncodingAlgorithmException, IOException;
+    Object decodeFromInputStream(InputStream s) throws EncodingAlgorithmException, IOException;
     
 
-    public void encodeToOutputStream(Object data, OutputStream s) throws EncodingAlgorithmException, IOException;
+    void encodeToOutputStream(Object data, OutputStream s) throws EncodingAlgorithmException, IOException;
     
     
-    public Object convertFromCharacters(char[] ch, int start, int length) throws EncodingAlgorithmException;
+    Object convertFromCharacters(char[] ch, int start, int length) throws EncodingAlgorithmException;
     
-    public void convertToCharacters(Object data, StringBuffer s) throws EncodingAlgorithmException;
+    void convertToCharacters(Object data, StringBuffer s) throws EncodingAlgorithmException;
     
 }

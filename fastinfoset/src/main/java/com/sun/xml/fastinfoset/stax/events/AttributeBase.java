@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -70,6 +70,7 @@ public class AttributeBase extends EventBase implements Attribute
   /**
    * Returns the QName for this attribute
    */
+    @Override
     public QName getName() {
         return _QName;
     }
@@ -84,6 +85,7 @@ public class AttributeBase extends EventBase implements Attribute
   /**
    * Gets the normalized value of this attribute
    */
+    @Override
     public String getValue() {
         return _value;
     }
@@ -97,6 +99,7 @@ public class AttributeBase extends EventBase implements Attribute
    * the String "CDATA"
    * @return the type as a String, default is "CDATA"
    */
+    @Override
     public String getDTDType() {
         return _attributeType;
     }
@@ -107,6 +110,7 @@ public class AttributeBase extends EventBase implements Attribute
    * specified in the start-tag of its element, or was defaulted from the schema. 
    * @return returns true if this was specified in the start element
    */
+    @Override
     public boolean isSpecified() {
         return _specified ;
     }

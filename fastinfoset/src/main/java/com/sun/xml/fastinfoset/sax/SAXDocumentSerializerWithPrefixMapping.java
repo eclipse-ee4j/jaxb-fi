@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -72,7 +72,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
     @Override
     public final void startPrefixMapping(String prefix, String uri) throws SAXException {
         try {
-            if (_elementHasNamespaces == false) {
+            if (!_elementHasNamespaces) {
                 encodeTermination();
 
                 // Mark the current buffer position to flag attributes if necessary
@@ -211,7 +211,7 @@ public class SAXDocumentSerializerWithPrefixMapping extends SAXDocumentSerialize
         
         String p = _prefixToPrefixMapping.get(prefix);
         if (p != null) {
-            if (p.length() == 0)
+            if (p.isEmpty())
                 return localName;
             else
                 return p + ":" + localName;

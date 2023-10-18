@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -49,6 +49,7 @@ final public class NamespaceContextImplementation implements NamespaceContext {
     }
     
     
+    @Override
     public String getNamespaceURI(String prefix) {
         if (prefix == null) throw new IllegalArgumentException();
         
@@ -64,6 +65,7 @@ final public class NamespaceContextImplementation implements NamespaceContext {
         return "";
     }
     
+    @Override
     public String getPrefix(String namespaceURI) {
         if (namespaceURI == null) throw new IllegalArgumentException();
         
@@ -99,7 +101,7 @@ final public class NamespaceContextImplementation implements NamespaceContext {
         for (int i = namespacePosition - 1; i >= 0; i--) {
             final String declaredNamespaceURI = namespaceURIs[i];
             if (declaredNamespaceURI.equals(namespaceURI) &&
-                prefixes[i].length() > 0){
+                    !prefixes[i].isEmpty()){
                 final String declaredPrefix = prefixes[i];
                 
                 // Check if prefix is out of scope
@@ -114,6 +116,7 @@ final public class NamespaceContextImplementation implements NamespaceContext {
         return null;
     }
 
+    @Override
     public Iterator<String> getPrefixes(String namespaceURI) {
         if (namespaceURI == null) throw new IllegalArgumentException();
         

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -30,12 +30,13 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     private String _notationName;
     
     /** Creates a new instance of EntityDeclarationImpl */
+    @SuppressWarnings({"this-escape"})
     public EntityDeclarationImpl() {
         init();
     }
     
     public EntityDeclarationImpl(String entityName , String replacement){
-        init();
+        this();
         _entityName = entityName;
         _replacement = replacement;
     }
@@ -44,6 +45,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * The entity's public identifier, or null if none was given
     * @return the public ID for this declaration or null
     */    
+    @Override
     public String getPublicId(){
         return _publicId;
     }
@@ -52,6 +54,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * The entity's system identifier.
     * @return the system ID for this declaration or null
     */
+    @Override
     public String getSystemId(){
         return _systemId;
     }    
@@ -60,6 +63,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * The entity's name
     * @return the name, may not be null
     */
+    @Override
     public String getName(){
         return _entityName;
     }
@@ -68,6 +72,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * The name of the associated notation.
     * @return the notation name
     */
+    @Override
     public String getNotationName() {
         return _notationName;
     }
@@ -78,6 +83,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * if this is an internal entity.
     * @return null or the replacment text
     */
+    @Override
     public String getReplacementText() {
         return _replacement;
     }
@@ -87,6 +93,7 @@ public class EntityDeclarationImpl extends EventBase implements EntityDeclaratio
     * or null if this information is not available
     * @return the base URI or null
     */
+    @Override
     public String getBaseURI() {
         return _baseURI;
     }

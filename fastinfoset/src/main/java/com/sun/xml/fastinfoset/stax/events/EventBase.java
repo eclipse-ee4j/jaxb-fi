@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -46,6 +46,7 @@ public abstract class EventBase implements XMLEvent {
     /**
     * Returns an integer code for this event.
     */
+    @Override
     public int getEventType() {
         return _eventType;
     }
@@ -55,26 +56,32 @@ public abstract class EventBase implements XMLEvent {
     }
 
 
+    @Override
     public boolean isStartElement() {
         return _eventType == START_ELEMENT;
     }
 
+    @Override
     public boolean isEndElement() {
         return _eventType == END_ELEMENT;
     }
 
+    @Override
     public boolean isEntityReference() {
         return _eventType == ENTITY_REFERENCE;
     }
 
+    @Override
     public boolean isProcessingInstruction() {
         return _eventType == PROCESSING_INSTRUCTION;
     }
 
+    @Override
     public boolean isStartDocument() {
         return _eventType == START_DOCUMENT;
     }
 
+    @Override
     public boolean isEndDocument() {
         return _eventType == END_DOCUMENT;
     }
@@ -85,6 +92,7 @@ public abstract class EventBase implements XMLEvent {
    * will retain its information.
    * @see javax.xml.stream.Location
    */
+    @Override
     public Location getLocation(){
         return _location;
     }
@@ -102,6 +110,7 @@ public abstract class EventBase implements XMLEvent {
     /** Returns this event as Characters, may result in
      * a class cast exception if this event is not Characters.
      */
+    @Override
     public Characters asCharacters() {
         if (isCharacters()) {
             return (Characters)this;
@@ -112,6 +121,7 @@ public abstract class EventBase implements XMLEvent {
     /** Returns this event as an end  element event, may result in
      * a class cast exception if this event is not a end element.
      */
+    @Override
     public EndElement asEndElement() {
         if (isEndElement()) {
             return (EndElement)this;
@@ -123,6 +133,7 @@ public abstract class EventBase implements XMLEvent {
    * Returns this event as a start element event, may result in
    * a class cast exception if this event is not a start element.
    */
+    @Override
     public StartElement asStartElement() {
         if (isStartElement()) {
             return (StartElement)this;
@@ -136,6 +147,7 @@ public abstract class EventBase implements XMLEvent {
     * It is optional and will return null if no information
     * is available.
     */
+    @Override
     public QName getSchemaType() {
         return null;
     }
@@ -143,6 +155,7 @@ public abstract class EventBase implements XMLEvent {
     /** A utility function to check if this event is an Attribute.
      * @see javax.xml.stream.events.Attribute
      */
+    @Override
     public boolean isAttribute() {
         return _eventType == ATTRIBUTE;
     }
@@ -150,6 +163,7 @@ public abstract class EventBase implements XMLEvent {
     /** A utility function to check if this event is Characters.
      * @see javax.xml.stream.events.Characters
      */
+    @Override
     public boolean isCharacters() {
         return _eventType == CHARACTERS;
     }
@@ -157,6 +171,7 @@ public abstract class EventBase implements XMLEvent {
     /** A utility function to check if this event is a Namespace.
      * @see javax.xml.stream.events.Namespace
      */
+    @Override
     public boolean isNamespace() {
         return _eventType == NAMESPACE;
     }
@@ -165,7 +180,7 @@ public abstract class EventBase implements XMLEvent {
     /**
     * This method will write the XMLEvent as per the XML 1.0 specification as Unicode characters.
     * No indentation or whitespace should be outputted.
-    *
+    * <p>
     * Any user defined event type SHALL have this method
     * called when being written to on an output stream.
     * Built in Event types MUST implement this method,
@@ -178,6 +193,7 @@ public abstract class EventBase implements XMLEvent {
     * @param writer The writer that will output the data
     * @throws XMLStreamException if there is a fatal error writing the event
     */
+    @Override
     public void writeAsEncodedUnicode(Writer writer) throws XMLStreamException {
     }
 

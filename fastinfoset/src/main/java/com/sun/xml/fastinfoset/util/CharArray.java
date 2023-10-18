@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -135,14 +135,17 @@ public class CharArray implements CharSequence {
 
     // CharSequence interface
     
+    @Override
     public final int length() {
         return length;
     }
 
+    @Override
     public final char charAt(int index) {
         return ch[start + index];
     }
 
+    @Override
     public final CharSequence subSequence(int start, int end) {
         return new CharArray(ch, this.start + start, end - start, false);
     }

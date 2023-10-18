@@ -2,8 +2,7 @@
  * The Apache Software License, Version 1.1
  *
  * Copyright (c) 1999-2004 The Apache Software Foundation.  All rights reserved.
- * Copyright (c) 1999, 2021 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2004, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -68,11 +67,11 @@ import java.util.Arrays;
  * A series of convenience methods are supplied to ease the burden
  * of the developer. Because inlining the checks can improve per
  * character performance, the tables of character properties are
- * public. Using the character as an index into the <code>CHARS</code>
+ * public. Using the character as an index into the {@code CHARS}
  * array and applying the appropriate mask flag (e.g.
- * <code>MASK_VALID</code>), yields the same results as calling the
+ * {@code MASK_VALID}), yields the same results as calling the
  * convenience methods. There is one exception: check the comments
- * for the <code>isValid</code> method for details.
+ * for the {@code isValid} method for details.
  *
  * @author Glenn Marcy, IBM
  * @author Andy Clark, IBM
@@ -820,7 +819,7 @@ public class XMLChar {
      * also checks the surrogate character range from 0x10000 to 0x10FFFF.
      * <p>
      * If the program chooses to apply the mask directly to the
-     * <code>CHARS</code> array, then they are responsible for checking
+     * {@code CHARS} array, then they are responsible for checking
      * the surrogate character range.
      *
      * @param c The character to check.
@@ -935,14 +934,14 @@ public class XMLChar {
      * @return true if name is a valid Name
      */
     public static boolean isValidName(String name) {
-        if (name.length() == 0)
+        if (name.isEmpty())
             return false;
         char ch = name.charAt(0);
-        if( isNameStart(ch) == false)
+        if(!isNameStart(ch))
            return false;
         for (int i = 1; i < name.length(); i++ ) {
            ch = name.charAt(i);
-           if( isName( ch ) == false ){
+           if(!isName(ch)){
               return false;
            }
         }
@@ -962,14 +961,14 @@ public class XMLChar {
      * @return true if name is a valid NCName
      */
     public static boolean isValidNCName(String ncName) {
-        if (ncName.length() == 0)
+        if (ncName.isEmpty())
             return false;
         char ch = ncName.charAt(0);
-        if( isNCNameStart(ch) == false)
+        if(!isNCNameStart(ch))
            return false;
         for (int i = 1; i < ncName.length(); i++ ) {
            ch = ncName.charAt(i);
-           if( isNCName( ch ) == false ){
+           if(!isNCName(ch)){
               return false;
            }
         }
@@ -987,7 +986,7 @@ public class XMLChar {
      * @return true if nmtoken is a valid Nmtoken 
      */
     public static boolean isValidNmtoken(String nmtoken) {
-        if (nmtoken.length() == 0)
+        if (nmtoken.isEmpty())
             return false;
         for (int i = 0; i < nmtoken.length(); i++ ) {
            char ch = nmtoken.charAt(i);

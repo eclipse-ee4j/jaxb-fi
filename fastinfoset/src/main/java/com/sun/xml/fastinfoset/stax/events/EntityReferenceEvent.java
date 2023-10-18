@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -25,11 +25,13 @@ import javax.xml.stream.events.EntityReference;
 public class EntityReferenceEvent extends EventBase implements EntityReference {
     private EntityDeclaration _entityDeclaration ;
     private String _entityName;
-    
+
+    @SuppressWarnings({"this-escape"})
     public EntityReferenceEvent() {
         init();
     }
-    
+
+    @SuppressWarnings({"this-escape"})
     public EntityReferenceEvent(String entityName , EntityDeclaration entityDeclaration) {
         init();
         _entityName = entityName;
@@ -40,6 +42,7 @@ public class EntityReferenceEvent extends EventBase implements EntityReference {
    * The name of the entity
    * @return the entity's name, may not be null
    */
+    @Override
     public String getName() {
         return _entityName;
     }
@@ -47,6 +50,7 @@ public class EntityReferenceEvent extends EventBase implements EntityReference {
   /**
    * Return the declaration of this entity.
    */
+    @Override
     public EntityDeclaration getDeclaration(){
         return _entityDeclaration ;
     }

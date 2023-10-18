@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -22,7 +22,7 @@ import javax.xml.stream.XMLStreamConstants;
 
 /** A Utility class for the StAX Events implementation.
  */
-public class Util {
+public final class Util {
     
     /**
      * A string is empty if it's null or contains nothing
@@ -30,13 +30,10 @@ public class Util {
      * @param s The string to check.
      */
     public static boolean isEmptyString(String s) {
-        if (s != null && !s.equals("")) 
-            return false;
-        else
-            return true;
-    } 
-    
-    public final static String getEventTypeString(int eventType) {
+        return s == null || s.isEmpty();
+    }
+
+    public static String getEventTypeString(int eventType) {
         switch (eventType){
             case XMLStreamConstants.START_ELEMENT:
                 return "START_ELEMENT";
@@ -63,5 +60,7 @@ public class Util {
         }
         return "UNKNOWN_EVENT_TYPE";
     }
-    
+
+    private Util() {
+    }
 }

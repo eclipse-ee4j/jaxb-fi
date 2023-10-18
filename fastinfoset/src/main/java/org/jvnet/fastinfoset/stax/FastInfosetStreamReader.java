@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -34,17 +34,17 @@ public interface FastInfosetStreamReader {
      * @return the event, which will be the same as that returned from
      *         {@link XMLStreamReader#next}.
      */
-    public int peekNext() throws XMLStreamException;
+    int peekNext() throws XMLStreamException;
 
     // Faster access methods without checks
 
-    public int accessNamespaceCount();
+    int accessNamespaceCount();
 
-    public String accessLocalName();
+    String accessLocalName();
 
-    public String accessNamespaceURI();
+    String accessNamespaceURI();
 
-    public String accessPrefix();
+    String accessPrefix();
 
     /**
      * Returns a cloned char[] representation of the internal char[] buffer.
@@ -53,9 +53,9 @@ public interface FastInfosetStreamReader {
      *
      * @return a cloned char[] representation of the internal char[] buffer.
      */
-    public char[] accessTextCharacters();
+    char[] accessTextCharacters();
 
-    public int accessTextStart();
+    int accessTextStart();
 
-    public int accessTextLength();
+    int accessTextLength();
 }

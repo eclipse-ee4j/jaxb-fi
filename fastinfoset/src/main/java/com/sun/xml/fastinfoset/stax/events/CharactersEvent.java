@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -55,6 +55,7 @@ public class CharactersEvent extends EventBase implements Characters {
   /**
    * Get the character data of this event
    */
+   @Override
    public String getData() {
         return _text;
     }
@@ -67,6 +68,7 @@ public class CharactersEvent extends EventBase implements Characters {
      *
      * @return boolean returns true if the data is CData
      */
+    @Override
     public boolean isCData() {
         return isCData;
     }
@@ -88,6 +90,7 @@ public class CharactersEvent extends EventBase implements Characters {
      * be SPACE.
      * @return boolean true if this is ignorableWhiteSpace.
      */
+    @Override
     public boolean isIgnorableWhiteSpace() {
         return isIgnorable;
     }
@@ -98,6 +101,7 @@ public class CharactersEvent extends EventBase implements Characters {
      * if they are composed of only whitespace characters
      * @return boolean true if this set of Characters are all whitespace
      */
+    @Override
     public boolean isWhiteSpace() {
         //no synchronization checks made.
         if(needtoCheck){

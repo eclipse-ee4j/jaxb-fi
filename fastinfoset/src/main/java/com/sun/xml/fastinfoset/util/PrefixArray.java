@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -20,6 +20,8 @@ package com.sun.xml.fastinfoset.util;
 
 import com.sun.xml.fastinfoset.EncodingConstants;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
+
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.jvnet.fastinfoset.FastInfosetException;
@@ -177,10 +179,8 @@ public class PrefixArray extends ValueArray {
             _currentInScope[i] = 0;
             _inScopeNamespaces[i] = null;            
         }
-        
-        for (int i = 0; i < _prefixMap.length; i++) {
-            _prefixMap[i] = null;
-        }
+
+        Arrays.fill(_prefixMap, null);
                 
         increaseNamespacePool(_initialCapacity);
         increasePrefixPool(_initialCapacity);
@@ -434,31 +434,31 @@ public class PrefixArray extends ValueArray {
     }
     
     public final Iterator<String> getPrefixes() {
-        return new Iterator<String>() {
+        return new Iterator<>() {
             int _position = 1;
             NamespaceEntry _ne = _inScopeNamespaces[_position];
-            
+
             @Override
             public boolean hasNext() {
                 return _ne != null;
             }
-            
+
             @Override
             public String next() {
                 if (_position == _size + 2) {
                     throw new NoSuchElementException();
                 }
-                
+
                 final String prefix = _ne.prefix;
-                moveToNext();                
+                moveToNext();
                 return prefix;
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
-            
+
             private void moveToNext() {
                 while (++_position < _size + 2) {
                     _ne = _inScopeNamespaces[_position];
@@ -468,41 +468,41 @@ public class PrefixArray extends ValueArray {
                 }
                 _ne = null;
             }
-            
+
         };        
     }
     
     public final Iterator<String> getPrefixesFromNamespace(final String namespaceName) {
-        return new Iterator<String>() {
+        return new Iterator<>() {
             String _namespaceName = namespaceName;
             int _position = 0;
             NamespaceEntry _ne;
-            
+
             {
                 moveToNext();
             }
-            
+
             @Override
             public boolean hasNext() {
                 return _ne != null;
             }
-            
+
             @Override
             public String next() {
                 if (_position == _size + 2) {
                     throw new NoSuchElementException();
                 }
-                                
+
                 final String prefix = _ne.prefix;
                 moveToNext();
                 return prefix;
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
-            
+
             private void moveToNext() {
                 while (++_position < _size + 2) {
                     _ne = _inScopeNamespaces[_position];

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -30,7 +30,7 @@ import org.xml.sax.Attributes;
  * as algorithm data.
  * <p>
  * If an attribute has algorithm data then the {@link #getAlgorithmData} method
- * shall return a non <code>null</code> value.
+ * shall return a non {@code null} value.
  *
  * @see org.jvnet.fastinfoset.sax.FastInfosetReader
  * @see org.xml.sax.XMLReader
@@ -52,7 +52,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      * @param index The attribute index (zero-based). 
      * @return The URI. If the index is out of range then null is returned.
      */
-    public String getAlgorithmURI(int index);
+    String getAlgorithmURI(int index);
  
     /**
      * Return the index of the encoding algorithm.
@@ -64,7 +64,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      * @return The algorithm index. If index is out of range then -1 is returned.
      * @see org.jvnet.fastinfoset.EncodingAlgorithmIndexes       
      */
-    public int getAlgorithmIndex(int index);
+    int getAlgorithmIndex(int index);
     
     /**
      * Return the data of the encoding algorithm.
@@ -73,18 +73,18 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      *    then an Object corresponding to the Java primitive type is returned.</p>
      *
      * <p>If the algorithm data corresponds to an application-defined encoding 
-     *    algorithm then an Object that is an instance of <code>byte[]</code>
+     *    algorithm then an Object that is an instance of {@code byte[]}
      *    is returned if there is no EncodingAlgorithm registered for the 
      *    application-defined encoding algorithm URI. Otherwise, an Object produced 
      *    from the registeredEncodingAlgorithm is returned.</p>
      *
      * <p>If there no encoding algorithm data associated an attribute then 
-     *    <code>null</code> is returned.</p>
+     *    {@code null} is returned.</p>
      *
      * @param index The attribute index (zero-based).
      * @return The data. If the index is out of range then null is returned.
      */
-    public Object getAlgorithmData(int index);    
+    Object getAlgorithmData(int index);
     
     /**
      * Return the alphabet associated with the attribute value.
@@ -94,7 +94,7 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      *         If the index is out of range then null is returned.
      *         If there is is no alphabet then null is returned.
      */
-    public String getAlpababet(int index);
+    String getAlpababet(int index);
     
     /**
      * Return the whether the attribute value should be indexed or not.
@@ -102,5 +102,5 @@ public interface EncodingAlgorithmAttributes extends Attributes {
      * @param index The attribute index (zero-based). 
      * @return True if attribute value should be indexed, otherwise false.
      */
-    public boolean getToIndex(int index);
+    boolean getToIndex(int index);
 }

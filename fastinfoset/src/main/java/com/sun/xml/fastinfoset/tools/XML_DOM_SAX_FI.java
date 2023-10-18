@@ -21,8 +21,9 @@ package com.sun.xml.fastinfoset.tools;
 import org.jvnet.fastinfoset.FastInfosetResult;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -37,6 +38,13 @@ public class XML_DOM_SAX_FI extends TransformInputOutput {
     
     public void parse(InputStream document, OutputStream finf, String workingDirectory) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         dbf.setNamespaceAware(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         if (workingDirectory != null) {
@@ -45,6 +53,9 @@ public class XML_DOM_SAX_FI extends TransformInputOutput {
         Document d = db.parse(document);
         
         TransformerFactory tf = TransformerFactory.newInstance();
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         Transformer t = tf.newTransformer();
         t.transform(new DOMSource(d), new FastInfosetResult(finf));
     }

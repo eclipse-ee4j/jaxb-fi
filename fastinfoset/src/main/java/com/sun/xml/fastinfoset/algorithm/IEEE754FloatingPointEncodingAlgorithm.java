@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -19,10 +19,12 @@
 package com.sun.xml.fastinfoset.algorithm;
 
 public abstract class IEEE754FloatingPointEncodingAlgorithm extends BuiltInEncodingAlgorithm {
-    public final static int FLOAT_SIZE  = 4;
-    public final static int DOUBLE_SIZE = 8;
+    public static final int FLOAT_SIZE  = 4;
+    public static final int DOUBLE_SIZE = 8;
 
-    public final static int FLOAT_MAX_CHARACTER_SIZE    = 14;
-    public final static int DOUBLE_MAX_CHARACTER_SIZE   = 24;
-        
+    public static final int FLOAT_MAX_CHARACTER_SIZE    = 14;
+    public static final int DOUBLE_MAX_CHARACTER_SIZE   = 24;
+
+    protected IEEE754FloatingPointEncodingAlgorithm() {
+    }
 }

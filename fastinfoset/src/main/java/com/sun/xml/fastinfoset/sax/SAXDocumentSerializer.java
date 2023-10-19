@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -61,6 +61,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
     }
 
 
+    @Override
     public void reset() {
         super.reset();
         
@@ -70,6 +71,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
     
     // ContentHandler
 
+    @Override
     public final void startDocument() throws SAXException {
         try {
             reset();
@@ -80,6 +82,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void endDocument() throws SAXException {
         try {
             encodeDocumentTermination();
@@ -88,9 +91,10 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         try {
-            if (_elementHasNamespaces == false) {
+            if (!_elementHasNamespaces) {
                 encodeTermination();
 
                 // Mark the current buffer position to flag attributes if necessary
@@ -107,6 +111,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         // TODO consider using buffer for encoding of attributes, then pre-counting is not necessary
         final int attributeCount = (atts != null && atts.getLength() > 0) 
@@ -138,13 +143,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             if (attributeCount > 0) {
                 encodeAttributes(atts);
             }
-        } catch (IOException e) {
-            throw new SAXException("startElement", e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException("startElement", e);
         }
     }
 
+    @Override
     public final void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         try {
             encodeElementTermination();
@@ -153,6 +157,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void characters(char[] ch, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -169,24 +174,24 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             } else {
                 encodeCIIBuiltInAlgorithmDataAsCDATA(ch, start, length);
             }
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
         if (getIgnoreWhiteSpaceTextContent()) return;
         
         characters(ch, start, length);
     }
 
+    @Override
     public final void processingInstruction(String target, String data) throws SAXException {
         try {
             if (getIgnoreProcesingInstructions()) return;
             
-            if (target.length() == 0) {
+            if (target.isEmpty()) {
                 throw new SAXException(CommonResourceBundle.getInstance().
                         getString("message.processingInstructionTargetIsEmpty"));
             }
@@ -198,9 +203,11 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void setDocumentLocator(org.xml.sax.Locator locator) {
     }
 
+    @Override
     public final void skippedEntity(String name) throws SAXException {
     }
 
@@ -208,6 +215,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
     // LexicalHandler
 
+    @Override
     public final void comment(char[] ch, int start, int length) throws SAXException {
         try {
             if (getIgnoreComments()) return;
@@ -220,14 +228,17 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void startCDATA() throws SAXException {
         _charactersAsCDATA = true;
     }
 
+    @Override
     public final void endCDATA() throws SAXException {
         _charactersAsCDATA = false;
     }
 
+    @Override
     public final void startDTD(String name, String publicId, String systemId) throws SAXException {
         if (getIgnoreDTD()) return;
         
@@ -241,18 +252,22 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void endDTD() throws SAXException {
     }
 
+    @Override
     public final void startEntity(String name) throws SAXException {
     }
 
+    @Override
     public final void endEntity(String name) throws SAXException {
     }
 
     
     // EncodingAlgorithmContentHandler
     
+    @Override
     public final void octets(String URI, int id, byte[] b, int start, int length)  throws SAXException {
         if (length <= 0) {
             return;
@@ -262,21 +277,18 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeNonIdentifyingStringOnThirdBit(URI, id, b, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void object(String URI, int id, Object data)  throws SAXException {
         try {
             encodeTermination();
 
             encodeNonIdentifyingStringOnThirdBit(URI, id, data);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
@@ -284,6 +296,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
     // PrimitiveTypeContentHandler
 
+    @Override
     public final void bytes(byte[] b, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -298,6 +311,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         }
     }
 
+    @Override
     public final void shorts(short[] s, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -307,13 +321,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.SHORT, s, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void ints(int[] i, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -323,13 +336,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.INT, i, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void longs(long[] l, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -339,13 +351,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.LONG, l, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void booleans(boolean[] b, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -355,13 +366,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.BOOLEAN, b, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
     
+    @Override
     public final void floats(float[] f, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -371,13 +381,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.FLOAT, f, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public final void doubles(double[] d, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -387,13 +396,12 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.DOUBLE, d, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
+    @Override
     public void uuids(long[] msblsb, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
@@ -403,9 +411,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             encodeTermination();
 
             encodeCIIBuiltInAlgorithmData(EncodingAlgorithmIndexes.UUID, msblsb, start, length);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
@@ -413,7 +419,8 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
     // RestrictedAlphabetContentHandler
     
-    public void numericCharacters(char ch[], int start, int length) throws SAXException {
+    @Override
+    public void numericCharacters(char[] ch, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
         }
@@ -423,14 +430,13 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
             final boolean addToTable = isCharacterContentChunkLengthMatchesLimit(length);
             encodeNumericFourBitCharacters(ch, start, length, addToTable);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
     
-    public void dateTimeCharacters(char ch[], int start, int length) throws SAXException {
+    @Override
+    public void dateTimeCharacters(char[] ch, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
         }
@@ -440,14 +446,13 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
             final boolean addToTable = isCharacterContentChunkLengthMatchesLimit(length);
             encodeDateTimeFourBitCharacters(ch, start, length, addToTable);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
     
-    public void alphabetCharacters(String alphabet, char ch[], int start, int length) throws SAXException {
+    @Override
+    public void alphabetCharacters(String alphabet, char[] ch, int start, int length) throws SAXException {
         if (length <= 0) {
             return;
         }
@@ -457,15 +462,14 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
 
             final boolean addToTable = isCharacterContentChunkLengthMatchesLimit(length);
             encodeAlphabetCharacters(alphabet, ch, start, length, addToTable);
-        } catch (IOException e) {
-            throw new SAXException(e);
-        } catch (FastInfosetException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
         }
     }
 
     // ExtendedContentHandler
     
+    @Override
     public void characters(char[] ch, int start, int length, boolean index) throws SAXException {
         if (length <= 0) {
             return;
@@ -482,11 +486,9 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             } else {
                 encodeCIIBuiltInAlgorithmDataAsCDATA(ch, start, length);
             }
-        } catch (IOException e) {
+        } catch (IOException | FastInfosetException e) {
             throw new SAXException(e);
-        } catch (FastInfosetException e) {
-            throw new SAXException(e);
-        }        
+        }
     }
 
     

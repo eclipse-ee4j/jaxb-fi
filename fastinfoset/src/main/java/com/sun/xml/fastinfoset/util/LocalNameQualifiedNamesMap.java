@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -20,6 +20,8 @@ package com.sun.xml.fastinfoset.util;
 
 import com.sun.xml.fastinfoset.QualifiedName;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
+
+import java.util.Arrays;
 
 public class LocalNameQualifiedNamesMap extends KeyIntMap {
 
@@ -69,10 +71,9 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
         
+    @Override
     public final void clear() {
-        for (int i = 0; i < _table.length; i++) {
-            _table[i] = null;
-        }
+        Arrays.fill(_table, null);
         _size = 0;
         
         if (_readOnlyMap != null) {        
@@ -82,6 +83,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         }
     }
 
+    @Override
     public final void setReadOnlyMap(KeyIntMap readOnlyMap, boolean clear) {
         if (!(readOnlyMap instanceof LocalNameQualifiedNamesMap)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
@@ -150,7 +152,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         return addEntry(key, hash, tableIndex);        
     }
 
-    private final Entry getEntry(String key, int hash) {
+    private Entry getEntry(String key, int hash) {
         if (_readOnlyMap != null) {
             final Entry entry = _readOnlyMap.getEntry(key, hash);
             if (entry != null) {
@@ -169,7 +171,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
     }
 
 
-    private final Entry addEntry(String key, int hash, int bucketIndex) {
+    private Entry addEntry(String key, int hash, int bucketIndex) {
 	Entry e = _table[bucketIndex];
         _table[bucketIndex] = new Entry(key, hash, e);
         e = _table[bucketIndex];
@@ -180,7 +182,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         return e;
     }
     
-    private final void resize(int newCapacity) {
+    private void resize(int newCapacity) {
         _capacity = newCapacity;
         Entry[] oldTable = _table;
         int oldCapacity = oldTable.length;
@@ -195,7 +197,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         _threshold = (int)(_capacity * _loadFactor);        
     }
 
-    private final void transfer(Entry[] newTable) {
+    private void transfer(Entry[] newTable) {
         Entry[] src = _table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
@@ -213,7 +215,7 @@ public class LocalNameQualifiedNamesMap extends KeyIntMap {
         }
     }
         
-    private final boolean eq(String x, String y) {
+    private boolean eq(String x, String y) {
         return x == y || x.equals(y);
     }
 

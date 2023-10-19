@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -30,6 +30,9 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 
 public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
+
+    public LongEncodingAlgorithm() {
+    }
 
     @Override
     public int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
@@ -187,7 +190,7 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     public final void convertToCharactersFromLongArray(long[] ldata, StringBuffer s) {
         final int end = ldata.length - 1;        
         for (int i = 0; i <= end; i++) {
-            s.append(Long.toString(ldata[i]));
+            s.append(ldata[i]);
             if (i != end) {
                 s.append(' ');
             }

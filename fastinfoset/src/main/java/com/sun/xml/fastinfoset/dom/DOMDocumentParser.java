@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -60,7 +60,11 @@ public class DOMDocumentParser extends Decoder {
     protected int[] _namespacePrefixes = new int[16];
     
     protected int _namespacePrefixesIndex;
-    
+
+    public DOMDocumentParser() {
+        super();
+    }
+
     /**
      * Parse a fast infoset document into a {@link Document} instance.
      * <p>
@@ -100,10 +104,7 @@ public class DOMDocumentParser extends Decoder {
             resetOnError();
             // Wrap runtime exception
             throw new FastInfosetException(e);
-        } catch (FastInfosetException e) {
-            resetOnError();
-            throw e;
-        } catch (IOException e) {
+        } catch (FastInfosetException | IOException e) {
             resetOnError();
             throw e;
         }

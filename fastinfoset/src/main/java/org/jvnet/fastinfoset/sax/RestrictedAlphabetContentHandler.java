@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -22,9 +22,9 @@ import org.xml.sax.SAXException;
 
 public interface RestrictedAlphabetContentHandler {
 
-    public void numericCharacters(char ch[], int start, int length) throws SAXException;
+    void numericCharacters(char[] ch, int start, int length) throws SAXException;
     
-    public void dateTimeCharacters(char ch[], int start, int length) throws SAXException;
+    void dateTimeCharacters(char[] ch, int start, int length) throws SAXException;
     
-    public void alphabetCharacters(String alphabet, char ch[], int start, int length) throws SAXException;
+    void alphabetCharacters(String alphabet, char[] ch, int start, int length) throws SAXException;
 }

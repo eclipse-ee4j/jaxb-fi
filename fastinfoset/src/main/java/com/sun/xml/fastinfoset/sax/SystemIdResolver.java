@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -26,7 +26,7 @@ public class SystemIdResolver {
     }
     
     public static String getAbsoluteURIFromRelative(String localPath) {
-        if (localPath == null || localPath.length() == 0) {
+        if (localPath == null || localPath.isEmpty()) {
             return "";
         }
         
@@ -95,17 +95,14 @@ public class SystemIdResolver {
     private static boolean isWindowsAbsolutePath(String systemId) {
         if(!isAbsolutePath(systemId))
             return false;
-        if (systemId.length() > 2
-        && systemId.charAt(1) == ':'
-        && Character.isLetter(systemId.charAt(0))
-        && (systemId.charAt(2) == '\\' || systemId.charAt(2) == '/'))
-            return true;
-        else
-            return false;
+        return systemId.length() > 2
+                && systemId.charAt(1) == ':'
+                && Character.isLetter(systemId.charAt(0))
+                && (systemId.charAt(2) == '\\' || systemId.charAt(2) == '/');
     }
     
     private static String replaceChars(String str) {
-        StringBuffer buf = new StringBuffer(str);
+        StringBuilder buf = new StringBuilder(str);
         int length = buf.length();
         for (int i = 0; i < length; i++) {
             char currentChar = buf.charAt(i);

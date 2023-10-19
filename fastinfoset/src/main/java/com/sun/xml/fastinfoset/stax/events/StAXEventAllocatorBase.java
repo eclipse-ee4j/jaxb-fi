@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -32,12 +32,12 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
  * allows a user to register a way to allocate events given an XMLStreamReader.  
  * The XMLEventAllocator can be set on an XMLInputFactory
  * using the property "javax.xml.stream.allocator"
- *
+ * <p>
  * This base class uses EventFactory to create events as recommended in the JavaDoc of XMLEventAllocator.
  * However, creating new object per each event reduces performance. The implementation of
  * EventReader therefore will set the Allocator to StAXEventAllocator which implements the 
  * Allocate methods without creating new objects.
- *
+ * <p>
  * The spec for the first Allocate method states that it must NOT modify the state of the Reader
  * while the second MAY. For consistency, both Allocate methods in this implementation will
  * NOT modify the state.
@@ -61,6 +61,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
    * This method creates an instance of the XMLEventAllocator. This
    * allows the XMLInputFactory to allocate a new instance per reader.
    */
+    @Override
     public XMLEventAllocator newInstance() {
         return new StAXEventAllocatorBase();
     }
@@ -72,6 +73,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
    * @param streamReader The XMLStreamReader to allocate from
    * @return the event corresponding to the current reader state
    */
+    @Override
     public XMLEvent allocate(XMLStreamReader streamReader) throws XMLStreamException {
         if(streamReader == null )
             throw new XMLStreamException(CommonResourceBundle.getInstance().getString("message.nullReader"));
@@ -85,6 +87,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
    * @param streamReader The XMLStreamReader to allocate from
    * @param consumer The XMLEventConsumer to add to.
    */
+    @Override
     public void allocate(XMLStreamReader streamReader, XMLEventConsumer consumer) throws XMLStreamException {
         consumer.add(getXMLEvent(streamReader));
 
@@ -143,11 +146,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
             {
                 StartDocumentEvent docEvent = (StartDocumentEvent)factory.createStartDocument(
                         reader.getVersion(), reader.getEncoding(), reader.isStandalone());
-                if(reader.getCharacterEncodingScheme() != null){
-                    docEvent.setDeclaredEncoding(true);
-                }else{
-                    docEvent.setDeclaredEncoding(false);
-                }
+                docEvent.setDeclaredEncoding(reader.getCharacterEncodingScheme() != null);
                 event = docEvent ;
                 break;
             }

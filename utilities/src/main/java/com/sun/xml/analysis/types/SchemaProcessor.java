@@ -58,7 +58,9 @@ import java.util.Map;
 import java.util.Set;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -336,10 +338,7 @@ public class SchemaProcessor {
     public void process(Set<XSDataType> filter) throws Exception {
         _filter = filter;
         
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        XSOMParser parser = new XSOMParser(factory);
+        XSOMParser parser = new XSOMParser(createParserFactory());
         parser.setErrorHandler(new ErrorHandlerImpl());
         
         for (URL u : _schema) {
@@ -399,5 +398,36 @@ public class SchemaProcessor {
         SchemaProcessor v = new SchemaProcessor(new File(args[0]).toURI().toURL());
         v.process();
         v.print();
+    }
+
+    /**
+     * Returns properly configured (e.g. security features) parser factory
+     * - namespaceAware == true
+     * - securityProcessing == is set based on security processing property, default is true
+     */
+    private static SAXParserFactory createParserFactory() throws IllegalStateException {
+        try {
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            try {
+                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            } catch (SAXException se) {
+            }
+            try {
+                factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            } catch (SAXException se) {
+            }
+            return factory;
+        } catch (ParserConfigurationException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 }

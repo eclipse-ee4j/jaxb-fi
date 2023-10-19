@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -23,26 +23,26 @@ import org.jvnet.fastinfoset.EncodingAlgorithmIndexes;
 
 public final class BuiltInEncodingAlgorithmFactory {
 
-    private final static BuiltInEncodingAlgorithm[] table =
+    private static final BuiltInEncodingAlgorithm[] table =
             new BuiltInEncodingAlgorithm[EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END + 1];
 
-    public final static HexadecimalEncodingAlgorithm hexadecimalEncodingAlgorithm = new HexadecimalEncodingAlgorithm();
-    
-    public final static BASE64EncodingAlgorithm base64EncodingAlgorithm = new BASE64EncodingAlgorithm();
+    public static final HexadecimalEncodingAlgorithm hexadecimalEncodingAlgorithm = new HexadecimalEncodingAlgorithm();
 
-    public final static BooleanEncodingAlgorithm booleanEncodingAlgorithm = new BooleanEncodingAlgorithm();
-    
-    public final static ShortEncodingAlgorithm shortEncodingAlgorithm = new ShortEncodingAlgorithm();
+    public static final BASE64EncodingAlgorithm base64EncodingAlgorithm = new BASE64EncodingAlgorithm();
 
-    public final static IntEncodingAlgorithm intEncodingAlgorithm = new IntEncodingAlgorithm();
+    public static final BooleanEncodingAlgorithm booleanEncodingAlgorithm = new BooleanEncodingAlgorithm();
 
-    public final static LongEncodingAlgorithm longEncodingAlgorithm = new LongEncodingAlgorithm();
-    
-    public final static FloatEncodingAlgorithm floatEncodingAlgorithm = new FloatEncodingAlgorithm();
+    public static final ShortEncodingAlgorithm shortEncodingAlgorithm = new ShortEncodingAlgorithm();
 
-    public final static DoubleEncodingAlgorithm doubleEncodingAlgorithm = new DoubleEncodingAlgorithm();
-    
-    public final static UUIDEncodingAlgorithm uuidEncodingAlgorithm = new UUIDEncodingAlgorithm();
+    public static final IntEncodingAlgorithm intEncodingAlgorithm = new IntEncodingAlgorithm();
+
+    public static final LongEncodingAlgorithm longEncodingAlgorithm = new LongEncodingAlgorithm();
+
+    public static final FloatEncodingAlgorithm floatEncodingAlgorithm = new FloatEncodingAlgorithm();
+
+    public static final DoubleEncodingAlgorithm doubleEncodingAlgorithm = new DoubleEncodingAlgorithm();
+
+    public static final UUIDEncodingAlgorithm uuidEncodingAlgorithm = new UUIDEncodingAlgorithm();
     
     static {
         table[EncodingAlgorithmIndexes.HEXADECIMAL] = hexadecimalEncodingAlgorithm;
@@ -55,7 +55,10 @@ public final class BuiltInEncodingAlgorithmFactory {
         table[EncodingAlgorithmIndexes.DOUBLE] = doubleEncodingAlgorithm;
         table[EncodingAlgorithmIndexes.UUID] = uuidEncodingAlgorithm;
     }
-    
+
+    private BuiltInEncodingAlgorithmFactory() {
+    }
+
     public static BuiltInEncodingAlgorithm getAlgorithm(int index) {
         return table[index];
     }

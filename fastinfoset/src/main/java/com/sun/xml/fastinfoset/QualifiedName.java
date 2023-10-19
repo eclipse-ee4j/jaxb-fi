@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -288,9 +288,9 @@ public class QualifiedName {
         attributeHash = localNameIndex % size;
     }
     
-    private final String createQNameString(String p, String l) {
-        if (p != null && p.length() > 0) {
-            final StringBuffer b = new StringBuffer(p);
+    private String createQNameString(String p, String l) {
+        if (p != null && !p.isEmpty()) {
+            final StringBuilder b = new StringBuilder(p);
             b.append(':');
             b.append(l);
             return b.toString();

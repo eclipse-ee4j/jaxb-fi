@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -19,6 +19,8 @@
 package com.sun.xml.fastinfoset.util;
 
 import com.sun.xml.fastinfoset.CommonResourceBundle;
+
+import java.util.Arrays;
 
 public class StringIntMap extends KeyIntMap {
     protected static final Entry NULL_ENTRY = new Entry(null, 0, -1, null);
@@ -59,16 +61,16 @@ public class StringIntMap extends KeyIntMap {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
 
+    @Override
     public void clear() {
-        for (int i = 0; i < _table.length; i++) {
-            _table[i] = null;
-        }
+        Arrays.fill(_table, null);
         _lastEntry = NULL_ENTRY;
         _size = 0;
         _index = _readOnlyMapSize;
         _totalCharacterCount = 0;
     }
 
+    @Override
     public void setReadOnlyMap(KeyIntMap readOnlyMap, boolean clear) {
         if (!(readOnlyMap instanceof StringIntMap)) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
@@ -139,7 +141,7 @@ public class StringIntMap extends KeyIntMap {
         return _totalCharacterCount;
     }
     
-    private final int get(String key, int hash) {
+    private int get(String key, int hash) {
         if (_readOnlyMap != null) {
             final int i = _readOnlyMap.get(key, hash);
             if (i != -1) {
@@ -159,7 +161,7 @@ public class StringIntMap extends KeyIntMap {
     }
 
 
-    private final void addEntry(String key, int hash, int bucketIndex) {
+    private void addEntry(String key, int hash, int bucketIndex) {
 	Entry e = _table[bucketIndex];
         _table[bucketIndex] = new Entry(key, hash, _index++, e);
         _totalCharacterCount += key.length();
@@ -183,7 +185,7 @@ public class StringIntMap extends KeyIntMap {
         _threshold = (int)(_capacity * _loadFactor);        
     }
 
-    private final void transfer(Entry[] newTable) {
+    private void transfer(Entry[] newTable) {
         Entry[] src = _table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++) {
@@ -201,7 +203,7 @@ public class StringIntMap extends KeyIntMap {
         }
     }
         
-    private final boolean eq(String x, String y) {
+    private boolean eq(String x, String y) {
         return x == y || x.equals(y);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -49,6 +49,7 @@ public class SAXEventSerializer extends DefaultHandler
     
     // -- ContentHandler interface ---------------------------------------
 
+    @Override
     public void startDocument() throws SAXException {
         try {
             _writer.write("<sax xmlns=\"http://www.sun.com/xml/sax-events\">\n");
@@ -60,6 +61,7 @@ public class SAXEventSerializer extends DefaultHandler
         }
     }
 
+    @Override
     public void endDocument() throws SAXException {
         try {
             _writer.write("<endDocument/>\n");  
@@ -73,14 +75,15 @@ public class SAXEventSerializer extends DefaultHandler
     }
 
     
-    public void startPrefixMapping(String prefix, String uri) 
+    @Override
+    public void startPrefixMapping(String prefix, String uri)
         throws SAXException
     {
         if (_namespaceAttributes == null) {
             _namespaceAttributes = new ArrayList<>();
         }
         
-        String qName = (prefix.length() == 0) ? "xmlns" : "xmlns" + prefix;
+        String qName = (prefix.isEmpty()) ? "xmlns" : "xmlns" + prefix;
         AttributeValueHolder attribute = new AttributeValueHolder(
                 qName,
                 prefix, 
@@ -90,7 +93,8 @@ public class SAXEventSerializer extends DefaultHandler
         _namespaceAttributes.add(attribute);            
     }
     
-    public void endPrefixMapping(String prefix) 
+    @Override
+    public void endPrefixMapping(String prefix)
         throws SAXException 
     {
         /*
@@ -107,8 +111,9 @@ public class SAXEventSerializer extends DefaultHandler
          */
     }
 
+    @Override
     public void startElement(String uri, String localName,
-            String qName, Attributes attributes)
+                             String qName, Attributes attributes)
         throws SAXException 
     {
         try {
@@ -190,6 +195,7 @@ public class SAXEventSerializer extends DefaultHandler
         }       
     }
 
+    @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException 
     {
@@ -218,6 +224,7 @@ public class SAXEventSerializer extends DefaultHandler
         }
     }
 
+    @Override
     public void characters(char[] ch, int start, int length)
             throws SAXException 
     {
@@ -266,6 +273,7 @@ public class SAXEventSerializer extends DefaultHandler
         }
     }
     
+    @Override
     public void ignorableWhitespace(char[] ch, int start, int length)
             throws SAXException 
     {
@@ -273,6 +281,7 @@ public class SAXEventSerializer extends DefaultHandler
         characters(ch, start, length);
     }
 
+    @Override
     public void processingInstruction(String target, String data)
             throws SAXException 
     {
@@ -290,36 +299,43 @@ public class SAXEventSerializer extends DefaultHandler
     
     // -- LexicalHandler interface ---------------------------------------
 
+    @Override
     public void startDTD(String name, String publicId, String systemId)
             throws SAXException {
         // Not implemented
     }
 
+    @Override
     public void endDTD()
             throws SAXException {
         // Not implemented
     }
 
+    @Override
     public void startEntity(String name)
             throws SAXException {
         // Not implemented
     }
 
+    @Override
     public void endEntity(String name)
             throws SAXException {
         // Not implemented
     }
 
+    @Override
     public void startCDATA()
             throws SAXException {
         _charactersAreCDATA = true;
     }
 
+    @Override
     public void endCDATA()
             throws SAXException {
         _charactersAreCDATA = false;
     }
 
+    @Override
     public void comment(char[] ch, int start, int length)
             throws SAXException 
     {

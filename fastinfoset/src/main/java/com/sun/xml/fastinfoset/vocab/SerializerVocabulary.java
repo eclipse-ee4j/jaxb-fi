@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -127,7 +127,7 @@ public class SerializerVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, StringIntMap m) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -141,7 +141,7 @@ public class SerializerVocabulary extends Vocabulary {
     }
     
     private void addToTable(String s, CharArrayIntMap m) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -158,13 +158,13 @@ public class SerializerVocabulary extends Vocabulary {
     private void addToNameTable(QName n, LocalNameQualifiedNamesMap m) {                
         int namespaceURIIndex = -1;
         int prefixIndex = -1;
-        if (n.getNamespaceURI().length() > 0) {
+        if (!n.getNamespaceURI().isEmpty()) {
             namespaceURIIndex = namespaceName.obtainIndex(n.getNamespaceURI());
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 namespaceURIIndex = namespaceName.get(n.getNamespaceURI());
             }
             
-            if (n.getPrefix().length() > 0) {
+            if (!n.getPrefix().isEmpty()) {
                 prefixIndex = prefix.obtainIndex(n.getPrefix());
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     prefixIndex = prefix.get(n.getPrefix());

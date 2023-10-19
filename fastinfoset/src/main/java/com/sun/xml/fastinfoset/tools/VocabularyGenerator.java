@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -111,21 +111,14 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
     }
     
     // ContentHandler
-    
-    public void startDocument() throws SAXException {
-    }
 
-    public void endDocument() throws SAXException {
-    }
-    
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         addToTable(prefix, _v.prefixes, _serializerVocabulary.prefix, _parserVocabulary.prefix);
         addToTable(uri, _v.namespaceNames, _serializerVocabulary.namespaceName, _parserVocabulary.namespaceName);
     }
 
-    public void endPrefixMapping(String prefix) throws SAXException {
-    }
-
+    @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         addToNameTable(namespaceURI, qName, localName, 
                 _v.elements, _serializerVocabulary.elementName, _parserVocabulary.elementName, false);
@@ -141,55 +134,47 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
         }
     }
 
-    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-    }
-        
+    @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         if (length < characterContentChunkSizeContraint) {
             addToCharArrayTable(new CharArray(ch, start, length, true));
         }
-    }    
+    }
 
-    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-    }
-    
-    public void processingInstruction(String target, String data) throws SAXException {
-    }
-    
-    public void setDocumentLocator(org.xml.sax.Locator locator) {
-    }
-    
-    public void skippedEntity(String name) throws SAXException {
-    }
-    
-       
 
     // LexicalHandler
     
+    @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
     }
   
+    @Override
     public void startCDATA() throws SAXException {
     }
   
+    @Override
     public void endCDATA() throws SAXException {
     }
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException {
     }
 
+    @Override
     public void endDTD() throws SAXException {
     }
     
+    @Override
     public void startEntity(String name) throws SAXException {
     }
 
+    @Override
     public void endEntity(String name) throws SAXException {
     }
 
     
     public void addToTable(String s, Set<String> v, StringIntMap m, StringArray a) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -201,7 +186,7 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
     }
 
     public void addToTable(String s, Set<String> v, StringIntMap m, PrefixArray a) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return;
         }
         
@@ -237,14 +222,14 @@ public class VocabularyGenerator extends DefaultHandler implements LexicalHandle
         
         int namespaceURIIndex = -1;
         int prefixIndex = -1;
-        if (namespaceURI.length() > 0) {
+        if (!namespaceURI.isEmpty()) {
             namespaceURIIndex = _serializerVocabulary.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 throw new SAXException(CommonResourceBundle.getInstance().
                         getString("message.namespaceURINotIndexed", new Object[]{namespaceURIIndex}));
             }
             
-            if (prefix.length() > 0) {
+            if (!prefix.isEmpty()) {
                 prefixIndex = _serializerVocabulary.prefix.get(prefix);
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     throw new SAXException(CommonResourceBundle.getInstance().

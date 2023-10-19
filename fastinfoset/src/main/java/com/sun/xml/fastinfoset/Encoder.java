@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -28,6 +28,7 @@ import com.sun.xml.fastinfoset.vocab.SerializerVocabulary;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Abstract encoder for developing concrete encoders.
- *
+ * <p>
  * Concrete implementations extending Encoder will utilize methods on Encoder
  * to encode XML infoset according to the Fast Infoset standard. It is the
  * responsibility of the concrete implementation to ensure that methods are
@@ -97,12 +98,8 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         NUMERIC_CHARACTERS_TABLE = new int[maxCharacter(RestrictedAlphabet.NUMERIC_CHARACTERS) + 1];
         DATE_TIME_CHARACTERS_TABLE = new int[maxCharacter(RestrictedAlphabet.DATE_TIME_CHARACTERS) + 1];
 
-        for (int i = 0; i < NUMERIC_CHARACTERS_TABLE.length ; i++) {
-            NUMERIC_CHARACTERS_TABLE[i] = -1;
-        }
-        for (int i = 0; i < DATE_TIME_CHARACTERS_TABLE.length ; i++) {
-            DATE_TIME_CHARACTERS_TABLE[i] = -1;
-        }
+        Arrays.fill(NUMERIC_CHARACTERS_TABLE, -1);
+        Arrays.fill(DATE_TIME_CHARACTERS_TABLE, -1);
 
         for (int i = 0; i < RestrictedAlphabet.NUMERIC_CHARACTERS.length() ; i++) {
             NUMERIC_CHARACTERS_TABLE[RestrictedAlphabet.NUMERIC_CHARACTERS.charAt(i)] = i;
@@ -281,74 +278,47 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
     // FastInfosetSerializer interface
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void setIgnoreDTD(boolean ignoreDTD) {
         _ignoreDTD = ignoreDTD;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean getIgnoreDTD() {
         return _ignoreDTD;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void setIgnoreComments(boolean ignoreComments) {
         _ignoreComments = ignoreComments;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean getIgnoreComments() {
         return _ignoreComments;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void setIgnoreProcesingInstructions(boolean
             ignoreProcesingInstructions) {
         _ignoreProcessingInstructions = ignoreProcesingInstructions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean getIgnoreProcesingInstructions() {
         return _ignoreProcessingInstructions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void setIgnoreWhiteSpaceTextContent(boolean ignoreWhiteSpaceTextContent) {
         _ignoreWhiteSpaceTextContent = ignoreWhiteSpaceTextContent;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean getIgnoreWhiteSpaceTextContent() {
         return _ignoreWhiteSpaceTextContent;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void setCharacterEncodingScheme(String characterEncodingScheme) {
         if (characterEncodingScheme.equals(UTF_16BE)) {
@@ -362,17 +332,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getCharacterEncodingScheme() {
         return (_encodingStringsAsUtf8) ? UTF_8 : UTF_16BE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setRegisteredEncodingAlgorithms(final Map<String, EncodingAlgorithm> algorithms) {
         _registeredEncodingAlgorithms = algorithms;
@@ -381,25 +345,16 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, EncodingAlgorithm> getRegisteredEncodingAlgorithms() {
         return _registeredEncodingAlgorithms;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getMinCharacterContentChunkSize() {
         return minCharacterContentChunkSize;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setMinCharacterContentChunkSize(int size) {
         if (size < 0 ) {
@@ -409,17 +364,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         minCharacterContentChunkSize = size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getMaxCharacterContentChunkSize() {
         return maxCharacterContentChunkSize;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setMaxCharacterContentChunkSize(int size) {
         if (size < 0 ) {
@@ -429,17 +378,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         maxCharacterContentChunkSize = size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getCharacterContentChunkMapMemoryLimit() {
         return characterContentChunkMapTotalCharactersConstraint * 2;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setCharacterContentChunkMapMemoryLimit(int size) {
         if (size < 0 ) {
@@ -473,17 +416,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
                         characterContentChunkMapTotalCharactersConstraint;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getMinAttributeValueSize() {
         return minAttributeValueSize;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setMinAttributeValueSize(int size) {
         if (size < 0 ) {
@@ -493,17 +430,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         minAttributeValueSize = size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getMaxAttributeValueSize() {
         return maxAttributeValueSize;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setMaxAttributeValueSize(int size) {
         if (size < 0 ) {
@@ -513,9 +444,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         maxAttributeValueSize = size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setAttributeValueMapMemoryLimit(int size) {
         if (size < 0 ) {
@@ -526,9 +454,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getAttributeValueMapMemoryLimit() {
         return attributeValueMapTotalCharactersConstraint * 2;
@@ -557,9 +482,6 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
                         attributeValueMapTotalCharactersConstraint;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setExternalVocabulary(ExternalVocabulary v) {
         // Create internal serializer vocabulary
@@ -573,17 +495,11 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         _vIsInternal = true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setVocabularyApplicationData(VocabularyApplicationData data) {
         _vData = data;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public VocabularyApplicationData getVocabularyApplicationData() {
         return _vData;
@@ -737,10 +653,10 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      */
     protected final void encodeNamespaceAttribute(String prefix, String uri) throws IOException {
         _b = EncodingConstants.NAMESPACE_ATTRIBUTE;
-        if (prefix.length() > 0) {
+        if (!prefix.isEmpty()) {
             _b |= EncodingConstants.NAMESPACE_ATTRIBUTE_PREFIX_FLAG;
         }
-        if (uri.length() > 0) {
+        if (!uri.isEmpty()) {
             _b |= EncodingConstants.NAMESPACE_ATTRIBUTE_NAME_FLAG;
         }
 
@@ -751,10 +667,10 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
         write(_b);
 
-        if (prefix.length() > 0) {
+        if (!prefix.isEmpty()) {
             encodeIdentifyingNonEmptyStringOnFirstBit(prefix, _v.prefix);
         }
-        if (uri.length() > 0) {
+        if (!uri.isEmpty()) {
             encodeIdentifyingNonEmptyStringOnFirstBit(uri, _v.namespaceName);
         }
     }
@@ -963,18 +879,18 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      */
     protected final void encodeDocumentTypeDeclaration(String systemId, String publicId) throws IOException {
         _b = EncodingConstants.DOCUMENT_TYPE_DECLARATION;
-        if (systemId != null && systemId.length() > 0) {
+        if (systemId != null && !systemId.isEmpty()) {
             _b |= EncodingConstants.DOCUMENT_TYPE_SYSTEM_IDENTIFIER_FLAG;
         }
-        if (publicId != null && publicId.length() > 0) {
+        if (publicId != null && !publicId.isEmpty()) {
             _b |= EncodingConstants.DOCUMENT_TYPE_PUBLIC_IDENTIFIER_FLAG;
         }
         write(_b);
 
-        if (systemId != null && systemId.length() > 0) {
+        if (systemId != null && !systemId.isEmpty()) {
             encodeIdentifyingNonEmptyStringOnFirstBit(systemId, _v.otherURI);
         }
-        if (publicId != null && publicId.length() > 0) {
+        if (publicId != null && !publicId.isEmpty()) {
             encodeIdentifyingNonEmptyStringOnFirstBit(publicId, _v.otherURI);
         }
     }
@@ -1059,13 +975,13 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
         int namespaceURIIndex = KeyIntMap.NOT_PRESENT;
         int prefixIndex = KeyIntMap.NOT_PRESENT;
-        if (namespaceURI.length() > 0) {
+        if (!namespaceURI.isEmpty()) {
             namespaceURIIndex = _v.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 throw new IOException(CommonResourceBundle.getInstance().getString("message.namespaceURINotIndexed", new Object[]{namespaceURI}));
             }
 
-            if (prefix.length() > 0) {
+            if (!prefix.isEmpty()) {
                 prefixIndex = _v.prefix.get(prefix);
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     throw new IOException(CommonResourceBundle.getInstance().getString("message.prefixNotIndexed", new Object[]{prefix}));
@@ -1142,7 +1058,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
                 LocalNameQualifiedNamesMap.Entry entry) throws IOException {
         int namespaceURIIndex = KeyIntMap.NOT_PRESENT;
         int prefixIndex = KeyIntMap.NOT_PRESENT;
-        if (namespaceURI.length() > 0) {
+        if (!namespaceURI.isEmpty()) {
             namespaceURIIndex = _v.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
                 if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
@@ -1152,7 +1068,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
                 }
             }
 
-            if (prefix.length() > 0) {
+            if (!prefix.isEmpty()) {
                 prefixIndex = _v.prefix.get(prefix);
                 if (prefixIndex == KeyIntMap.NOT_PRESENT) {
                     throw new IOException(CommonResourceBundle.getInstance().getString("message.prefixNotIndexed", new Object[]{prefix}));
@@ -1166,9 +1082,9 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         entry.addQualifiedName(name);
 
         _b = EncodingConstants.ATTRIBUTE_LITERAL_QNAME_FLAG;
-        if (namespaceURI.length() > 0) {
+        if (!namespaceURI.isEmpty()) {
             _b |= EncodingConstants.LITERAL_QNAME_NAMESPACE_NAME_FLAG;
-            if (prefix.length() > 0) {
+            if (!prefix.isEmpty()) {
                 _b |= EncodingConstants.LITERAL_QNAME_PREFIX_FLAG;
             }
         }
@@ -1180,7 +1096,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
                 encodeNonZeroIntegerOnSecondBitFirstBitOne(prefixIndex);
             }
             encodeNonZeroIntegerOnSecondBitFirstBitOne(namespaceURIIndex);
-        } else if (!"".equals(namespaceURI)) {
+        } else if (!namespaceURI.isEmpty()) {
             // XML prefix and namespace name
             encodeNonEmptyOctetStringOnSecondBit("xml");
             encodeNonEmptyOctetStringOnSecondBit("http://www.w3.org/XML/1998/namespace");
@@ -1209,7 +1125,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      */
     protected final void encodeNonIdentifyingStringOnFirstBit(String s, StringIntMap map,
             boolean addToTable, boolean mustBeAddedToTable) throws IOException {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             // C.26 an index (first bit '1') with seven '1' bits for an empty string
             write(0xFF);
         } else {
@@ -1254,7 +1170,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @throws java.io.IOException on error
      */
     protected final void encodeNonIdentifyingStringOnFirstBit(String s, CharArrayIntMap map, boolean addToTable) throws IOException {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             // C.26 an index (first bit '1') with seven '1' bits for an empty string
             write(0xFF);
         } else {
@@ -1362,7 +1278,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
     protected final void encodeNonIdentifyingStringOnFirstBit(int id, int[] table,
             String s, boolean addToTable, boolean mustBeAddedToTable)
             throws IOException, FastInfosetException {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             // C.26 an index (first bit '1') with seven '1' bits for an empty string
             write(0xFF);
             return;
@@ -2127,7 +2043,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         } else {
             throw new IOException(
                     CommonResourceBundle.getInstance().getString("message.integerMaxSize",
-                    new Object[]{Integer.valueOf(EncodingConstants.INTEGER_2ND_BIT_LARGE_LIMIT)}));
+                    new Object[]{EncodingConstants.INTEGER_2ND_BIT_LARGE_LIMIT}));
         }
     }
 
@@ -2263,7 +2179,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
      * @param constants the array of constants to use when encoding to determin
      *        how the length of the UTF-8 encoded string is encoded.
      */
-    protected final void encodeNonEmptyUTF8StringAsOctetString(int b, char ch[], int offset, int length, int[] constants) throws IOException {
+    protected final void encodeNonEmptyUTF8StringAsOctetString(int b, char[] ch, int offset, int length, int[] constants) throws IOException {
         length = encodeUTF8String(ch, offset, length);
         encodeNonZeroOctetStringLength(b, length, constants);
         write(_encodingBuffer, length);
@@ -2434,19 +2350,17 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
         @Override
         public void write(int b) throws IOException {
-            if (_encodingBufferIndex < _encodingBuffer.length) {
-                _encodingBuffer[_encodingBufferIndex++] = (byte)b;
-            } else {
-                byte newbuf[] = new byte[Math.max(_encodingBuffer.length << 1, _encodingBufferIndex)];
+            if (_encodingBufferIndex >= _encodingBuffer.length) {
+                byte[] newbuf = new byte[Math.max(_encodingBuffer.length << 1, _encodingBufferIndex)];
                 System.arraycopy(_encodingBuffer, 0, newbuf, 0, _encodingBufferIndex);
                 _encodingBuffer = newbuf;
 
-                _encodingBuffer[_encodingBufferIndex++] = (byte)b;
             }
+            _encodingBuffer[_encodingBufferIndex++] = (byte)b;
         }
 
         @Override
-        public void write(byte b[], int off, int len) throws IOException {
+        public void write(byte[] b, int off, int len) throws IOException {
             if ((off < 0) || (off > b.length) || (len < 0) ||
                 ((off + len) > b.length) || ((off + len) < 0)) {
                 throw new IndexOutOfBoundsException();
@@ -2455,7 +2369,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
             }
             final int newoffset = _encodingBufferIndex + len;
             if (newoffset > _encodingBuffer.length) {
-                byte newbuf[] = new byte[Math.max(_encodingBuffer.length << 1, newoffset)];
+                byte[] newbuf = new byte[Math.max(_encodingBuffer.length << 1, newoffset)];
                 System.arraycopy(_encodingBuffer, 0, newbuf, 0, _encodingBufferIndex);
                 _encodingBuffer = newbuf;
             }

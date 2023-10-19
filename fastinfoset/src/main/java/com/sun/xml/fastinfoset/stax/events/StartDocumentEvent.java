@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -45,7 +45,8 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
     public StartDocumentEvent(String encoding){
         this(encoding, null);
     }
-    
+
+    @SuppressWarnings({"this-escape"})
     public StartDocumentEvent(String encoding, String version){
         if (encoding != null) {
             _encoding = encoding;
@@ -62,6 +63,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
     * Returns the system ID of the XML data
     * @return the system ID, defaults to ""
     */
+    @Override
     public String getSystemId() {
         return super.getSystemId();
     }
@@ -70,6 +72,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
     * Returns the encoding style of the XML data
     * @return the character encoding, defaults to "UTF-8"
     */
+    @Override
     public String getCharacterEncodingScheme() {
         return _encoding;
     }
@@ -77,6 +80,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
     * Returns true if CharacterEncodingScheme was set in 
     * the encoding declaration of the document
     */
+    @Override
     public boolean encodingSet() {
         return _encodingSet;
     }
@@ -86,6 +90,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
    * Returns if this XML is standalone
    * @return the standalone state of XML, defaults to "no"
    */
+    @Override
     public boolean isStandalone() {
         return _standalone;
     }
@@ -93,6 +98,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
     * Returns true if the standalone attribute was set in 
     * the encoding declaration of the document.
     */
+    @Override
     public boolean standaloneSet() {
         return _standaloneSet;
     }
@@ -101,6 +107,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
    * Returns the version of XML of this XML stream
    * @return the version of XML, defaults to "1.0"
    */
+    @Override
     public String getVersion() {
         return _version;
     }
@@ -117,10 +124,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
             _standalone = true;
             return;
         }
-        if(s.equals("yes"))
-            _standalone = true;
-        else
-            _standalone = false;
+        _standalone = s.equals("yes");
     }
     
         
@@ -159,6 +163,7 @@ public class StartDocumentEvent extends EventBase implements StartDocument {
         return s;
     }
     
+    @Override
     public boolean isStartDocument() {
         return true;
     }

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2005, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -47,6 +47,7 @@ public class StAXFilteredEvent implements XMLEventReader {
         _filter = filter;
     }
 
+    @Override
     public Object next() {
         try {
             return nextEvent();
@@ -55,16 +56,18 @@ public class StAXFilteredEvent implements XMLEventReader {
         }
     }
 
-    public XMLEvent nextEvent() throws XMLStreamException 
+    @Override
+    public XMLEvent nextEvent() throws XMLStreamException
     {
         if (hasNext())
             return eventReader.nextEvent();
         return null;
     }
 
+    @Override
     public String getElementText() throws XMLStreamException
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         XMLEvent e = nextEvent();
         if (!e.isStartElement())
             throw new XMLStreamException(
@@ -83,6 +86,7 @@ public class StAXFilteredEvent implements XMLEventReader {
         throw new XMLStreamException(CommonResourceBundle.getInstance().getString("message.END_ELEMENTnotFound"));
     }
 
+    @Override
     public XMLEvent nextTag() throws XMLStreamException {
         while(hasNext()) {
             XMLEvent e = nextEvent();
@@ -93,7 +97,8 @@ public class StAXFilteredEvent implements XMLEventReader {
     }
 
 
-    public boolean hasNext() 
+    @Override
+    public boolean hasNext()
     {
         try { 
             while(eventReader.hasNext()) {
@@ -106,10 +111,12 @@ public class StAXFilteredEvent implements XMLEventReader {
         }
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public XMLEvent peek() throws XMLStreamException
     {
         if (hasNext())
@@ -117,11 +124,13 @@ public class StAXFilteredEvent implements XMLEventReader {
         return null;
     }
 
+    @Override
     public void close() throws XMLStreamException
     {
         eventReader.close();
     }
 
+    @Override
     public Object getProperty(String name) {
         return eventReader.getProperty(name);
     }

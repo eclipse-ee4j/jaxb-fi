@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -26,7 +26,7 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
     
-    /* package */ static final char encodeBase64[] = {
+    /* package */ static final char[] encodeBase64 = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -34,7 +34,7 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
-    /* package */ static final int decodeBase64[] = {
+    /* package */ static final int[] decodeBase64 = {
         /*'+'*/ 62,
         -1, -1, -1,
         /*'/'*/ 63,
@@ -104,17 +104,23 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
         /*'z'*/ 51
     };
 
+    public BASE64EncodingAlgorithm() {
+    }
+
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         final byte[] data = new byte[length];
         System.arraycopy(b, start, data, 0, length);
         return data;
     }
     
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         throw new UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.notImplemented"));
     }
     
     
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof byte[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotByteArray"));
@@ -123,6 +129,7 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
         s.write((byte[])data);
     }
     
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         if (length == 0) {
             return new byte[0];
@@ -167,6 +174,7 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
         return value;
     }
     
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (data == null) {
             return;
@@ -176,14 +184,17 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
         convertToCharacters(value, 0, value.length, s);
     }
     
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         return octetLength;
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength;
     }
     
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         System.arraycopy((byte[])array, astart, b, start, alength);
     }    

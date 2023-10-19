@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -44,7 +44,7 @@ import org.jvnet.fastinfoset.FastInfosetParser;
 
 /**
  * Abstract decoder for developing concrete encoders.
- *
+ * <p>
  * Concrete implementations extending Decoder will utilize methods on Decoder
  * to decode XML infoset according to the Fast Infoset standard. It is the
  * responsibility of the concrete implementation to ensure that methods are
@@ -95,7 +95,7 @@ public abstract class Decoder implements FastInfosetParser {
     static {
         String p = System.getProperty(STRING_INTERNING_SYSTEM_PROPERTY,
                 Boolean.toString(_stringInterningSystemDefault));
-        _stringInterningSystemDefault = Boolean.valueOf(p).booleanValue();
+        _stringInterningSystemDefault = Boolean.parseBoolean(p);
         
         p = System.getProperty(BUFFER_SIZE_SYSTEM_PROPERTY,
                 Integer.toString(_bufferSizeSystemDefault));
@@ -278,25 +278,16 @@ public abstract class Decoder implements FastInfosetParser {
     
     // FastInfosetParser interface
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setStringInterning(boolean stringInterning) {
         _stringInterning = stringInterning;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getStringInterning() {
         return _stringInterning;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setBufferSize(int bufferSize) {
         if (_bufferSize > _octetBuffer.length) {
@@ -304,17 +295,11 @@ public abstract class Decoder implements FastInfosetParser {
         }
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getBufferSize() {
         return _bufferSize;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setRegisteredEncodingAlgorithms(Map<String, EncodingAlgorithm> algorithms) {
         _registeredEncodingAlgorithms = algorithms;
@@ -323,17 +308,11 @@ public abstract class Decoder implements FastInfosetParser {
         }
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, EncodingAlgorithm> getRegisteredEncodingAlgorithms() {
         return _registeredEncodingAlgorithms;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setExternalVocabularies(Map<String, ParserVocabulary> referencedVocabualries) {
         if (referencedVocabualries != null) {
@@ -345,42 +324,27 @@ public abstract class Decoder implements FastInfosetParser {
         }
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Deprecated
     public Map<String, ParserVocabulary> getExternalVocabularies() {
         return _externalVocabularies;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setParseFragments(boolean parseFragments) {
         _parseFragments = parseFragments;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getParseFragments() {
         return _parseFragments;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setForceStreamClose(boolean needForceStreamClose) {
         _needForceStreamClose = needForceStreamClose;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getForceStreamClose() {
         return _needForceStreamClose;
@@ -419,7 +383,7 @@ public abstract class Decoder implements FastInfosetParser {
         _s = s;
         _octetBufferOffset = 0;
         _octetBufferEnd = 0;
-        if (_vIsInternal == true) {
+        if (_vIsInternal) {
             _v.clear();
         }
     }
@@ -560,12 +524,10 @@ public abstract class Decoder implements FastInfosetParser {
         final int noOfItems = decodeNumberOfItemsOfSequence();
 
         for (int i = 0; i < noOfItems; i++) {
-            switch(decodeNonIdentifyingStringOnFirstBit()) {
-                case NISTRING_STRING:
-                    array.add(_charBuffer, _charBufferLength);
-                    break;
-                default:
-                    throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.illegalState"));
+            if (decodeNonIdentifyingStringOnFirstBit() == NISTRING_STRING) {
+                array.add(_charBuffer, _charBufferLength);
+            } else {
+                throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.illegalState"));
             }
         }
     }
@@ -574,12 +536,10 @@ public abstract class Decoder implements FastInfosetParser {
         final int noOfItems = decodeNumberOfItemsOfSequence();
         
         for (int i = 0; i < noOfItems; i++) {
-            switch(decodeNonIdentifyingStringOnFirstBit()) {
-                case NISTRING_STRING:
-                    array.add(new CharArray(_charBuffer, 0, _charBufferLength, true));
-                    break;
-                default:
-                    throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.illegalState"));
+            if (decodeNonIdentifyingStringOnFirstBit() == NISTRING_STRING) {
+                array.add(new CharArray(_charBuffer, 0, _charBufferLength, true));
+            } else {
+                throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.illegalState"));
             }
         }
     }
@@ -1545,7 +1505,7 @@ public abstract class Decoder implements FastInfosetParser {
         }
     }
     
-    private void decodeTwoToFourByteUtf8Character(char ch[], int b1, int end) throws IOException {
+    private void decodeTwoToFourByteUtf8Character(char[] ch, int b1, int end) throws IOException {
         switch(DecoderStateTables.UTF8(b1)) {
             case DecoderStateTables.UTF8_TWO_BYTES:
             {
@@ -1898,7 +1858,10 @@ public abstract class Decoder implements FastInfosetParser {
     }
     
     protected class EncodingAlgorithmInputStream extends InputStream {
-        
+
+        protected EncodingAlgorithmInputStream() {
+        }
+
         @Override
         public int read() throws IOException {
             if (_octetBufferStart < _octetBufferOffset) {
@@ -1909,12 +1872,12 @@ public abstract class Decoder implements FastInfosetParser {
         }
         
         @Override
-        public int read(byte b[]) throws IOException {
+        public int read(byte[] b) throws IOException {
             return read(b, 0, b.length);
         }
         
         @Override
-        public int read(byte b[], int off, int len) throws IOException {
+        public int read(byte[] b, int off, int len) throws IOException {
             if (b == null) {
                 throw new NullPointerException();
             } else if ((off < 0) || (off > b.length) || (len < 0) ||

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -25,11 +25,11 @@ import org.jvnet.fastinfoset.EncodingAlgorithmException;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
-    private static final char NIBBLE_TO_HEXADECIMAL_TABLE[] =
+    private static final char[] NIBBLE_TO_HEXADECIMAL_TABLE =
         {   '0','1','2','3','4','5','6','7',
             '8','9','A','B','C','D','E','F' };
     
-    private static final int HEXADECIMAL_TO_NIBBLE_TABLE[] = {
+    private static final int[] HEXADECIMAL_TO_NIBBLE_TABLE = {
         /*'0'*/ 0,
         /*'1'*/ 1,
         /*'2'*/ 2,
@@ -55,17 +55,23 @@ public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         /*'e'*/ 14,
         /*'f'*/ 15 };
 
+    public HexadecimalEncodingAlgorithm() {
+    }
+
+    @Override
     public final Object decodeFromBytes(byte[] b, int start, int length) throws EncodingAlgorithmException {
         final byte[] data = new byte[length];
         System.arraycopy(b, start, data, 0, length);
         return data;
     }
     
+    @Override
     public final Object decodeFromInputStream(InputStream s) throws IOException {
         throw new UnsupportedOperationException(CommonResourceBundle.getInstance().getString("message.notImplemented"));
     }
     
     
+    @Override
     public void encodeToOutputStream(Object data, OutputStream s) throws IOException {
         if (!(data instanceof byte[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotByteArray"));
@@ -74,6 +80,7 @@ public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         s.write((byte[])data);
     }
     
+    @Override
     public final Object convertFromCharacters(char[] ch, int start, int length) {
         if (length == 0) {
             return new byte[0];
@@ -98,6 +105,7 @@ public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         return value;
     }
     
+    @Override
     public final void convertToCharacters(Object data, StringBuffer s) {
         if (data == null) {
             return;
@@ -116,14 +124,17 @@ public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
     
     
         
+    @Override
     public final int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         return octetLength * 2;
     }
 
+    @Override
     public int getOctetLengthFromPrimitiveLength(int primitiveLength) {
         return primitiveLength / 2;
     }
     
+    @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
         System.arraycopy((byte[])array, astart, b, start, alength);
     }    

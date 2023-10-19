@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -18,7 +18,7 @@
 
 package com.sun.xml.fastinfoset;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public final class EncodingConstants {
     static {
@@ -275,18 +275,18 @@ public final class EncodingConstants {
     private static void initiateXMLDeclarationValues() {
         
         XML_DECLARATION_VALUES = new byte[9][];
-        
-        try {
-            XML_DECLARATION_VALUES[0] = "<?xml encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[1] = "<?xml version='1.0' encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[2] = "<?xml version='1.1' encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[3] = "<?xml encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[4] = "<?xml encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[5] = "<?xml version='1.0' encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[6] = "<?xml version='1.1' encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[7] = "<?xml version='1.0' encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[8] = "<?xml version='1.1' encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-        }
+
+        XML_DECLARATION_VALUES[0] = "<?xml encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[1] = "<?xml version='1.0' encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[2] = "<?xml version='1.1' encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[3] = "<?xml encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[4] = "<?xml encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[5] = "<?xml version='1.0' encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[6] = "<?xml version='1.1' encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[7] = "<?xml version='1.0' encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[8] = "<?xml version='1.1' encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
+    }
+
+    private EncodingConstants() {
     }
 }

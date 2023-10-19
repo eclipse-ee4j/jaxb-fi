@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -31,6 +31,8 @@ import com.sun.xml.fastinfoset.util.CharArray;
 import com.sun.xml.fastinfoset.util.CharArrayString;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 import org.jvnet.fastinfoset.EncodingAlgorithm;
@@ -73,36 +75,47 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
      * lexical-based events
      */
     private static final class LexicalHandlerImpl implements LexicalHandler {
+        @Override
         public void comment(char[] ch, int start, int end) { }
         
+        @Override
         public void startDTD(String name, String publicId, String systemId) { }
+        @Override
         public void endDTD() { }
         
+        @Override
         public void startEntity(String name) { }
+        @Override
         public void endEntity(String name) { }
         
+        @Override
         public void startCDATA() { }
+        @Override
         public void endCDATA() { }
-    };
-    
+    }
+
     /*
      * Empty DTD declaration handler used by default to report
      * DTD declaration-based events
      */
     private static final class DeclHandlerImpl implements DeclHandler {
+        @Override
         public void elementDecl(String name, String model) throws SAXException {
         }
         
+        @Override
         public void attributeDecl(String eName, String aName,
-                String type, String mode, String value) throws SAXException {
+                                  String type, String mode, String value) throws SAXException {
         }
         
+        @Override
         public void internalEntityDecl(String name,
-                String value) throws SAXException {
+                                       String value) throws SAXException {
         }
         
+        @Override
         public void externalEntityDecl(String name,
-                String publicId, String systemId) throws SAXException {
+                                       String publicId, String systemId) throws SAXException {
         }
     }
     
@@ -182,6 +195,7 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
     
     // XMLReader interface
     
+    @Override
     public boolean getFeature(String name)
     throws SAXNotRecognizedException, SAXNotSupportedException {
         if (name.equals(Features.NAMESPACES_FEATURE)) {
@@ -197,10 +211,11 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
         }
     }
     
+    @Override
     public void setFeature(String name, boolean value)
     throws SAXNotRecognizedException, SAXNotSupportedException {
         if (name.equals(Features.NAMESPACES_FEATURE)) {
-            if (value == false) {
+            if (!value) {
                 throw new SAXNotSupportedException(name + ":" + value);
             }
         } else if (name.equals(Features.NAMESPACE_PREFIXES_FEATURE)) {
@@ -352,8 +367,8 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
     public void parse(String systemId) throws IOException, SAXException {
         try {
             systemId = SystemIdResolver.getAbsoluteURI(systemId);
-            parse(new URL(systemId).openStream());
-        } catch (FastInfosetException e) {
+            parse(new URI(systemId).toURL().openStream());
+        } catch (FastInfosetException | URISyntaxException e) {
             logger.log(Level.FINE, "parsing error", e);
             throw new SAXException(e);
         }

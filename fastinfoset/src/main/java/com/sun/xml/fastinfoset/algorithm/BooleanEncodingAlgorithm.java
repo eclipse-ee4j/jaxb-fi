@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -33,7 +33,7 @@ import com.sun.xml.fastinfoset.CommonResourceBundle;
 
 /**
  *
- * An encoder for handling boolean values.  Suppports the builtin BOOLEAN encoder.
+ * An encoder for handling boolean values.  Supports the builtin BOOLEAN encoder.
  *
  * @author Alan Hudson
  * @author Paul Sandoz
@@ -51,7 +51,10 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         1 << 2,
         1 << 1,
         1};
-                
+
+    public BooleanEncodingAlgorithm() {
+    }
+
     @Override
     public int getPrimtiveLengthFromOctetLength(int octetLength) throws EncodingAlgorithmException {
         // Cannot determine the number of boolean values from just the octet length
@@ -111,7 +114,7 @@ public class BooleanEncodingAlgorithm extends BuiltInEncodingAlgorithm {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotBoolean"));
         }
 
-        boolean array[] = (boolean[])data;
+        boolean[] array = (boolean[])data;
         final int alength = array.length;
         
         final int mod = (alength + 4) % 8;

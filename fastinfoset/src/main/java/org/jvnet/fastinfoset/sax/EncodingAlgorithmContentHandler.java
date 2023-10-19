@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
  * <p>To set the EncodingAlgorithmContentHandler for an XML reader, use the
  * {@link org.xml.sax.XMLReader#setProperty setProperty} method
  * with the property name
- * <code>URI TO BE DEFINED</code>
+ * {@code URI TO BE DEFINED}
  * and an object implementing this interface (or null) as the value.
  * If the reader does not report primitive data types, it will throw a
  * {@link org.xml.sax.SAXNotRecognizedException SAXNotRecognizedException}</p>
@@ -77,8 +77,8 @@ public interface EncodingAlgorithmContentHandler {
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
      * @see org.jvnet.fastinfoset.EncodingAlgorithmIndexes
-     */    
-    public void octets(String URI, int algorithm, byte[] b, int start, int length)  throws SAXException;    
+     */
+    void octets(String URI, int algorithm, byte[] b, int start, int length)  throws SAXException;
 
     /**
      * Receive notification of encoding algorithm data as an object.
@@ -93,6 +93,6 @@ public interface EncodingAlgorithmContentHandler {
      * @throws org.xml.sax.SAXException any SAX exception, possibly
      *            wrapping another exception
      * @see org.jvnet.fastinfoset.EncodingAlgorithmIndexes
-     */    
-    public void object(String URI, int algorithm, Object o)  throws SAXException;    
+     */
+    void object(String URI, int algorithm, Object o)  throws SAXException;
 }

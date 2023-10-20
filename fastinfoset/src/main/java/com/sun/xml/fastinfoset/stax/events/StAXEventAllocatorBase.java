@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 package com.sun.xml.fastinfoset.stax.events;
 
 import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.Namespace;
@@ -103,7 +104,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
         factory.setLocation(reader.getLocation());
         switch(eventType){
             
-            case XMLEvent.START_ELEMENT:
+            case XMLStreamConstants.START_ELEMENT:
             {
                 StartElementEvent startElement = (StartElementEvent)factory.createStartElement(reader.getPrefix(),
                                     reader.getNamespaceURI(), reader.getLocalName());
@@ -115,7 +116,7 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
                 event = startElement;
                 break;
             }
-            case XMLEvent.END_ELEMENT:
+            case XMLStreamConstants.END_ELEMENT:
             {
                 EndElementEvent endElement = (EndElementEvent)factory.createEndElement(
                         reader.getPrefix(), reader.getNamespaceURI(), reader.getLocalName());
@@ -123,12 +124,12 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
                 event = endElement ;
                 break;
             }
-            case XMLEvent.PROCESSING_INSTRUCTION:
+            case XMLStreamConstants.PROCESSING_INSTRUCTION:
             {
                 event = factory.createProcessingInstruction(reader.getPITarget(),reader.getPIData());
                 break;
             }
-            case XMLEvent.CHARACTERS:
+            case XMLStreamConstants.CHARACTERS:
             {
                 if (reader.isWhiteSpace())
                   event = factory.createSpace(reader.getText());
@@ -137,12 +138,12 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
                 
                 break;
             }
-            case XMLEvent.COMMENT:
+            case XMLStreamConstants.COMMENT:
             {
                 event = factory.createComment(reader.getText());
                 break;
             }
-            case XMLEvent.START_DOCUMENT:
+            case XMLStreamConstants.START_DOCUMENT:
             {
                 StartDocumentEvent docEvent = (StartDocumentEvent)factory.createStartDocument(
                         reader.getVersion(), reader.getEncoding(), reader.isStandalone());
@@ -150,30 +151,30 @@ public class StAXEventAllocatorBase implements XMLEventAllocator {
                 event = docEvent ;
                 break;
             }
-            case XMLEvent.END_DOCUMENT:{
+            case XMLStreamConstants.END_DOCUMENT:{
                 EndDocumentEvent endDocumentEvent = new EndDocumentEvent() ;
                 event = endDocumentEvent ;
                 break;
             }
-            case XMLEvent.ENTITY_REFERENCE:{
+            case XMLStreamConstants.ENTITY_REFERENCE:{
                 event = factory.createEntityReference(reader.getLocalName(), 
                         new EntityDeclarationImpl(reader.getLocalName(),reader.getText()));
                 break;
                 
             }
-            case XMLEvent.ATTRIBUTE:{
+            case XMLStreamConstants.ATTRIBUTE:{
                 event = null ;
                 break;
             }
-            case XMLEvent.DTD:{
+            case XMLStreamConstants.DTD:{
                 event = factory.createDTD(reader.getText());
                 break;
             }
-            case XMLEvent.CDATA:{
+            case XMLStreamConstants.CDATA:{
                 event = factory.createCData(reader.getText());
                 break;
             }
-            case XMLEvent.SPACE:{
+            case XMLStreamConstants.SPACE:{
                 event = factory.createSpace(reader.getText());
                 break;
             }

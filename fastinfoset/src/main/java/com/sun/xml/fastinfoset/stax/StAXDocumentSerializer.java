@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@ import org.jvnet.fastinfoset.EncodingAlgorithmIndexes;
 import com.sun.xml.fastinfoset.CommonResourceBundle;
 import com.sun.xml.fastinfoset.QualifiedName;
 import com.sun.xml.fastinfoset.util.LocalNameQualifiedNamesMap;
+import org.jvnet.fastinfoset.FastInfosetException;
 import org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 
 /**
@@ -300,8 +301,7 @@ public class StAXDocumentSerializer extends Encoder
             if (prefix == null || prefix.isEmpty()) {
                 // Workaround for BUG in SAX NamespaceSupport helper
                 // which incorrectly defines namespace declaration URI
-                if (namespaceURI == EncodingConstants.XMLNS_NAMESPACE_NAME || 
-                        namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
+                if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
                     // TODO
                     // Need to check carefully the rule for the writing of
                     // namespaces in StAX. Is it safe to ignore such 
@@ -328,8 +328,7 @@ public class StAXDocumentSerializer extends Encoder
         // namespaces in StAX. Is it safe to ignore such 
         // attributes, as declarations will be made using the
         // writeNamespace method
-        if (namespaceURI == EncodingConstants.XMLNS_NAMESPACE_NAME || 
-                namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
+        if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
             return;
         }
 
@@ -453,7 +452,7 @@ public class StAXDocumentSerializer extends Encoder
 
                 encodeCIIBuiltInAlgorithmDataAsCDATA(ch, 0, length);
             }
-        } catch (Exception e) {
+        } catch (FastInfosetException | IOException e) {
             throw new XMLStreamException(e);
         }
     }
@@ -847,8 +846,7 @@ public class StAXDocumentSerializer extends Encoder
         final LocalNameQualifiedNamesMap.Entry entry = _v.elementName.obtainEntry(localName);
         for (int i = 0; i < entry._valueIndex; i++) {
             final QualifiedName name = entry._value[i];
-            if ((prefix == name.prefix || prefix.equals(name.prefix))
-                    && (namespaceURI == name.namespaceName || namespaceURI.equals(name.namespaceName))) {
+            if (prefix.equals(name.prefix) && namespaceURI.equals(name.namespaceName)) {
                 _b = type;
                 encodeNonZeroIntegerOnThirdBit(name.index);
                 return true;
@@ -863,8 +861,7 @@ public class StAXDocumentSerializer extends Encoder
         final LocalNameQualifiedNamesMap.Entry entry = _v.attributeName.obtainEntry(localName);
         for (int i = 0; i < entry._valueIndex; i++) {
             final QualifiedName name = entry._value[i];
-            if ((prefix == name.prefix || prefix.equals(name.prefix))
-                    && (namespaceURI == name.namespaceName || namespaceURI.equals(name.namespaceName))) {
+            if (prefix.equals(name.prefix) && namespaceURI.equals(name.namespaceName)) {
                 encodeNonZeroIntegerOnSecondBitFirstBitZero(name.index);
                 return true;
             }
@@ -875,13 +872,13 @@ public class StAXDocumentSerializer extends Encoder
     }
 
     private void encodeLiteralHeader(int type, String namespaceURI, String prefix) throws IOException {
-        if (namespaceURI != "") {
+        if (!namespaceURI.isEmpty()) {
             type |= EncodingConstants.LITERAL_QNAME_NAMESPACE_NAME_FLAG;
-            if (prefix != "")
+            if (!prefix.isEmpty())
                 type |= EncodingConstants.LITERAL_QNAME_PREFIX_FLAG;
                         
             write(type);
-            if (prefix != "")
+            if (!prefix.isEmpty())
                 encodeNonZeroIntegerOnSecondBitFirstBitOne(_v.prefix.get(prefix));
             encodeNonZeroIntegerOnSecondBitFirstBitOne(_v.namespaceName.get(namespaceURI));
         } else

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -89,7 +89,7 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     @Override
-    public void convertToCharacters(Object data, StringBuffer s) {
+    public void convertToCharacters(Object data, StringBuilder s) {
         if (!(data instanceof long[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotLongArray"));
         }
@@ -143,7 +143,7 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
                     ((long) (b[4] & 0xFF) << 24) +
                     ((b[5] & 0xFF) << 16) +
                     ((b[6] & 0xFF) << 8) +
-                    ((b[7] & 0xFF)));
+                    (b[7] & 0xFF));
 
             longList.add(l);
         }
@@ -185,9 +185,8 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
             b[start++] = (byte)(bits & 0xFF);
         }
     }
-    
-    
-    public final void convertToCharactersFromLongArray(long[] ldata, StringBuffer s) {
+
+    public final void convertToCharactersFromLongArray(long[] ldata, StringBuilder s) {
         final int end = ldata.length - 1;        
         for (int i = 0; i <= end; i++) {
             s.append(ldata[i]);
@@ -196,8 +195,15 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
             }
         }
     }
-    
-    
+
+    /**
+     * @deprecated Use {@link #convertToCharactersFromLongArray(long[], StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    public final void convertToCharactersFromLongArray(long[] ldata, StringBuffer s) {
+        convertToCharactersFromLongArray(ldata, new StringBuilder(s));
+    }
+
     public final long[] generateArrayFromList(List<Long> array) {
         long[] ldata = new long[array.size()];
         for (int i = 0; i < ldata.length; i++) {

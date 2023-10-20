@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -859,7 +859,7 @@ public class StAXDocumentParser extends Decoder
         
         try {
             convertEncodingAlgorithmDataToCharacters();
-        } catch (Exception e) {
+        } catch (FastInfosetException | IOException e) {
             throw new IllegalStateException(CommonResourceBundle.getInstance().getString("message.InvalidStateForText"));
         }
     }
@@ -994,10 +994,9 @@ public class StAXDocumentParser extends Decoder
     
     /**
      * Returns the byte[], which represents text algorithms.
-     * @deprecated was deprecated due to security reasons. Now the method return cloned byte[].
-     *
+     * <p>
+     * Was deprecated due to security reasons. Now the method return cloned byte[].
      */
-    @Deprecated
     public final byte[] getTextAlgorithmBytes() {
         // Do not return the actual _algorithmData due to security reasons
 //        return _algorithmData;
@@ -1738,7 +1737,7 @@ public class StAXDocumentParser extends Decoder
     }
     
     protected final void convertEncodingAlgorithmDataToCharacters() throws FastInfosetException, IOException {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if (_algorithmId == EncodingAlgorithmIndexes.BASE64) {
             convertBase64AlorithmDataToCharacters(buffer);
         } else if (_algorithmId < EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
@@ -1778,7 +1777,7 @@ public class StAXDocumentParser extends Decoder
      * Counts with base64 data coming in chunks, aligning input chunks by 3,
      * avoiding double cloning, happening after possible peek, peek2 cloning by Base64 algorithm
      */
-    protected void convertBase64AlorithmDataToCharacters(StringBuffer buffer) throws EncodingAlgorithmException, IOException {
+    protected void convertBase64AlorithmDataToCharacters(StringBuilder buffer) throws EncodingAlgorithmException, IOException {
         // How much new came data was serialized with prev. tale
         int afterTaleOffset = 0;
         
@@ -1818,12 +1817,20 @@ public class StAXDocumentParser extends Decoder
             base64TaleLength = taleBytesRemaining;
         }
     }
-    
+
+    /**
+     * @deprecated Use {@link #convertBase64AlorithmDataToCharacters(StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    protected void convertBase64AlorithmDataToCharacters(StringBuffer buffer) throws EncodingAlgorithmException, IOException {
+        convertBase64AlorithmDataToCharacters(new StringBuilder(buffer));
+    }
+
     /*
      * Encodes incoming data to Base64 string.
      * Method performs additional input data cloning
      */
-    private void base64DecodeWithCloning(StringBuffer dstBuffer, byte[] data, int offset, int length) throws EncodingAlgorithmException {
+    private void base64DecodeWithCloning(StringBuilder dstBuffer, byte[] data, int offset, int length) throws EncodingAlgorithmException {
         Object array = BuiltInEncodingAlgorithmFactory.base64EncodingAlgorithm.
                 decodeFromBytes(data, offset, length);
         BuiltInEncodingAlgorithmFactory.base64EncodingAlgorithm.convertToCharacters(array, dstBuffer);
@@ -1833,7 +1840,7 @@ public class StAXDocumentParser extends Decoder
      * Encodes incoming data to Base64 string.
      * Avoids input data cloning
      */
-    private void base64DecodeWithoutCloning(StringBuffer dstBuffer, byte[] data, int offset, int length) throws EncodingAlgorithmException {
+    private void base64DecodeWithoutCloning(StringBuilder dstBuffer, byte[] data, int offset, int length) throws EncodingAlgorithmException {
         BuiltInEncodingAlgorithmFactory.base64EncodingAlgorithm.convertToCharacters(data, offset, length, dstBuffer);
     }
     
@@ -1894,7 +1901,7 @@ public class StAXDocumentParser extends Decoder
         _manager = manager;
     }
     
-    final static String getEventTypeString(int eventType) {
+    static final String getEventTypeString(int eventType) {
         switch (eventType){
             case START_ELEMENT:
                 return "START_ELEMENT";

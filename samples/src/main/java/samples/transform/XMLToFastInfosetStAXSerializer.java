@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,7 +41,7 @@ import org.w3c.dom.Document;
  *  transformer to convert an XML file into a FI document. As shown in the sample,
  *  transforming a DOM source to SAX Result involves very little coding. However, the process
  *  may not be efficient due to the construction of DOM source.
- *
+ * <p>
  *  In the sample, a DOMSource is constructed out of an XML file input (see method getDOMSource)
  *  and a SAXResult is instantiated using an instance of SAX2StAXWriter as handlers (see method
  *  getSAXResult). Utility class

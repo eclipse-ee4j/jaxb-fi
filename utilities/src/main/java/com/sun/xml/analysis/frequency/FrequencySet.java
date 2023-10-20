@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ import java.util.TreeSet;
 
 /**
  * A Set that manages how many occurances of a value occurs in the set.
- *
+ * <p>
  * TODO: Sort entries lexically for set of values with 0 occurences.
  * @author Paul.Sandoz@Sun.Com
  */
@@ -59,10 +59,8 @@ public class FrequencySet<T> extends HashMap<T, Integer> {
         put(value, f);
     }
     
-    private class FrequencyComparator implements Comparator {
-        public int compare(Object o1, Object o2) {
-            Map.Entry<T, Integer> e1 = (Map.Entry<T, Integer>)o1;
-            Map.Entry<T, Integer> e2 = (Map.Entry<T, Integer>)o2;
+    private class FrequencyComparator implements Comparator<Map.Entry<T, Integer>> {
+        public int compare(Map.Entry<T, Integer> e1, Map.Entry<T, Integer> e2) {
             int diff = e2.getValue() - e1.getValue();
             if (diff == 0) {
                 if (e1.getKey().equals(e2.getKey())) {
@@ -84,12 +82,10 @@ public class FrequencySet<T> extends HashMap<T, Integer> {
      *         of occurence.
      */
     public List<T> createFrequencyBasedList() {
-        Set<Map.Entry<T, Integer>> s = new TreeSet(new FrequencyComparator());
-        for (Map.Entry<T, Integer> entry : entrySet()) {
-            s.add(entry);
-        }
+        Set<Map.Entry<T, Integer>> s = new TreeSet<>(new FrequencyComparator());
+        s.addAll(entrySet());
 
-        List<T> l = new ArrayList<T>();
+        List<T> l = new ArrayList<>();
         for (Map.Entry<T, Integer> e : s) {
             l.add(e.getKey());
         }
@@ -105,12 +101,10 @@ public class FrequencySet<T> extends HashMap<T, Integer> {
      *         of occurence.
      */
     public Set<T> createFrequencyBasedSet() {
-        Set<Map.Entry<T, Integer>> s = new TreeSet(new FrequencyComparator());
-        for (Map.Entry<T, Integer> entry : entrySet()) {
-            s.add(entry);
-        }
+        Set<Map.Entry<T, Integer>> s = new TreeSet<>(new FrequencyComparator());
+        s.addAll(entrySet());
 
-        Set<T> l = new LinkedHashSet<T>();
+        Set<T> l = new LinkedHashSet<>();
         for (Map.Entry<T, Integer> e : s) {
             l.add(e.getKey());
         }

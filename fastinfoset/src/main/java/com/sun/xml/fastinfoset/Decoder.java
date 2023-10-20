@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jvnet.fastinfoset.EncodingAlgorithm;
+import org.jvnet.fastinfoset.ExternalVocabulary;
 import org.jvnet.fastinfoset.FastInfosetException;
 import org.jvnet.fastinfoset.FastInfosetParser;
 
@@ -325,7 +326,7 @@ public abstract class Decoder implements FastInfosetParser {
     }
     
     @Override
-    @Deprecated
+    @SuppressWarnings({"deprecation"})
     public Map<String, ParserVocabulary> getExternalVocabularies() {
         return _externalVocabularies;
     }
@@ -489,9 +490,8 @@ public abstract class Decoder implements FastInfosetParser {
         if (o instanceof ParserVocabulary) {
             _v.setReferencedVocabulary(externalVocabularyURI,
                     (ParserVocabulary)o, false);
-        } else if (o instanceof org.jvnet.fastinfoset.ExternalVocabulary) {
-            org.jvnet.fastinfoset.ExternalVocabulary v =
-                    (org.jvnet.fastinfoset.ExternalVocabulary)o;
+        } else if (o instanceof ExternalVocabulary) {
+            ExternalVocabulary v = (org.jvnet.fastinfoset.ExternalVocabulary)o;
             ParserVocabulary pv = new ParserVocabulary(v.vocabulary);
             
             _externalVocabularies.put(externalVocabularyURI, pv);
@@ -564,7 +564,7 @@ public abstract class Decoder implements FastInfosetParser {
                 namespaceName = _v.namespaceName.get(namespaceNameIndex);
             }
             
-            if (namespaceName == "" && prefix != "") {
+            if (namespaceName.isEmpty() && !prefix.isEmpty()) {
                 throw new FastInfosetException(CommonResourceBundle.getInstance().getString("message.missingNamespace"));
             }
             
@@ -1951,8 +1951,8 @@ public abstract class Decoder implements FastInfosetParser {
         
         return true;
     }
-    
-    static public boolean isFastInfosetDocument(InputStream s) throws IOException {
+
+    public static boolean isFastInfosetDocument(InputStream s) throws IOException {
         // TODO
         // Check for <?xml declaration with 'finf' encoding
         final int headerSize = 4;

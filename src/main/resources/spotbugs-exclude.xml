@@ -1,15 +1,100 @@
 <!--
 
-    Copyright (c) 2012, 2022 Oracle and/or its affiliates. All rights reserved.
+    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    This program and the accompanying materials are made available under the
-    terms of the Eclipse Distribution License v. 1.0, which is available at
-    http://www.eclipse.org/org/documents/edl-v10.php.
+    Copyright (c) 2012, 2023 Oracle and/or its affiliates. All rights reserved.
 
-    SPDX-License-Identifier: BSD-3-Clause
+    Oracle licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         https://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 -->
 
 <FindBugsFilter>
+
+    <!--
+        Too many cases of switch fall through - legacy code, not an issue
+    -->
+    <Match>
+        <Or>
+            <Bug pattern="SF_SWITCH_FALLTHROUGH"/>
+            <Bug pattern="SF_SWITCH_NO_DEFAULT"/>
+        </Or>
+    </Match>
+
+    <!--
+        String comparison by == is on purpose for performance reasons
+    -->
+    <Match>
+        <Or>
+            <Bug pattern="MS_EXPOSE_REP"/>
+            <Bug pattern="EI_EXPOSE_REP2"/>
+        </Or>
+    </Match>
+
+    <!--
+        Bit operations on purpose
+    -->
+    <Match>
+        <Bug pattern="BIT_SIGNED_CHECK"/>
+    </Match>
+
+    <!--
+        It's dangerous to change this as 3rd party code may depend on that
+    -->
+    <Match>
+        <Or>
+            <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+            <Bug pattern="MS_MUTABLE_ARRAY"/>
+        </Or>
+    </Match>
+
+    <!--
+        False positive
+    -->
+    <Match>
+        <Class name="com.sun.xml.fastinfoset.stax.factory.StAXOutputFactory" />
+        <Method name="createXMLStreamWriter" params="javax.xml.transform.Result" returns="javax.xml.stream.XMLStreamWriter" />
+        <Bug pattern="OBL_UNSATISFIED_OBLIGATION" />
+    </Match>
+
+    <!--
+        False positive. We do check XMLEvent type before casting.
+    -->
+    <Match>
+        <Class name="com.sun.xml.fastinfoset.stax.events.StAXEventWriter" />
+        <Method name="add" params="javax.xml.stream.events.XMLEvent" returns="void" />
+        <Bug pattern="BC_UNCONFIRMED_CAST" />
+    </Match>
+
+    <!--
+        False positive
+    -->
+    <Match>
+        <Class name="com.sun.xml.fastinfoset.util.DuplicateAttributeVerifier" />
+        <Bug pattern="ISC_INSTANTIATE_STATIC_CLASS" />
+    </Match>
+
+    <!--
+        Expected behaviour
+    -->
+    <Match>
+        <Class name="org.jvnet.fastinfoset.FastInfosetSource" />
+        <Method name="getXMLReader" returns="org.xml.sax.XMLReader" />
+        <Bug pattern="XFB_XML_FACTORY_BYPASS" />
+    </Match>
+
+    <Match>
+        <Class name="samples.typed.TypedStreamBufferConvert"/>
+        <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+    </Match>
 
 </FindBugsFilter>

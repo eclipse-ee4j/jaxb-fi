@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,7 +48,6 @@ import com.sun.xml.xsom.visitor.XSVisitor;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -197,7 +196,7 @@ public class SchemaProcessor {
             }
         }
 
-        private Set<XSElementDecl> seen = new HashSet<XSElementDecl>();
+        private Set<XSElementDecl> seen = new HashSet<>();
 
         public void elementDecl(XSElementDecl type) {
             if (seen.contains(type)) return;
@@ -271,11 +270,11 @@ public class SchemaProcessor {
     
     private Set<XSDataType> _filter;
     
-    private Map<String, Set<XSDataType>> _elementMap = 
-            new HashMap<String, Set<XSDataType>>();
+    private Map<String, Set<XSDataType>> _elementMap =
+            new HashMap<>();
     
-    private Map<String, Set<XSDataType>> _attributeMap = 
-            new HashMap<String, Set<XSDataType>>();
+    private Map<String, Set<XSDataType>> _attributeMap =
+            new HashMap<>();
     
     private QName _element;
     
@@ -290,7 +289,7 @@ public class SchemaProcessor {
      * @param schema the URL to a schema.
      */
     public SchemaProcessor(URL schema) {
-        _schema = new ArrayList();
+        _schema = new ArrayList<>();
         _schema.add(schema);
     }
     
@@ -309,7 +308,7 @@ public class SchemaProcessor {
      * @return the element to XS data type map.
      */
     public Map<String, Set<XSDataType>> getElementToXSDataTypeMap() {
-        return new HashMap<String, Set<XSDataType>>(_elementMap);
+        return new HashMap<>(_elementMap);
     }
     
     /*
@@ -318,7 +317,7 @@ public class SchemaProcessor {
      * @return the attribute to XS data type map.
      */
     public Map<String, Set<XSDataType>> getAttributeToXSDataTypeMap() {
-        return new HashMap<String, Set<XSDataType>>(_attributeMap);
+        return new HashMap<>(_attributeMap);
     }
     
     /**
@@ -366,7 +365,7 @@ public class SchemaProcessor {
                     Collections.singleton(type));
         } else if (!types.contains(type)) {
             if (types.size() == 1) {
-                types = new HashSet<XSDataType>(types);
+                types = new HashSet<>(types);
                 map.put(localName, types);
             }
             

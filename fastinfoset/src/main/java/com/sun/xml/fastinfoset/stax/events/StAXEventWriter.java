@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@ import javax.xml.namespace.QName;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.*;
@@ -74,17 +75,17 @@ public class StAXEventWriter implements XMLEventWriter {
     public void add(XMLEvent event) throws XMLStreamException {
         int type = event.getEventType();
         switch(type){
-            case XMLEvent.DTD:{
+            case XMLStreamConstants.DTD:{
                 DTD dtd = (DTD)event ;
                 _streamWriter.writeDTD(dtd.getDocumentTypeDeclaration());
                 break;
             }
-            case XMLEvent.START_DOCUMENT :{
+            case XMLStreamConstants.START_DOCUMENT :{
                 StartDocument startDocument = (StartDocument)event ;
                 _streamWriter.writeStartDocument(startDocument.getCharacterEncodingScheme(), startDocument.getVersion());
                 break;
             }
-            case XMLEvent.START_ELEMENT :{
+            case XMLStreamConstants.START_ELEMENT :{
                 StartElement startElement = event.asStartElement() ;
                 QName qname = startElement.getName();
                 _streamWriter.writeStartElement(qname.getPrefix(), qname.getLocalPart(), qname.getNamespaceURI());
@@ -104,22 +105,22 @@ public class StAXEventWriter implements XMLEventWriter {
                 }
                 break;
             }
-            case XMLEvent.NAMESPACE:{
+            case XMLStreamConstants.NAMESPACE:{
                 Namespace namespace = (Namespace)event;
                 _streamWriter.writeNamespace(namespace.getPrefix(), namespace.getNamespaceURI());
                 break ;
             }
-            case XMLEvent.COMMENT: {
+            case XMLStreamConstants.COMMENT: {
                 Comment comment = (Comment)event ;
                 _streamWriter.writeComment(comment.getText());
                 break;
             }
-            case XMLEvent.PROCESSING_INSTRUCTION:{
+            case XMLStreamConstants.PROCESSING_INSTRUCTION:{
                 ProcessingInstruction processingInstruction = (ProcessingInstruction)event ;
                 _streamWriter.writeProcessingInstruction(processingInstruction.getTarget(), processingInstruction.getData());
                 break;
             }
-            case XMLEvent.CHARACTERS:{
+            case XMLStreamConstants.CHARACTERS:{
                 Characters characters = event.asCharacters();
                 //check if the CHARACTERS are CDATA
                 if(characters.isCData()){
@@ -130,18 +131,18 @@ public class StAXEventWriter implements XMLEventWriter {
                 }
                 break;
             }
-            case XMLEvent.ENTITY_REFERENCE:{
+            case XMLStreamConstants.ENTITY_REFERENCE:{
                 EntityReference entityReference = (EntityReference)event ;
                 _streamWriter.writeEntityRef(entityReference.getName());
                 break;
             }
-            case XMLEvent.ATTRIBUTE:{
+            case XMLStreamConstants.ATTRIBUTE:{
                 Attribute attribute = (Attribute)event;
                 QName qname = attribute.getName();
                 _streamWriter.writeAttribute(qname.getPrefix(), qname.getNamespaceURI(), qname.getLocalPart(),attribute.getValue());
                 break;
             }
-            case XMLEvent.CDATA:{
+            case XMLStreamConstants.CDATA:{
                 //there is no separate CDATA datatype but CDATA event can be reported
                 //by using vendor specific CDATA property.
                 Characters characters = (Characters)event;
@@ -151,11 +152,11 @@ public class StAXEventWriter implements XMLEventWriter {
                 break;
             }
             
-            case XMLEvent.END_ELEMENT:{
+            case XMLStreamConstants.END_ELEMENT:{
                 _streamWriter.writeEndElement();
                 break;
             }
-            case XMLEvent.END_DOCUMENT:{
+            case XMLStreamConstants.END_DOCUMENT:{
                 _streamWriter.writeEndDocument();
                 break;
             }

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,7 +66,6 @@ public class StAX2SAXReader {
         QName qname;
         String prefix, localPart;
         AttributesImpl attrs = new AttributesImpl();
-        char[] buffer;
         int nsc;
         int nat;
         
@@ -93,7 +92,7 @@ public class StAX2SAXReader {
                     for (int i = 0; i < nat; i++) {
                         QName q = _reader.getAttributeName(i);
                         String qName = _reader.getAttributePrefix(i);
-                        if (qName == null || qName == "") {
+                        if (qName == null || qName.isEmpty()) {
                             qName = q.getLocalPart();
                         } else {
                             qName = qName + ":" +  q.getLocalPart();

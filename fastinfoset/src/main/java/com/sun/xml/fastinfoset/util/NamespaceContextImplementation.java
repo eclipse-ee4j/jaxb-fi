@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import javax.xml.namespace.NamespaceContext;
  *
  * @author Paul.Sandoz@Sun.Com
  */
-final public class NamespaceContextImplementation implements NamespaceContext {
+public final class NamespaceContextImplementation implements NamespaceContext {
     private static final int DEFAULT_SIZE = 8;
     
     private String[] prefixes = new String[DEFAULT_SIZE];
@@ -167,13 +167,13 @@ final public class NamespaceContextImplementation implements NamespaceContext {
         namespaceURI = namespaceURI.intern();
         
         // Ignore the "xml" or "xmlns" declarations
-        if (prefix == "xml" || prefix == "xmlns")
+        if (prefix.equals("xml") || prefix.equals("xmlns"))
             return;
         
         // Replace any previous declaration
         for (int i = currentContext; i < namespacePosition; i++) {
             final String declaredPrefix = prefixes[i];
-            if (declaredPrefix == prefix) {
+            if (declaredPrefix.equals(prefix)) {
                 prefixes[i] = prefix;
                 namespaceURIs[i] = namespaceURI;
                 return;

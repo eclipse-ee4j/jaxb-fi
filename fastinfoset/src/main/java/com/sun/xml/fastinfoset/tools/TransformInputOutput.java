@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,20 +42,38 @@ public abstract class TransformInputOutput {
     public void parse(String[] args) throws Exception {
         InputStream in = null;
         OutputStream out = null;
-        if (args.length == 0) {
-            in = new BufferedInputStream(System.in);
-            out = new BufferedOutputStream(System.out);
-        } else if (args.length == 1) {
-            in = new BufferedInputStream(new FileInputStream(args[0]));
-            out = new BufferedOutputStream(System.out);
-        } else if (args.length == 2) {
-            in = new BufferedInputStream(new FileInputStream(args[0]));
-            out = new BufferedOutputStream(new FileOutputStream(args[1]));
-        } else {
-            throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.optinalFileNotSpecified"));
+        try {
+            if (args.length == 0) {
+                in = new BufferedInputStream(System.in);
+                out = new BufferedOutputStream(System.out);
+            } else if (args.length == 1) {
+                in = new BufferedInputStream(new FileInputStream(args[0]));
+                out = new BufferedOutputStream(System.out);
+            } else if (args.length == 2) {
+                in = new BufferedInputStream(new FileInputStream(args[0]));
+                out = new BufferedOutputStream(new FileOutputStream(args[1]));
+            } else {
+                throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.optinalFileNotSpecified"));
+            }
+
+            parse(in, out);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ioe) {
+                    //ignore
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ioe) {
+                    //ignore
+                }
+
+            }
         }
-        
-        parse(in, out);
     }
     
     abstract public void parse(InputStream in, OutputStream out) throws Exception;

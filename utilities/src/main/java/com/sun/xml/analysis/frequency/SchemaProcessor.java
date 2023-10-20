@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,31 +63,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A Schema processor that collects the namespaces, local names, elements
  * and attributes declared in a set of schema.
- *
+ * <p>
  * TODO: add default values for attribute/element simple content.
  *     : enums used for attribute/element simple content
  * @author Paul.Sandoz@Sun.Com
  */
 public class SchemaProcessor {
     
-    private static class StringComparator implements Comparator, Serializable {
-        public int compare(Object o1, Object o2) {
-            String s1 = (String)o1;
-            String s2 = (String)o2;
+    private static class StringComparator implements Comparator<String>, Serializable {
+        public int compare(String s1, String s2) {
             return s1.compareTo(s2);
         }
     };
     private StringComparator _stringComparator = new StringComparator();
     
-    private static class QNameComparator implements Comparator, Serializable {
-        public int compare(Object o1, Object o2) {
-            QName q1 = (QName)o1;
-            QName q2 = (QName)o2;
-            
+    private static class QNameComparator implements Comparator<QName>, Serializable {
+        public int compare(QName q1, QName q2) {
             if (q1.getNamespaceURI() == null 
                     && q2.getNamespaceURI() == null) {
                 return q1.getLocalPart().compareTo(q2.getLocalPart());
@@ -107,33 +103,33 @@ public class SchemaProcessor {
     /**
      * The set of elements declared in the schema
      */
-    Set<QName> elements = new java.util.TreeSet(_qNameComparator);
+    Set<QName> elements = new TreeSet<>(_qNameComparator);
     /**
      * The set of attributes declared in the schema
      */
-    Set<QName> attributes = new java.util.TreeSet(_qNameComparator);
+    Set<QName> attributes = new TreeSet<>(_qNameComparator);
     /**
      * The set of local names declared in the schema
      */
-    Set<String> localNames = new java.util.TreeSet(_stringComparator);
+    Set<String> localNames = new TreeSet<>(_stringComparator);
     /**
      * The set of namespaces declared in the schema
      */
-    Set<String> namespaces = new java.util.TreeSet(_stringComparator);
+    Set<String> namespaces = new TreeSet<>(_stringComparator);
     /**
      * The set of generated prefixes
      */
-    Set<String> prefixes = new java.util.TreeSet(_stringComparator);
+    Set<String> prefixes = new TreeSet<>(_stringComparator);
     /**
      * The set of default values and enum values for attributes
      * declared in the schema
      */
-    Set<String> attributeValues = new java.util.TreeSet(_stringComparator);
+    Set<String> attributeValues = new TreeSet<>(_stringComparator);
     /**
      * The set of default values and enums values for text content 
      * declared in the schema
      */
-    Set<String> textContentValues = new java.util.TreeSet(_stringComparator);
+    Set<String> textContentValues = new TreeSet<>(_stringComparator);
     
     // The list of URLs to schema
     private List<URL> _schema;
@@ -146,7 +142,7 @@ public class SchemaProcessor {
     private boolean _generatePrefixes;
     
     // Map of namespaces to generated prefixes
-    private Map<String, String> _namespaceToPrefix = new HashMap<String, String>();
+    private Map<String, String> _namespaceToPrefix = new HashMap<>();
     
     // Next generated prefix to use
     private String _generatedPrefix = "a";
@@ -169,7 +165,7 @@ public class SchemaProcessor {
      */
     public SchemaProcessor(URL schema, boolean collectValues, 
             boolean generatePrefixes) {
-        _schema = new ArrayList();
+        _schema = new ArrayList<>();
         _schema.add(schema);
         _collectValues = collectValues;
         _generatePrefixes = generatePrefixes;
@@ -206,14 +202,14 @@ public class SchemaProcessor {
         }
 
         public void attGroupDecl(XSAttGroupDecl decl) {
-            Iterator itr = decl.iterateAttGroups();
+            Iterator<? extends XSAttGroupDecl> itr = decl.iterateAttGroups();
             while (itr.hasNext()) {
-                addAttribute((XSAttGroupDecl) itr.next());
+                addAttribute(itr.next());
             }
 
-            itr = decl.iterateDeclaredAttributeUses();
-            while (itr.hasNext()) {
-                attributeUse((XSAttributeUse) itr.next());
+            Iterator<? extends XSAttributeUse> itr2 = decl.iterateDeclaredAttributeUses();
+            while (itr2.hasNext()) {
+                attributeUse(itr2.next());
             }
         }
 
@@ -267,14 +263,14 @@ public class SchemaProcessor {
                 type.getContentType().visit(this);
             }
 
-            Iterator itr = type.iterateAttGroups();
+            Iterator<? extends XSAttGroupDecl> itr = type.iterateAttGroups();
             while (itr.hasNext()) {
-                addAttribute((XSAttGroupDecl) itr.next());
+                addAttribute(itr.next());
             }
 
-            itr = type.iterateDeclaredAttributeUses();
-            while (itr.hasNext()) {
-                attributeUse((XSAttributeUse) itr.next());
+            Iterator<? extends XSAttributeUse> itr2 = type.iterateDeclaredAttributeUses();
+            while (itr2.hasNext()) {
+                attributeUse(itr2.next());
             }
         }
 
@@ -389,9 +385,9 @@ public class SchemaProcessor {
                 simpleType(baseType);
             }
 
-            Iterator itr = type.iterateDeclaredFacets();
+            Iterator<XSFacet> itr = type.iterateDeclaredFacets();
             while (itr.hasNext()) {
-                facet((XSFacet) itr.next());
+                facet(itr.next());
             }
         }
     }
@@ -499,7 +495,7 @@ public class SchemaProcessor {
     }
     
     private boolean hasProcessibleNamespaceURI(String namespaceURI) {
-        return (namespaceURI != XMLConstants.NULL_NS_URI &&
+        return (!namespaceURI.isEmpty() &&
                 !namespaceURI.equals("http://www.w3.org/XML/1998/namespace"));
     }
     

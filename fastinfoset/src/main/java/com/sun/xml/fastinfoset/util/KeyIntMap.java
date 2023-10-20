@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -68,7 +68,7 @@ public abstract class KeyIntMap {
         }
     }
  
-    public KeyIntMap(int initialCapacity, float loadFactor) {
+    protected KeyIntMap(int initialCapacity, float loadFactor) {
         if (initialCapacity < 0)
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().
                     getString("message.illegalInitialCapacity", new Object[]{initialCapacity}));
@@ -92,12 +92,12 @@ public abstract class KeyIntMap {
             _threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);        
         }
     }
-    
-    public KeyIntMap(int initialCapacity) {
+
+    protected KeyIntMap(int initialCapacity) {
         this(initialCapacity, DEFAULT_LOAD_FACTOR);
     }
 
-    public KeyIntMap() {
+    protected KeyIntMap() {
         _capacity = DEFAULT_INITIAL_CAPACITY;
         _loadFactor = DEFAULT_LOAD_FACTOR;
         _threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);

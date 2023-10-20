@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -175,7 +175,7 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
     }
     
     @Override
-    public final void convertToCharacters(Object data, StringBuffer s) {
+    public final void convertToCharacters(Object data, StringBuilder s) {
         if (data == null) {
             return;
         }
@@ -196,10 +196,10 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
     
     @Override
     public final void encodeToBytes(Object array, int astart, int alength, byte[] b, int start) {
-        System.arraycopy((byte[])array, astart, b, start, alength);
-    }    
+        System.arraycopy(array, astart, b, start, alength);
+    }
 
-    public final void convertToCharacters(byte[] data, int offset, int length, StringBuffer s) {
+    public final void convertToCharacters(byte[] data, int offset, int length, StringBuilder s) {
         if (data == null) {
             return;
         }
@@ -233,14 +233,20 @@ public class BASE64EncodingAlgorithm extends BuiltInEncodingAlgorithm {
             s.append(encodeBase64[b3 & 0x3f]);
         }
 
-        switch (partialBlockLength) {
-            case 1 :
-                s.setCharAt(originalBufferSize + encodedLength - 1, '=');
-                s.setCharAt(originalBufferSize + encodedLength - 2, '=');
-                break;
-            case 2 :
-                s.setCharAt(originalBufferSize + encodedLength - 1, '=');
-                break;
+        if (partialBlockLength == 1) {
+            s.setCharAt(originalBufferSize + encodedLength - 1, '=');
+            s.setCharAt(originalBufferSize + encodedLength - 2, '=');
+        } else if (partialBlockLength == 2) {
+            s.setCharAt(originalBufferSize + encodedLength - 1, '=');
         }
     }
+
+    /**
+     * @deprecated Use {@link #convertToCharacters(byte[], int, int, StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    public final void convertToCharacters(byte[] data, int offset, int length, StringBuffer s) {
+        convertToCharacters(data, offset, length, new StringBuilder(s));
+    }
+
 }

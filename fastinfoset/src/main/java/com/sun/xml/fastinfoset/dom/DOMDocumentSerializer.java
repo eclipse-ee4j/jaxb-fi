@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -133,7 +133,7 @@ public class DOMDocumentSerializer extends Encoder {
                 if (namespaceURI != null && namespaceURI.equals("http://www.w3.org/2000/xmlns/")) {
                     String attrPrefix = a.getLocalName();
                     String attrNamespace = a.getNodeValue();
-                    if (attrPrefix == "xmlns" || attrPrefix.equals("xmlns")) {
+                    if (attrPrefix.equals("xmlns")) {
                         attrPrefix = "";
                     }
                     _namespaceScopeContext.declarePrefix(attrPrefix, attrNamespace);
@@ -313,7 +313,7 @@ public class DOMDocumentSerializer extends Encoder {
         if (entry._valueIndex > 0) {
             final QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+                if (namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnThirdBit(names[i].index);
                     return;
                 }
@@ -334,7 +334,7 @@ public class DOMDocumentSerializer extends Encoder {
         if (entry._valueIndex > 0) {
             final QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+                if (namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnSecondBitFirstBitZero(names[i].index);
                     return;
                 }

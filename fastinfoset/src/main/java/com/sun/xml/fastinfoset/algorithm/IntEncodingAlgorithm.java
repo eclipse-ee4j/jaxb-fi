@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,7 +90,7 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
     }
     
     @Override
-    public final void convertToCharacters(Object data, StringBuffer s) {
+    public final void convertToCharacters(Object data, StringBuilder s) {
         if (!(data instanceof int[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotIntArray"));
         }
@@ -168,8 +168,7 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
         }
     }
     
-    
-    public final void convertToCharactersFromIntArray(int[] idata, StringBuffer s) {
+    public final void convertToCharactersFromIntArray(int[] idata, StringBuilder s) {
         final int end = idata.length - 1;
         for (int i = 0; i <= end; i++) {
             s.append(idata[i]);
@@ -178,8 +177,15 @@ public class IntEncodingAlgorithm extends IntegerEncodingAlgorithm {
             }
         }
     }
-    
-    
+
+    /**
+     * @deprecated Use {@link #convertToCharactersFromIntArray(int[], StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    public final void convertToCharactersFromIntArray(int[] idata, StringBuffer s) {
+        convertToCharactersFromIntArray(idata, new StringBuilder(s));
+    }
+
     public final int[] generateArrayFromList(List<Integer> array) {
         int[] idata = new int[array.size()];
         for (int i = 0; i < idata.length; i++) {

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -931,7 +931,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
     }
 
     /**
-     * Encode a qualified name of an Element Informaiton Item on the third bit
+     * Encode a qualified name of an Element Information Item on the third bit
      * of an octet.Implementation of clause C.18 of ITU-T Rec. X.891 | ISO/IEC
      * 24824-1.
      * <p>
@@ -949,10 +949,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((prefix.equals(names[i].prefix)
-                        || prefix.equals(names[i].prefix))
-                        && (namespaceURI.equals(names[i].namespaceName)
-                        || namespaceURI.equals(names[i].namespaceName))) {
+                if (prefix.equals(names[i].prefix) && namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnThirdBit(names[i].index);
                     return;
                 }
@@ -1035,10 +1032,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((prefix.equals(names[i].prefix)
-                        || prefix.equals(names[i].prefix))
-                        && (namespaceURI.equals(names[i].namespaceName)
-                        || namespaceURI.equals(names[i].namespaceName))) {
+                if (prefix.equals(names[i].prefix) && namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnSecondBitFirstBitZero(names[i].index);
                     return;
                 }
@@ -1065,8 +1059,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
         if (!namespaceURI.isEmpty()) {
             namespaceURIIndex = _v.namespaceName.get(namespaceURI);
             if (namespaceURIIndex == KeyIntMap.NOT_PRESENT) {
-                if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)
-                        || namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
+                if (namespaceURI.equals(EncodingConstants.XMLNS_NAMESPACE_NAME)) {
                     return false;
                 } else {
                     throw new IOException(CommonResourceBundle.getInstance().getString("message.namespaceURINotIndexed", new Object[]{namespaceURI}));
@@ -2478,7 +2471,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
             throw new IOException("");
         }
 
-        _encodingBuffer[bpos++] = (byte)(0xF0 | ((uc >> 18)));
+        _encodingBuffer[bpos++] = (byte)(0xF0 | (uc >> 18));
         _encodingBuffer[bpos++] = (byte)(0x80 | ((uc >> 12) & 0x3F));
         _encodingBuffer[bpos++] = (byte)(0x80 | ((uc >> 6) & 0x3F));
         _encodingBuffer[bpos++] = (byte)(0x80 | (uc & 0x3F));

@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -110,7 +110,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
 
     /**
      * Report a fatal error and abort.
-     *
+     * <p>
      * This is necessary to follow the SAX semantics of error handling.
      */
     private SAXParseException reportFatalError(String msg) throws SAXException {
@@ -303,9 +303,9 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
                         _writer.object(null, v.id, v.instance);
                     } else if (v.type == ValueInstance.Type.alphabet) {
                          char ch[] = (char[]) v.instance;
-                         if (v.alphabet == RestrictedAlphabet.DATE_TIME_CHARACTERS) {
+                         if (v.alphabet.equals(RestrictedAlphabet.DATE_TIME_CHARACTERS)) {
                             _writer.dateTimeCharacters(ch, 0, ch.length);
-                        } else if (v.alphabet == RestrictedAlphabet.NUMERIC_CHARACTERS) {
+                        } else if (v.alphabet.equals(RestrictedAlphabet.NUMERIC_CHARACTERS)) {
                             _writer.numericCharacters(ch, 0, ch.length);
                         }
                     } else {
@@ -469,7 +469,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
 
         if (_namespacePrefixesFeature) {
             // Add the namespace delcaration as an attribute
-            if (prefix != "") {
+            if (!prefix.isEmpty()) {
                 _attributes.addAttribute(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix,
                         getQName(XMLConstants.XMLNS_ATTRIBUTE, prefix),
                         "CDATA", uri);

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -131,7 +131,7 @@ public class StringIntMap extends KeyIntMap {
     }
 
     public final int get(String key) {
-        if (key == _lastEntry._key)
+        if (key.equals(_lastEntry._key))
             return _lastEntry._value;
         
         return get(key, hashHash(key.hashCode()));
@@ -204,6 +204,6 @@ public class StringIntMap extends KeyIntMap {
     }
         
     private boolean eq(String x, String y) {
-        return x == y || x.equals(y);
+        return x.equals(y);
     }
 }

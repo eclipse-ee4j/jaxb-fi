@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -89,7 +89,7 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
     }
     
     @Override
-    public final void convertToCharacters(Object data, StringBuffer s) {
+    public final void convertToCharacters(Object data, StringBuilder s) {
         if (!(data instanceof float[])) {
             throw new IllegalArgumentException(CommonResourceBundle.getInstance().getString("message.dataNotFloat"));
         }
@@ -167,9 +167,8 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
             b[start++] = (byte)(bits & 0xFF);
         }
     }
-    
-    
-    public final void convertToCharactersFromFloatArray(float[] fdata, StringBuffer s) {
+
+    public final void convertToCharactersFromFloatArray(float[] fdata, StringBuilder s) {
         final int end = fdata.length - 1;
         for (int i = 0; i <= end; i++) {
             s.append(fdata[i]);
@@ -178,8 +177,15 @@ public class FloatEncodingAlgorithm extends IEEE754FloatingPointEncodingAlgorith
             }
         }
     }
-    
-    
+
+    /**
+     * @deprecated Use {@link #convertToCharactersFromFloatArray(float[], StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    public final void convertToCharactersFromFloatArray(float[] fdata, StringBuffer s) {
+        convertToCharactersFromFloatArray(fdata, new StringBuilder(s));
+    }
+
     public final float[] generateArrayFromList(List<Float> array) {
         float[] fdata = new float[array.size()];
         for (int i = 0; i < fdata.length; i++) {

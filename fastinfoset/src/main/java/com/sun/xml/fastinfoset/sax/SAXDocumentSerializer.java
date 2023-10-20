@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -499,7 +499,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         int count = 0;
         for (int i = 0; i < atts.getLength(); i++) {
             final String uri = atts.getURI(i);
-            if (uri == "http://www.w3.org/2000/xmlns/" || uri.equals("http://www.w3.org/2000/xmlns/")) {
+            if (uri.equals("http://www.w3.org/2000/xmlns/")) {
                 continue;
             }
             count++;
@@ -527,10 +527,10 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
                         alphabet = eAtts.getAlpababet(i);
                         if (alphabet == null) {
                             encodeNonIdentifyingStringOnFirstBit(value, _v.attributeValue, addToTable, mustBeAddedToTable);
-                        } else if (alphabet == RestrictedAlphabet.DATE_TIME_CHARACTERS) {
+                        } else if (alphabet.equals(RestrictedAlphabet.DATE_TIME_CHARACTERS)) {
                             encodeDateTimeNonIdentifyingStringOnFirstBit(
                                     value, addToTable, mustBeAddedToTable);
-                        } else if (alphabet == RestrictedAlphabet.NUMERIC_CHARACTERS) {
+                        } else if (alphabet.equals(RestrictedAlphabet.NUMERIC_CHARACTERS)) {
                             encodeNumericNonIdentifyingStringOnFirstBit(
                                     value, addToTable, mustBeAddedToTable);
                         } else {
@@ -561,7 +561,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
                 final QualifiedName n = names[i];
-                if ((namespaceURI == n.namespaceName || namespaceURI.equals(n.namespaceName))) {
+                if (namespaceURI.equals(n.namespaceName)) {
                     encodeNonZeroIntegerOnThirdBit(names[i].index);
                     return;
                 }
@@ -577,7 +577,7 @@ public class SAXDocumentSerializer extends Encoder implements FastInfosetWriter 
         if (entry._valueIndex > 0) {
             QualifiedName[] names = entry._value;
             for (int i = 0; i < entry._valueIndex; i++) {
-                if ((namespaceURI == names[i].namespaceName || namespaceURI.equals(names[i].namespaceName))) {
+                if (namespaceURI.equals(names[i].namespaceName)) {
                     encodeNonZeroIntegerOnSecondBitFirstBitZero(names[i].index);
                     return true;
                 }

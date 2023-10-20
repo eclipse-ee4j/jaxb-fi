@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import com.sun.xml.fastinfoset.EncodingConstants;
 import com.sun.xml.fastinfoset.QualifiedName;
 import com.sun.xml.fastinfoset.algorithm.BuiltInEncodingAlgorithmFactory;
 import com.sun.xml.fastinfoset.algorithm.BuiltInEncodingAlgorithmState;
+import org.jvnet.fastinfoset.FastInfosetParser;
 import org.jvnet.fastinfoset.sax.EncodingAlgorithmContentHandler;
 import org.jvnet.fastinfoset.sax.FastInfosetReader;
 import org.jvnet.fastinfoset.sax.PrimitiveTypeContentHandler;
@@ -33,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 import org.jvnet.fastinfoset.EncodingAlgorithm;
 import org.jvnet.fastinfoset.EncodingAlgorithmException;
@@ -198,34 +198,39 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
     @Override
     public boolean getFeature(String name)
     throws SAXNotRecognizedException, SAXNotSupportedException {
-        if (name.equals(Features.NAMESPACES_FEATURE)) {
-            return true;
-        } else if (name.equals(Features.NAMESPACE_PREFIXES_FEATURE)) {
-            return _namespacePrefixesFeature;
-        } else if (name.equals(Features.STRING_INTERNING_FEATURE) ||
-                name.equals(FastInfosetReader.STRING_INTERNING_PROPERTY)) {
-            return getStringInterning();
-        } else {
-            throw new SAXNotRecognizedException(
-                    CommonResourceBundle.getInstance().getString("message.featureNotSupported") + name);
+        switch (name) {
+            case Features.NAMESPACES_FEATURE:
+                return true;
+            case Features.NAMESPACE_PREFIXES_FEATURE:
+                return _namespacePrefixesFeature;
+            case Features.STRING_INTERNING_FEATURE:
+            case FastInfosetParser.STRING_INTERNING_PROPERTY:
+                return getStringInterning();
+            default:
+                throw new SAXNotRecognizedException(
+                        CommonResourceBundle.getInstance().getString("message.featureNotSupported") + name);
         }
     }
     
     @Override
     public void setFeature(String name, boolean value)
     throws SAXNotRecognizedException, SAXNotSupportedException {
-        if (name.equals(Features.NAMESPACES_FEATURE)) {
-            if (!value) {
-                throw new SAXNotSupportedException(name + ":" + value);
-            }
-        } else if (name.equals(Features.NAMESPACE_PREFIXES_FEATURE)) {
-            _namespacePrefixesFeature = value;
-        } else if (name.equals(Features.STRING_INTERNING_FEATURE) ||
-                name.equals(FastInfosetReader.STRING_INTERNING_PROPERTY)) {
-            setStringInterning(value);
-        } else {
-            throw new SAXNotRecognizedException(
-                    CommonResourceBundle.getInstance().getString("message.featureNotSupported") + name);
+        switch (name) {
+            case Features.NAMESPACES_FEATURE:
+                if (!value) {
+                    throw new SAXNotSupportedException(name + ":" + value);
+                }
+                break;
+            case Features.NAMESPACE_PREFIXES_FEATURE:
+                _namespacePrefixesFeature = value;
+                break;
+            case Features.STRING_INTERNING_FEATURE:
+            case FastInfosetParser.STRING_INTERNING_PROPERTY:
+                setStringInterning(value);
+                break;
+            default:
+                throw new SAXNotRecognizedException(
+                        CommonResourceBundle.getInstance().getString("message.featureNotSupported") + name);
         }
     }
     
@@ -238,9 +243,9 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
                 return getLexicalHandler();
             case Properties.DTD_DECLARATION_HANDLER_PROPERTY:
                 return getDeclHandler();
-            case FastInfosetReader.EXTERNAL_VOCABULARIES_PROPERTY:
+            case FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY:
                 return getExternalVocabularies();
-            case FastInfosetReader.REGISTERED_ENCODING_ALGORITHMS_PROPERTY:
+            case FastInfosetParser.REGISTERED_ENCODING_ALGORITHMS_PROPERTY:
                 return getRegisteredEncodingAlgorithms();
             case FastInfosetReader.ENCODING_ALGORITHM_CONTENT_HANDLER_PROPERTY:
                 return getEncodingAlgorithmContentHandler();
@@ -269,17 +274,17 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
                 } else {
                     throw new SAXNotSupportedException(Properties.LEXICAL_HANDLER_PROPERTY);
                 }   break;
-            case FastInfosetReader.EXTERNAL_VOCABULARIES_PROPERTY:
+            case FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY:
                 if (value instanceof Map) {
                     setExternalVocabularies((Map<String, ParserVocabulary>)value);
                 } else {
-                    throw new SAXNotSupportedException(FastInfosetReader.EXTERNAL_VOCABULARIES_PROPERTY);
+                    throw new SAXNotSupportedException(FastInfosetParser.EXTERNAL_VOCABULARIES_PROPERTY);
                 }   break;
-            case FastInfosetReader.REGISTERED_ENCODING_ALGORITHMS_PROPERTY:
+            case FastInfosetParser.REGISTERED_ENCODING_ALGORITHMS_PROPERTY:
                 if (value instanceof Map) {
                     setRegisteredEncodingAlgorithms((Map<String, EncodingAlgorithm>)value);
                 } else {
-                    throw new SAXNotSupportedException(FastInfosetReader.REGISTERED_ENCODING_ALGORITHMS_PROPERTY);
+                    throw new SAXNotSupportedException(FastInfosetParser.REGISTERED_ENCODING_ALGORITHMS_PROPERTY);
                 }   break;
             case FastInfosetReader.ENCODING_ALGORITHM_CONTENT_HANDLER_PROPERTY:
                 if (value instanceof EncodingAlgorithmContentHandler) {
@@ -293,11 +298,11 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
                 } else {
                     throw new SAXNotSupportedException(FastInfosetReader.PRIMITIVE_TYPE_CONTENT_HANDLER_PROPERTY);
                 }   break;
-            case FastInfosetReader.BUFFER_SIZE_PROPERTY:
+            case FastInfosetParser.BUFFER_SIZE_PROPERTY:
                 if (value instanceof Integer) {
                     setBufferSize(((Integer)value));
                 } else {
-                    throw new SAXNotSupportedException(FastInfosetReader.BUFFER_SIZE_PROPERTY);
+                    throw new SAXNotSupportedException(FastInfosetParser.BUFFER_SIZE_PROPERTY);
                 }   break;
             default:
                 throw new SAXNotRecognizedException(CommonResourceBundle.getInstance().
@@ -441,17 +446,20 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
             else
                 processDII();
         } catch (RuntimeException e) {
+            FastInfosetException fie = new FastInfosetException(e);
             try {
                 _errorHandler.fatalError(new SAXParseException(e.getClass().getName(), null, e));
             } catch (Exception ee) {
+                fie.addSuppressed(ee);
             }
             resetOnError();
             // Wrap runtime exception
-            throw new FastInfosetException(e);
+            throw fie;
         } catch (FastInfosetException | IOException e) {
             try {
                 _errorHandler.fatalError(new SAXParseException(e.getClass().getName(), null, e));
             } catch (Exception ee) {
+                e.addSuppressed(ee);
             }
             resetOnError();
             throw e;
@@ -1233,7 +1241,7 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
             
             if (_namespacePrefixesFeature) {
                 // Add the namespace delcaration as an attribute
-                if (prefix != "") {
+                if (!prefix.isEmpty()) {
                     _attributes.addAttribute(new QualifiedName(
                             EncodingConstants.XMLNS_NAMESPACE_PREFIX,
                             EncodingConstants.XMLNS_NAMESPACE_NAME,
@@ -1568,7 +1576,7 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
                     throw new FastInfosetException(e);
                 }
             } else {
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 processBuiltInEncodingAlgorithmAsCharacters(buffer);
                 
                 try {
@@ -1579,7 +1587,7 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
             }
             
             if (addToTable) {
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 processBuiltInEncodingAlgorithmAsCharacters(buffer);
                 _characterContentChunkTable.add(buffer.toString().toCharArray(), buffer.length());
             }
@@ -1768,7 +1776,7 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
                 Object data = processBuiltInEncodingAlgorithmAsObject();
                 _attributes.addAttributeWithAlgorithmData(name, null, _identifier, data);
             } else {
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 processBuiltInEncodingAlgorithmAsCharacters(buffer);
                 _attributes.addAttribute(name, buffer.toString());
             }
@@ -1806,12 +1814,20 @@ public class SAXDocumentParser extends Decoder implements FastInfosetReader {
         }
     }
     
-    protected final void processBuiltInEncodingAlgorithmAsCharacters(StringBuffer buffer) throws FastInfosetException, IOException {
+    protected final void processBuiltInEncodingAlgorithmAsCharacters(StringBuilder buffer) throws FastInfosetException, IOException {
         // TODO not very efficient, need to reuse buffers
         Object array = BuiltInEncodingAlgorithmFactory.getAlgorithm(_identifier).
                 decodeFromBytes(_octetBuffer, _octetBufferStart, _octetBufferLength);
         
         BuiltInEncodingAlgorithmFactory.getAlgorithm(_identifier).convertToCharacters(array,  buffer);
+    }
+
+    /**
+     * @deprecated Use {@link #processBuiltInEncodingAlgorithmAsCharacters(StringBuilder)} instead.
+     */
+    @Deprecated(since = "2.1.1", forRemoval = true)
+    protected final void processBuiltInEncodingAlgorithmAsCharacters(StringBuffer buffer) throws FastInfosetException, IOException {
+        processBuiltInEncodingAlgorithmAsCharacters(new StringBuilder(buffer));
     }
     
     protected final Object processBuiltInEncodingAlgorithmAsObject() throws FastInfosetException, IOException {

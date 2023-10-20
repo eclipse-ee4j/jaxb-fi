@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,34 +22,34 @@ public class DecoderStateTables {
     private static int RANGE_INDEX_END      = 0;
     private static int RANGE_INDEX_VALUE    = 1;
 
-    public final static int STATE_ILLEGAL                   = 255;
-    public final static int STATE_UNSUPPORTED               = 254;
+    public static final int STATE_ILLEGAL                   = 255;
+    public static final int STATE_UNSUPPORTED               = 254;
 
     // EII child states
-    public final static int EII_NO_AIIS_INDEX_SMALL         = 0;
-    public final static int EII_AIIS_INDEX_SMALL            = 1;
-    public final static int EII_INDEX_MEDIUM                = 2;
-    public final static int EII_INDEX_LARGE                 = 3;
-    public final static int EII_NAMESPACES                  = 4;
-    public final static int EII_LITERAL                     = 5;
-    public final static int CII_UTF8_SMALL_LENGTH           = 6;
-    public final static int CII_UTF8_MEDIUM_LENGTH          = 7;
-    public final static int CII_UTF8_LARGE_LENGTH           = 8;
-    public final static int CII_UTF16_SMALL_LENGTH          = 9;
-    public final static int CII_UTF16_MEDIUM_LENGTH         = 10;
-    public final static int CII_UTF16_LARGE_LENGTH          = 11;
-    public final static int CII_RA                          = 12;
-    public final static int CII_EA                          = 13;
-    public final static int CII_INDEX_SMALL                 = 14;
-    public final static int CII_INDEX_MEDIUM                = 15;
-    public final static int CII_INDEX_LARGE                 = 16;
-    public final static int CII_INDEX_LARGE_LARGE           = 17;    
-    public final static int COMMENT_II                      = 18;
-    public final static int PROCESSING_INSTRUCTION_II       = 19;
-    public final static int DOCUMENT_TYPE_DECLARATION_II    = 20;
-    public final static int UNEXPANDED_ENTITY_REFERENCE_II  = 21;
-    public final static int TERMINATOR_SINGLE               = 22;
-    public final static int TERMINATOR_DOUBLE               = 23;
+    public static final int EII_NO_AIIS_INDEX_SMALL         = 0;
+    public static final int EII_AIIS_INDEX_SMALL            = 1;
+    public static final int EII_INDEX_MEDIUM                = 2;
+    public static final int EII_INDEX_LARGE                 = 3;
+    public static final int EII_NAMESPACES                  = 4;
+    public static final int EII_LITERAL                     = 5;
+    public static final int CII_UTF8_SMALL_LENGTH           = 6;
+    public static final int CII_UTF8_MEDIUM_LENGTH          = 7;
+    public static final int CII_UTF8_LARGE_LENGTH           = 8;
+    public static final int CII_UTF16_SMALL_LENGTH          = 9;
+    public static final int CII_UTF16_MEDIUM_LENGTH         = 10;
+    public static final int CII_UTF16_LARGE_LENGTH          = 11;
+    public static final int CII_RA                          = 12;
+    public static final int CII_EA                          = 13;
+    public static final int CII_INDEX_SMALL                 = 14;
+    public static final int CII_INDEX_MEDIUM                = 15;
+    public static final int CII_INDEX_LARGE                 = 16;
+    public static final int CII_INDEX_LARGE_LARGE           = 17;
+    public static final int COMMENT_II                      = 18;
+    public static final int PROCESSING_INSTRUCTION_II       = 19;
+    public static final int DOCUMENT_TYPE_DECLARATION_II    = 20;
+    public static final int UNEXPANDED_ENTITY_REFERENCE_II  = 21;
+    public static final int TERMINATOR_SINGLE               = 22;
+    public static final int TERMINATOR_DOUBLE               = 23;
 
     private static final int[] DII = new int[256];
     
@@ -331,12 +331,12 @@ public class DecoderStateTables {
 
     
     // AII states
-    public final static int AII_INDEX_SMALL                 = 0;
-    public final static int AII_INDEX_MEDIUM                = 1;
-    public final static int AII_INDEX_LARGE                 = 2;
-    public final static int AII_LITERAL                     = 3;
-    public final static int AII_TERMINATOR_SINGLE           = 4;
-    public final static int AII_TERMINATOR_DOUBLE           = 5;
+    public static final int AII_INDEX_SMALL                 = 0;
+    public static final int AII_INDEX_MEDIUM                = 1;
+    public static final int AII_INDEX_LARGE                 = 2;
+    public static final int AII_LITERAL                     = 3;
+    public static final int AII_TERMINATOR_SINGLE           = 4;
+    public static final int AII_TERMINATOR_DOUBLE           = 5;
 
     private static final int[] AII = new int[256];
 
@@ -380,18 +380,18 @@ public class DecoderStateTables {
     
     
     // AII value states
-    public final static int NISTRING_UTF8_SMALL_LENGTH     = 0;
-    public final static int NISTRING_UTF8_MEDIUM_LENGTH    = 1;
-    public final static int NISTRING_UTF8_LARGE_LENGTH     = 2;
-    public final static int NISTRING_UTF16_SMALL_LENGTH    = 3;
-    public final static int NISTRING_UTF16_MEDIUM_LENGTH   = 4;
-    public final static int NISTRING_UTF16_LARGE_LENGTH    = 5;
-    public final static int NISTRING_RA                    = 6;
-    public final static int NISTRING_EA                    = 7;
-    public final static int NISTRING_INDEX_SMALL           = 8;
-    public final static int NISTRING_INDEX_MEDIUM          = 9;
-    public final static int NISTRING_INDEX_LARGE           = 10;
-    public final static int NISTRING_EMPTY                 = 11;
+    public static final int NISTRING_UTF8_SMALL_LENGTH     = 0;
+    public static final int NISTRING_UTF8_MEDIUM_LENGTH    = 1;
+    public static final int NISTRING_UTF8_LARGE_LENGTH     = 2;
+    public static final int NISTRING_UTF16_SMALL_LENGTH    = 3;
+    public static final int NISTRING_UTF16_MEDIUM_LENGTH   = 4;
+    public static final int NISTRING_UTF16_LARGE_LENGTH    = 5;
+    public static final int NISTRING_RA                    = 6;
+    public static final int NISTRING_EA                    = 7;
+    public static final int NISTRING_INDEX_SMALL           = 8;
+    public static final int NISTRING_INDEX_MEDIUM          = 9;
+    public static final int NISTRING_INDEX_LARGE           = 10;
+    public static final int NISTRING_EMPTY                 = 11;
 
     private static final int[] NISTRING = new int[256];
 
@@ -503,12 +503,12 @@ public class DecoderStateTables {
     };
 
     
-    /* package */ final static int ISTRING_SMALL_LENGTH        = 0;
-    /* package */ final static int ISTRING_MEDIUM_LENGTH       = 1;
-    /* package */ final static int ISTRING_LARGE_LENGTH        = 2;
-    /* package */ final static int ISTRING_INDEX_SMALL         = 3;
-    /* package */ final static int ISTRING_INDEX_MEDIUM        = 4;
-    /* package */ final static int ISTRING_INDEX_LARGE         = 5;
+    /* package */ static final int ISTRING_SMALL_LENGTH        = 0;
+    /* package */ static final int ISTRING_MEDIUM_LENGTH       = 1;
+    /* package */ static final int ISTRING_LARGE_LENGTH        = 2;
+    /* package */ static final int ISTRING_INDEX_SMALL         = 3;
+    /* package */ static final int ISTRING_INDEX_MEDIUM        = 4;
+    /* package */ static final int ISTRING_INDEX_LARGE         = 5;
 
     private static final int[] ISTRING = new int[256];
     
@@ -542,11 +542,11 @@ public class DecoderStateTables {
     };
 
     
-    /* package */ final static int ISTRING_PREFIX_NAMESPACE_LENGTH_3   = 6;
-    /* package */ final static int ISTRING_PREFIX_NAMESPACE_LENGTH_5   = 7;
-    /* package */ final static int ISTRING_PREFIX_NAMESPACE_LENGTH_29  = 8;
-    /* package */ final static int ISTRING_PREFIX_NAMESPACE_LENGTH_36  = 9;
-    /* package */ final static int ISTRING_PREFIX_NAMESPACE_INDEX_ZERO = 10;
+    /* package */ static final int ISTRING_PREFIX_NAMESPACE_LENGTH_3   = 6;
+    /* package */ static final int ISTRING_PREFIX_NAMESPACE_LENGTH_5   = 7;
+    /* package */ static final int ISTRING_PREFIX_NAMESPACE_LENGTH_29  = 8;
+    /* package */ static final int ISTRING_PREFIX_NAMESPACE_LENGTH_36  = 9;
+    /* package */ static final int ISTRING_PREFIX_NAMESPACE_INDEX_ZERO = 10;
     
     private static final int[] ISTRING_PREFIX_NAMESPACE = new int[256];
     
@@ -610,11 +610,11 @@ public class DecoderStateTables {
     };
     
     // UTF-8 states
-    /* package */ final static int UTF8_NCNAME_NCNAME         = 0;
-    /* package */ final static int UTF8_NCNAME_NCNAME_CHAR    = 1;
-    /* package */ final static int UTF8_TWO_BYTES             = 2;
-    /* package */ final static int UTF8_THREE_BYTES           = 3;
-    /* package */ final static int UTF8_FOUR_BYTES            = 4;
+    /* package */ static final int UTF8_NCNAME_NCNAME         = 0;
+    /* package */ static final int UTF8_NCNAME_NCNAME_CHAR    = 1;
+    /* package */ static final int UTF8_TWO_BYTES             = 2;
+    /* package */ static final int UTF8_THREE_BYTES           = 3;
+    /* package */ static final int UTF8_FOUR_BYTES            = 4;
 
     private static final int[] UTF8_NCNAME = new int[256];
     
@@ -686,7 +686,7 @@ public class DecoderStateTables {
         { 0xFF, STATE_ILLEGAL }
     };
 
-    /* package */ final static int UTF8_ONE_BYTE = 1;
+    /* package */ static final int UTF8_ONE_BYTE = 1;
     
     private static final int[] UTF8 = new int[256];
     

@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,18 +35,18 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Paul.Sandoz@Sun.Com
  */
 public class FrequencyHandler extends DefaultHandler {
-    private Map<String, Set<QName>> namespacesToElements = new HashMap();
-    private Map<String, Set<QName>> namespacesToAttributes = new HashMap();
+    private Map<String, Set<QName>> namespacesToElements = new HashMap<>();
+    private Map<String, Set<QName>> namespacesToAttributes = new HashMap<>();
     
-    private Map<String, String> namespaceURIToPrefix = new HashMap();
+    private Map<String, String> namespaceURIToPrefix = new HashMap<>();
     
-    private FrequencySet<String> prefixes = new FrequencySet<String>();
-    private FrequencySet<String> namespaces = new FrequencySet<String>();
-    private FrequencySet<String> localNames = new FrequencySet<String>();
-    private FrequencySet<QName> elements = new FrequencySet<QName>();
-    private FrequencySet<QName> attributes = new FrequencySet<QName>();
-    private FrequencySet<String> attributeValues = new FrequencySet<String>();
-    private FrequencySet<String> textContentValues = new FrequencySet<String>();
+    private FrequencySet<String> prefixes = new FrequencySet<>();
+    private FrequencySet<String> namespaces = new FrequencySet<>();
+    private FrequencySet<String> localNames = new FrequencySet<>();
+    private FrequencySet<QName> elements = new FrequencySet<>();
+    private FrequencySet<QName> attributes = new FrequencySet<>();
+    private FrequencySet<String> attributeValues = new FrequencySet<>();
+    private FrequencySet<String> textContentValues = new FrequencySet<>();
 
     /**
      * The default frequency handler.
@@ -158,7 +158,7 @@ public class FrequencyHandler extends DefaultHandler {
      * that have already occured.
      */
     public void generateQNamesWithPrefix() {
-        Set<String> namespaceURIs = new HashSet<String>();
+        Set<String> namespaceURIs = new HashSet<>();
         namespaceURIs.addAll(namespacesToElements.keySet());
         namespaceURIs.addAll(namespacesToAttributes.keySet());
         
@@ -186,18 +186,12 @@ public class FrequencyHandler extends DefaultHandler {
     }
     
     private void addAll(Set to, Set<?> from) {
-        for(Object o : from) {
-            to.add(o);
-        }
+        to.addAll(from);
     }
     
     private void bucketQNamesToNamespace(Set<QName> s, Map<String, Set<QName>> m) {
         for (QName q : s) {
-            Set<QName> subs = m.get(q.getNamespaceURI());
-            if (subs == null) {
-                subs = new HashSet();
-                m.put(q.getNamespaceURI(), subs);
-            }
+            Set<QName> subs = m.computeIfAbsent(q.getNamespaceURI(), k -> new HashSet<>());
             subs.add(q);
         }
     }
@@ -237,9 +231,7 @@ public class FrequencyHandler extends DefaultHandler {
             String prefix = q.getPrefix();
             if (prefix.length() == 0) {
                 // If 'q' is in the set then remove it
-                if (s.contains(q)) {
-                    s.remove(q);
-                }
+                s.remove(q);
                 fhm.add(q);
                 
                 // Add each qName in the set to the frequence map
@@ -252,9 +244,7 @@ public class FrequencyHandler extends DefaultHandler {
                 
                 // If 'qWithoutPrefix' is not in the set then 
                 // add 'q' to the frequency map
-                if (s.contains(qWithoutPrefix)) {
-                    s.remove(qWithoutPrefix);
-                }
+                s.remove(qWithoutPrefix);
                 fhm.add(q);
                 
                 // Add each qName in the set to the frequence map
@@ -267,7 +257,7 @@ public class FrequencyHandler extends DefaultHandler {
     }
     
     private QName createQName(String uri, String localName, String qName) {
-        if (uri != "") {
+        if (!uri.isEmpty()) {
             final int i = qName.indexOf(':');
             final String prefix = (i != -1) ? qName.substring(0, i) : "";
             return new QName(uri, localName, prefix);

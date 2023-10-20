@@ -1,13 +1,13 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2004, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -271,7 +271,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
         _algorithmData = algorithmData;
     }
     
-    private StringBuffer convertEncodingAlgorithmDataToString(int identifier, String URI, Object data) throws FastInfosetException, IOException {
+    private StringBuilder convertEncodingAlgorithmDataToString(int identifier, String URI, Object data) throws FastInfosetException, IOException {
         EncodingAlgorithm ea = null;
         if (identifier < EncodingConstants.ENCODING_ALGORITHM_BUILTIN_END) {
             ea = BuiltInEncodingAlgorithmFactory.getAlgorithm(identifier);
@@ -293,7 +293,7 @@ public class AttributesHolder implements EncodingAlgorithmAttributes {
             throw new EncodingAlgorithmException(CommonResourceBundle.getInstance().getString("message.identifiers10to31Reserved"));
         }
 
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         ea.convertToCharacters(data, sb);
         return sb;
     }    

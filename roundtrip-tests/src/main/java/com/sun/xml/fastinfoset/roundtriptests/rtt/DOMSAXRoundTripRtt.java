@@ -26,7 +26,11 @@ import java.io.File;
  * @author Alexey Stashok
  */
 public class DOMSAXRoundTripRtt extends RoundTripRtt {
-    
+
+    public DOMSAXRoundTripRtt() {
+    }
+
+    @Override
     public boolean process(File file) throws Exception {
         String absolutePath = file.getAbsolutePath();
         
@@ -42,6 +46,7 @@ public class DOMSAXRoundTripRtt extends RoundTripRtt {
         return diffText(domSaxOutputFileName, fiDomSaxOutputFileName, diffOutputFileName);
     }
     
+    @Override
     public String getName() {
         return "domsaxroundtrip";
     }

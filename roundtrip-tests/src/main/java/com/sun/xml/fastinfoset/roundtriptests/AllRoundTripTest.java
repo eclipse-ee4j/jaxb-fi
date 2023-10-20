@@ -35,7 +35,10 @@ import java.io.PrintWriter;
  * @author Alexey Stashok
  */
 public class AllRoundTripTest {
-    
+
+    public AllRoundTripTest() {
+    }
+
     private RoundTripRtt[] roundTripTests = new RoundTripRtt[] {
         new SAXRoundTripRtt(), new StAXRoundTripRtt(), new DOMRoundTripRtt(),
         new DOMSAXRoundTripRtt(), new SAXStAXDiffRtt()};
@@ -67,17 +70,15 @@ public class AllRoundTripTest {
             testSrcFile = testSrcFile.getParentFile();
         }
         
-        FileUtils.removeFileRecursivelly(testSrcFile, new FileFilter() {
-            public boolean accept(File file) {
-                if (file.isDirectory()) {
-                    return !file.getName().equals(".") && !file.getName().equals("..");
-                } else if (file.isFile()) {
-                    String filename = file.getName();
-                    return filename.endsWith(".finf") || filename.endsWith(".sax-event") ||
-                            filename.contains(".diff");
-                }
-                return false;
+        FileUtils.removeFileRecursivelly(testSrcFile, file -> {
+            if (file.isDirectory()) {
+                return !file.getName().equals(".") && !file.getName().equals("..");
+            } else if (file.isFile()) {
+                String filename = file.getName();
+                return filename.endsWith(".finf") || filename.endsWith(".sax-event") ||
+                        filename.contains(".diff");
             }
+            return false;
         });
     }
     

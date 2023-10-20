@@ -36,7 +36,7 @@ public class Util {
      * @param eventType event type
      * @return String
      */    
-    public final static String getEventTypeString(int eventType) {
+    public static final String getEventTypeString(int eventType) {
         switch (eventType){
             case XMLStreamConstants.START_ELEMENT:
                 return "START_ELEMENT";

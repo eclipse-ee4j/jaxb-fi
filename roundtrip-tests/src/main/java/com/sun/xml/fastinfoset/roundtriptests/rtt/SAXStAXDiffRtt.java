@@ -26,7 +26,11 @@ import java.io.File;
  * @author Alexey Stashok
  */
 public class SAXStAXDiffRtt extends RoundTripRtt {
-    
+
+    public SAXStAXDiffRtt() {
+    }
+
+    @Override
     public boolean process(File file) throws Exception {
         String absolutePath = file.getAbsolutePath();
         
@@ -40,6 +44,7 @@ public class SAXStAXDiffRtt extends RoundTripRtt {
         return diffBinary(fiStaxOutputFileName, fiSaxOutputFileName, diffOutputFileName);
     }
     
+    @Override
     public String getName() {
         return "saxstaxdiff";
     }

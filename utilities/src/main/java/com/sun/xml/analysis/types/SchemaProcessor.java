@@ -78,9 +78,11 @@ public class SchemaProcessor {
         
     private class InternalSchemaProcessor implements XSVisitor, XSSimpleTypeVisitor {
             
+        @Override
         public void annotation(XSAnnotation xSAnnotation) {
         }
 
+        @Override
         public void attGroupDecl(XSAttGroupDecl decl) {
             for (XSAttGroupDecl groupDecl : decl.getAttGroups()) {
                 groupDecl.visit(this);
@@ -91,6 +93,7 @@ public class SchemaProcessor {
             }        
         }
 
+        @Override
         public void attributeDecl(XSAttributeDecl xSAttributeDecl) {
             _attribute = qname(xSAttributeDecl);
             _element = null;
@@ -99,11 +102,13 @@ public class SchemaProcessor {
             s.visit((XSSimpleTypeVisitor)this);
         }
 
+        @Override
         public void attributeUse(XSAttributeUse use) {
             XSAttributeDecl decl = use.getDecl();        
             decl.visit(this);
         }
 
+        @Override
         public void complexType(XSComplexType type) {
 
             if (type.getContentType().asSimpleType() != null) {
@@ -148,6 +153,7 @@ public class SchemaProcessor {
             }
         }
 
+        @Override
         public void schema(XSSchema s) {
             for (XSAttGroupDecl groupDecl : s.getAttGroupDecls().values()) {
                 attGroupDecl(groupDecl);
@@ -170,25 +176,32 @@ public class SchemaProcessor {
             }
         }
 
+        @Override
         public void facet(XSFacet facet) {
         }
 
+        @Override
         public void notation(XSNotation xSNotation) {
         }
 
+        @Override
         public void identityConstraint(XSIdentityConstraint xSIdentityConstraint) {
         }
 
+        @Override
         public void xpath(XSXPath xSXPath) {
         }
 
+        @Override
         public void wildcard(XSWildcard xSWildcard) {
         }
 
+        @Override
         public void modelGroupDecl(XSModelGroupDecl decl) {
            modelGroup(decl.getModelGroup());
         }
 
+        @Override
         public void modelGroup(XSModelGroup group) {
             final int len = group.getSize();
             for (int i = 0; i < len; i++) {
@@ -198,6 +211,7 @@ public class SchemaProcessor {
 
         private Set<XSElementDecl> seen = new HashSet<>();
 
+        @Override
         public void elementDecl(XSElementDecl type) {
             if (seen.contains(type)) return;
             seen.add(type);
@@ -206,19 +220,23 @@ public class SchemaProcessor {
             type.getType().visit(this);
         }
 
+        @Override
         public void particle(XSParticle part) {
             part.getTerm().visit(this);
         }
 
+        @Override
         public void empty(XSContentType xSContentType) {
         }    
 
 
 
+        @Override
         public void simpleType(XSSimpleType type) {
             type.visit((XSSimpleTypeVisitor)this);
         }
 
+        @Override
         public void listSimpleType(XSListSimpleType xSListSimpleType) {
             if (_isListSimpleType) return;
 
@@ -226,9 +244,11 @@ public class SchemaProcessor {
             simpleType(xSListSimpleType.getItemType());
         }
 
+        @Override
         public void unionSimpleType(XSUnionSimpleType type) {
         }
 
+        @Override
         public void restrictionSimpleType(XSRestrictionSimpleType type) {
             if (type.getTargetNamespace().equals("http://www.w3.org/2001/XMLSchema")) {
                 if (_element != null) {
@@ -249,16 +269,19 @@ public class SchemaProcessor {
     }
     
     private static class ErrorHandlerImpl implements ErrorHandler {
+        @Override
         public void warning(SAXParseException e) throws SAXException {
             System.out.println("WARNING");
             e.printStackTrace();
         }
 
+        @Override
         public void error(SAXParseException e) throws SAXException {
             System.out.println("ERROR");
             e.printStackTrace();
         }
 
+        @Override
         public void fatalError(SAXParseException e) throws SAXException {
             System.out.println("FATAL ERROR");
             e.printStackTrace();

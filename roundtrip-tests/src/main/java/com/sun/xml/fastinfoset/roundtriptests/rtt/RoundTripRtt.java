@@ -36,7 +36,10 @@ import java.io.PrintWriter;
  * @author Alexey Stashok
  */
 public abstract class RoundTripRtt {
-    
+
+    protected RoundTripRtt() {
+    }
+
     public abstract boolean process(File testFile) throws Exception;
     public abstract String getName();
     

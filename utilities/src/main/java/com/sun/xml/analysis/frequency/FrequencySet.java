@@ -35,6 +35,15 @@ import java.util.TreeSet;
  */
 public class FrequencySet<T> extends HashMap<T, Integer> {
 
+    private static final long serialVersionUID = 3211015452350934703L;
+
+    public FrequencySet(int initialCapacity) {
+        super(initialCapacity);
+    }
+
+    public FrequencySet() {
+    }
+
     /**
      * Add a value to the set.
      *
@@ -60,6 +69,7 @@ public class FrequencySet<T> extends HashMap<T, Integer> {
     }
     
     private class FrequencyComparator implements Comparator<Map.Entry<T, Integer>> {
+        @Override
         public int compare(Map.Entry<T, Integer> e1, Map.Entry<T, Integer> e2) {
             int diff = e2.getValue() - e1.getValue();
             if (diff == 0) {
@@ -72,8 +82,8 @@ public class FrequencySet<T> extends HashMap<T, Integer> {
                 return diff;
             }
         }
-    };
-    
+    }
+
     /**
      * Create an ordered list of values in the order of decreasing frequency
      * of occurence.

@@ -76,13 +76,20 @@ import java.util.TreeSet;
 public class SchemaProcessor {
     
     private static class StringComparator implements Comparator<String>, Serializable {
+        private static final long serialVersionUID = -864252731405592755L;
+
+        @Override
         public int compare(String s1, String s2) {
             return s1.compareTo(s2);
         }
-    };
+    }
+
     private StringComparator _stringComparator = new StringComparator();
     
     private static class QNameComparator implements Comparator<QName>, Serializable {
+        private static final long serialVersionUID = -2811548628684885213L;
+
+        @Override
         public int compare(QName q1, QName q2) {
             if (q1.getNamespaceURI() == null 
                     && q2.getNamespaceURI() == null) {
@@ -97,7 +104,8 @@ public class SchemaProcessor {
                 return q1.getLocalPart().compareTo(q2.getLocalPart());                
             }
         }
-    };
+    }
+
     private QNameComparator _qNameComparator = new QNameComparator();
     
     /**
@@ -198,9 +206,11 @@ public class SchemaProcessor {
     
     private class InternalSchemaProcessor implements XSVisitor, XSSimpleTypeVisitor {
         
+        @Override
         public void annotation(XSAnnotation xSAnnotation) {
         }
 
+        @Override
         public void attGroupDecl(XSAttGroupDecl decl) {
             Iterator<? extends XSAttGroupDecl> itr = decl.iterateAttGroups();
             while (itr.hasNext()) {
@@ -213,6 +223,7 @@ public class SchemaProcessor {
             }
         }
 
+        @Override
         public void attributeDecl(XSAttributeDecl xSAttributeDecl) {
             if (xSAttributeDecl.getDefaultValue() != null) {
                 addAttributeValue(xSAttributeDecl.getDefaultValue().value);
@@ -227,12 +238,14 @@ public class SchemaProcessor {
             }                
         }
 
+        @Override
         public void attributeUse(XSAttributeUse use) {
             XSAttributeDecl decl = use.getDecl();
 
             attributeDecl(decl);
         }
 
+        @Override
         public void complexType(XSComplexType type) {
 
             if (type.getContentType().asSimpleType() != null) {
@@ -274,6 +287,7 @@ public class SchemaProcessor {
             }
         }
 
+        @Override
         public void schema(XSSchema s) {
             for (XSAttGroupDecl groupDecl : s.getAttGroupDecls().values()) {
                 attGroupDecl(groupDecl);
@@ -300,6 +314,7 @@ public class SchemaProcessor {
             }       
         }
 
+        @Override
         public void facet(XSFacet facet) {
             /*
              * TODO
@@ -313,22 +328,28 @@ public class SchemaProcessor {
             }        
         }
 
+        @Override
         public void notation(XSNotation xSNotation) {
         }
 
+        @Override
         public void identityConstraint(XSIdentityConstraint xSIdentityConstraint) {
         }
 
+        @Override
         public void xpath(XSXPath xSXPath) {
         }
 
+        @Override
         public void wildcard(XSWildcard xSWildcard) {
         }
 
+        @Override
         public void modelGroupDecl(XSModelGroupDecl decl) {
            modelGroup(decl.getModelGroup());
         }
 
+        @Override
         public void modelGroup(XSModelGroup group) {
             final int len = group.getSize();
             for (int i = 0; i < len; i++) {
@@ -336,6 +357,7 @@ public class SchemaProcessor {
             }
         }
 
+        @Override
         public void elementDecl(XSElementDecl type) {
             if (type.getDefaultValue() != null) {
                 addTextContentValue(type.getDefaultValue().value);
@@ -351,20 +373,25 @@ public class SchemaProcessor {
             addElement(type);        
         }
 
+        @Override
         public void particle(XSParticle part) {
             part.getTerm().visit(this);
         }
 
+        @Override
         public void empty(XSContentType xSContentType) {
         }    
 
+        @Override
         public void simpleType(XSSimpleType type) {
             type.visit((XSSimpleTypeVisitor)this);
         }
 
+        @Override
         public void listSimpleType(XSListSimpleType xSListSimpleType) {
         }
 
+        @Override
         public void unionSimpleType(XSUnionSimpleType type) {
             final int len = type.getMemberSize();
             for (int i = 0; i < len; i++) {
@@ -375,6 +402,7 @@ public class SchemaProcessor {
             }        
         }
 
+        @Override
         public void restrictionSimpleType(XSRestrictionSimpleType type) {
             XSSimpleType baseType = type.getSimpleBaseType();
             if (baseType == null) {
@@ -393,16 +421,19 @@ public class SchemaProcessor {
     }
     
     private static class ErrorHandlerImpl implements ErrorHandler {
+        @Override
         public void warning(SAXParseException e) throws SAXException {
             System.out.println("WARNING");
             e.printStackTrace();
         }
 
+        @Override
         public void error(SAXParseException e) throws SAXException {
             System.out.println("ERROR");
             e.printStackTrace();
         }
 
+        @Override
         public void fatalError(SAXParseException e) throws SAXException {
             System.out.println("FATAL ERROR");
             e.printStackTrace();

@@ -19,8 +19,8 @@ import com.sun.xml.fime.util.StringIntMap;
 
 
 public class SerializerVocabulary extends Vocabulary {
-    public final static int ATTRIBUTE_VALUE_SIZE_CONSTRAINT = 7;
-    public final static int CHARACTER_CONTENT_CHUNK_SIZE_CONSTRAINT = 7;
+    public static final int ATTRIBUTE_VALUE_SIZE_CONSTRAINT = 7;
+    public static final int CHARACTER_CONTENT_CHUNK_SIZE_CONSTRAINT = 7;
     
     public final StringIntMap restrictedAlphabet;
     public final StringIntMap encodingAlgorithm;

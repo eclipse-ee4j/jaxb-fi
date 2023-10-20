@@ -43,7 +43,10 @@ import org.xml.sax.XMLReader;
  * Encoding Algorithms and Restricted Alphabets.
  */
 public class XML_SAX_TYPED_FI {
-    
+
+    public XML_SAX_TYPED_FI() {
+    }
+
     public void parse(String[] args) throws Exception {
         String schemaLocation = null;
         InputStream in = null;

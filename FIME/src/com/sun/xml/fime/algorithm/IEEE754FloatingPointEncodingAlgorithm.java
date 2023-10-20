@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,10 +11,10 @@
 package com.sun.xml.fime.algorithm;
 
 public abstract class IEEE754FloatingPointEncodingAlgorithm extends BuiltInEncodingAlgorithm {
-    public final static int FLOAT_SIZE  = 4;
-    public final static int DOUBLE_SIZE = 8;
+    public static final int FLOAT_SIZE  = 4;
+    public static final int DOUBLE_SIZE = 8;
 
-    public final static int FLOAT_MAX_CHARACTER_SIZE    = 14;
-    public final static int DOUBLE_MAX_CHARACTER_SIZE   = 24;
+    public static final int FLOAT_MAX_CHARACTER_SIZE    = 14;
+    public static final int DOUBLE_MAX_CHARACTER_SIZE   = 24;
         
 }

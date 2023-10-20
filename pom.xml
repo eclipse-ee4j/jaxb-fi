@@ -85,7 +85,7 @@
         <copyright.scmonly>true</copyright.scmonly>
         <copyright.template>${project.build.commonResourcesDirectory}/config/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
-        <spotbugs.common>${project.build.commonResourcesDirectory}/config/spotbugs-exclude.xml</spotbugs.common>
+        <spotbugs.exclude>${project.build.commonResourcesDirectory}/config/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
         <spotbugs.version>4.7.3.6</spotbugs.version>

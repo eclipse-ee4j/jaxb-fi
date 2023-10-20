@@ -104,8 +104,9 @@ public class ConvertLexicalValues {
             
         }
         
-        public void startElement(String uri, String localName, String qName, 
-                Attributes atts) throws SAXException {
+        @Override
+        public void startElement(String uri, String localName, String qName,
+                                 Attributes atts) throws SAXException {
             // Obtain the XS types associated with the local name of this 
             // element
             _textContent = _elements.get(localName);
@@ -132,6 +133,7 @@ public class ConvertLexicalValues {
             super.startElement(uri, localName, qName, atts);
         }
         
+        @Override
         public void characters (char ch[], int start, int length)
             throws SAXException {
             if (_textContent == null) {
@@ -238,12 +240,14 @@ public class ConvertLexicalValues {
          */
         SAXDocumentParser p = new SAXDocumentParser();
         FastInfosetDefaultHandler h = new FastInfosetDefaultHandler() {
-            public void bytes(byte[] b, int start, int length) 
+            @Override
+            public void bytes(byte[] b, int start, int length)
             throws SAXException {
                 System.out.println("Byte: " + b[start]);
             }
 
-            public void floats(float[] f, int start, int length) 
+            @Override
+            public void floats(float[] f, int start, int length)
             throws SAXException {
                 System.out.println("Float: " + f[start]);
             }

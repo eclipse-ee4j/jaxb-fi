@@ -58,21 +58,14 @@ public class SingleRountTripTest {
     }
     
     public void processFileOrFolder(File srcFile) {
-        FileUtils.processFileOrDirectoryRecursivelly(srcFile, new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                if (file.isDirectory()) {
-                    return !file.getName().equals(".") && !file.getName().equals("..");
-                } else if (file.isFile()) {
-                    return file.getName().endsWith(".xml");
-                }
-                return false;
-            }}, new FileUtils.FileProcessorHandler() {
-                @Override
-                public void handle(final File file) {
-                    processRtt(file);
-                }
-            });
+        FileUtils.processFileOrDirectoryRecursivelly(srcFile, file -> {
+            if (file.isDirectory()) {
+                return !file.getName().equals(".") && !file.getName().equals("..");
+            } else if (file.isFile()) {
+                return file.getName().endsWith(".xml");
+            }
+            return false;
+        }, file -> processRtt(file));
     }
     
     public static void main(String[] args) throws Exception {

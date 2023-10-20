@@ -107,7 +107,8 @@ public class TypedSAXBufferCreator extends AbstractCreator
         _elements = elements;
         _attributes = attributes;
     }
-    
+
+    @SuppressWarnings({"this-escape"})
     public TypedSAXBufferCreator(Map<String, Set<XSDataType>> elements, 
             Map<String, Set<XSDataType>> attributes, 
             MutableXMLStreamBuffer buffer) {
@@ -151,20 +152,24 @@ public class TypedSAXBufferCreator extends AbstractCreator
     }
     
     
+    @Override
     public void startDocument() throws SAXException {
         storeStructure(T_DOCUMENT);
     }
     
+    @Override
     public void endDocument() throws SAXException {
         storeStructure(T_END);
     }
         
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         storeTextContent();
         
         cacheNamespaceAttribute(prefix, uri);
     }
     
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         storeTextContent();
 
@@ -186,21 +191,25 @@ public class TypedSAXBufferCreator extends AbstractCreator
         }
     }
         
+    @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         storeTextContent();
         
         storeStructure(T_END);
     }
     
+    @Override
     public void characters(char ch[], int start, int length) throws SAXException {
         _storeTextContent = true;
         _textContent.append(ch, start, length);
     }
     
+    @Override
     public void ignorableWhitespace(char ch[], int start, int length) throws SAXException {
         characters(ch, start, length);
     }
     
+    @Override
     public void processingInstruction(String target, String data) throws SAXException {
         storeTextContent();
         
@@ -209,6 +218,7 @@ public class TypedSAXBufferCreator extends AbstractCreator
         storeStructureString(data);
     }
             
+    @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
         storeTextContent();
         
@@ -320,6 +330,7 @@ public class TypedSAXBufferCreator extends AbstractCreator
     
     // Entity resolver handler
     
+    @Override
     public InputSource resolveEntity (String publicId, String systemId)
 	throws IOException, SAXException {
 	return null;
@@ -327,41 +338,55 @@ public class TypedSAXBufferCreator extends AbstractCreator
         
     // DTD handler
     
+    @Override
     public void notationDecl (String name, String publicId, String systemId)
 	throws SAXException { }
     
+    @Override
     public void unparsedEntityDecl (String name, String publicId,
-				    String systemId, String notationName)
+                                    String systemId, String notationName)
 	throws SAXException { }
         
     // Content handler
     
+    @Override
     public void setDocumentLocator (Locator locator) { }
         
+    @Override
     public void endPrefixMapping (String prefix) throws SAXException { }
     
+    @Override
     public void skippedEntity (String name) throws SAXException { }
 
     // Lexical handler 
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException { }
     
+    @Override
     public void endDTD() throws SAXException { }
     
+    @Override
     public void startEntity(String name) throws SAXException { }
     
+    @Override
     public void endEntity(String name) throws SAXException { }
     
+    @Override
     public void startCDATA() throws SAXException { }
     
+    @Override
     public void endCDATA() throws SAXException { }
     
     // Error handler
     
+    @Override
     public void warning(SAXParseException e) throws SAXException { }
     
+    @Override
     public void error(SAXParseException e) throws SAXException { }
     
+    @Override
     public void fatalError(SAXParseException e) throws SAXException {
 	throw e;
     }    

@@ -83,18 +83,22 @@ public final class FastInfosetReaderSAXBufferCreator extends AbstractCreator
     }
     
     
+    @Override
     public void startDocument() throws SAXException {
         storeStructure(T_DOCUMENT);
     }
     
+    @Override
     public void endDocument() throws SAXException {
         storeStructure(T_END);
     }
         
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         cacheNamespaceAttribute(prefix, uri);
     }
     
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         storeQualifiedName(T_ELEMENT_LN,
                 uri, localName, qName);
@@ -110,33 +114,40 @@ public final class FastInfosetReaderSAXBufferCreator extends AbstractCreator
         }
     }
         
+    @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         storeStructure(T_END);
     }
     
+    @Override
     public void characters(char ch[], int start, int length) throws SAXException {
         storeContentCharacters(T_TEXT_AS_CHAR_ARRAY, ch, 0, length);                
     }
     
+    @Override
     public void ignorableWhitespace(char ch[], int start, int length) throws SAXException {
         characters(ch, start, length);
     }
     
+    @Override
     public void processingInstruction(String target, String data) throws SAXException {
         storeStructure(T_PROCESSING_INSTRUCTION);
         storeStructureString(target);
         storeStructureString(data);
     }
             
+    @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
         storeContentCharacters(T_COMMENT_AS_CHAR_ARRAY, ch, start, length);
     }
 
     //
     
+    @Override
     public void octets(String URI, int algorithm, byte[] b, int start, int length) throws SAXException {
     }
 
+    @Override
     public void object(String URI, int algorithm, Object o) throws SAXException {
         storeStructure(T_TEXT_AS_OBJECT);
         storeContentObject(algorithm, o);
@@ -221,6 +232,7 @@ public final class FastInfosetReaderSAXBufferCreator extends AbstractCreator
     
     // Entity resolver handler
     
+    @Override
     public InputSource resolveEntity (String publicId, String systemId)
 	throws IOException, SAXException {
 	return null;
@@ -228,41 +240,55 @@ public final class FastInfosetReaderSAXBufferCreator extends AbstractCreator
         
     // DTD handler
     
+    @Override
     public void notationDecl (String name, String publicId, String systemId)
 	throws SAXException { }
     
+    @Override
     public void unparsedEntityDecl (String name, String publicId,
-				    String systemId, String notationName)
+                                    String systemId, String notationName)
 	throws SAXException { }
         
     // Content handler
     
+    @Override
     public void setDocumentLocator (Locator locator) { }
         
+    @Override
     public void endPrefixMapping (String prefix) throws SAXException { }
     
+    @Override
     public void skippedEntity (String name) throws SAXException { }
 
     // Lexical handler 
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException { }
     
+    @Override
     public void endDTD() throws SAXException { }
     
+    @Override
     public void startEntity(String name) throws SAXException { }
     
+    @Override
     public void endEntity(String name) throws SAXException { }
     
+    @Override
     public void startCDATA() throws SAXException { }
     
+    @Override
     public void endCDATA() throws SAXException { }
     
     // Error handler
     
+    @Override
     public void warning(SAXParseException e) throws SAXException { }
     
+    @Override
     public void error(SAXParseException e) throws SAXException { }
     
+    @Override
     public void fatalError(SAXParseException e) throws SAXException {
 	throw e;
     }    

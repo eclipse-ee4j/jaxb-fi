@@ -66,7 +66,7 @@ public final class FastInfosetWriterSAXBufferProcessor extends AbstractProcessor
     }
 
     public void setXMLStreamBuffer(XMLStreamBuffer buffer) {
-        setBuffer(buffer);
+        setBuffer(buffer, buffer.isFragment());
     }
 
     public final void process(FastInfosetWriter writer) throws SAXException {

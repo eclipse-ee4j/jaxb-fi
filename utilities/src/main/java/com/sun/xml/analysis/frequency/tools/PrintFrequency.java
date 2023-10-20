@@ -32,7 +32,10 @@ import javax.xml.parsers.SAXParserFactory;
  * @author Paul.Sandoz@Sun.Com
  */
 public class PrintFrequency {
-    
+
+    private PrintFrequency() {
+    }
+
     /**
      * @param args the command line arguments. arg[0] is the path to a schema,
      * args[1] to args[n] are the paths to XML documents.
@@ -50,7 +53,8 @@ public class PrintFrequency {
             p.parse(new File(args[i]), fh);
         }
         fh.generateQNamesWithPrefix();
-        
+
+        @SuppressWarnings({"deprecation"})
         FrequencyBasedLists l = fh.getLists();
         System.out.println("Prefixes");
         for (String s : l.prefixes) {

@@ -23,11 +23,11 @@ package com.sun.xml.fastinfoset.types;
  * @author Paul.Sandoz@Sun.Com
  */
 public final class ValueInstance {
-    public static enum Type {
+    public enum Type {
         encodingAlgorithm,
         alphabet,
         indexedString
-    };
+    }
 
     public Type type;
     public int id;

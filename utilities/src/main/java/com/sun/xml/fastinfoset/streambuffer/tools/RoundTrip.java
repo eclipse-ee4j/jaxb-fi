@@ -39,7 +39,10 @@ import org.jvnet.fastinfoset.sax.FastInfosetWriter;
  * @author Paul.Sandoz@Sun.Com
  */
 public class RoundTrip {
-    
+
+    private RoundTrip() {
+    }
+
     public static void main(String[] args) throws Exception {
         SchemaProcessor sp = new SchemaProcessor(new File(args[0]).toURI().toURL());
         sp.process();

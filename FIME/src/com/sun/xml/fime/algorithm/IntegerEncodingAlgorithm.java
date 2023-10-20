@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,12 +11,12 @@
 package com.sun.xml.fime.algorithm;
 
 public abstract class IntegerEncodingAlgorithm extends BuiltInEncodingAlgorithm {
-    public final static int SHORT_SIZE  = 2;
-    public final static int INT_SIZE    = 4;
-    public final static int LONG_SIZE   = 8;
+    public static final int SHORT_SIZE  = 2;
+    public static final int INT_SIZE    = 4;
+    public static final int LONG_SIZE   = 8;
 
-    public final static int SHORT_MAX_CHARACTER_SIZE    = 6;
-    public final static int INT_MAX_CHARACTER_SIZE      = 11;
-    public final static int LONG_MAX_CHARACTER_SIZE     = 20;
+    public static final int SHORT_MAX_CHARACTER_SIZE    = 6;
+    public static final int INT_MAX_CHARACTER_SIZE      = 11;
+    public static final int LONG_MAX_CHARACTER_SIZE     = 20;
         
 }

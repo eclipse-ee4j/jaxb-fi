@@ -104,86 +104,7 @@ public class PrimitiveTypesWithElementContentSample {
         FastInfosetReader r = new SAXDocumentParser();
 
         // Create a default FI handler that will receive events for primitive types
-        FastInfosetDefaultHandler h = new FastInfosetDefaultHandler() {
-            
-            public void startElement (String uri, String localName, String qName, 
-                    Attributes attributes) throws SAXException {
-                // Check if the attributes implements the EncodingAlgorithmAttributes interface
-                if (attributes instanceof EncodingAlgorithmAttributes) {
-                    EncodingAlgorithmAttributes a = (EncodingAlgorithmAttributes)attributes;
-                    
-                    // Iterate through the attributes
-                    for (int index = 0; index < a.getLength(); index++) {
-                        // Get the algorithm data
-                        Object data = a.getAlgorithmData(index);
-                        // If there is binary data then the returned valus will not be null
-                        if (data != null) {
-                            // Switch on the algorithm used
-                            switch (a.getAlgorithmIndex(index)) {
-                                case EncodingAlgorithmIndexes.BASE64:
-                                    System.out.print("Attribute value as bytes: ");
-                                    byte[] bs = (byte[])data;
-                                    for (int i = 0; i < bs.length; i++) {
-                                        if (i > 0) System.out.print(" ");
-                                        System.out.print(bs[i]);
-                                    }
-                                    System.out.println();
-                                    break;
-                                case EncodingAlgorithmIndexes.INT:
-                                    System.out.print("Attribute value as ints: ");
-                                    int[] is = (int[])data;
-                                    for (int i = 0; i < is.length; i++) {
-                                        if (i > 0) System.out.print(" ");
-                                        System.out.print(is[i]);
-                                    }
-                                    System.out.println();
-                                    break;
-                                case EncodingAlgorithmIndexes.FLOAT:
-                                    System.out.print("Attribute value as floats: ");
-                                    float[] fs = (float[])data;
-                                    for (int i = 0; i < fs.length; i++) {
-                                        if (i > 0) System.out.print(" ");
-                                        System.out.print(fs[i]);
-                                    }
-                                    System.out.println();
-                                    break;
-                                default:
-                            }
-                        }
-                    }
-                }
-            }
-    
-            // Recieve events for an array of byte[]
-            public void bytes(byte[] bs, int start, int length) throws SAXException {
-                System.out.print("element content as bytes: ");
-                for (int i = 0; i < length; i++) {
-                    if (i > 0) System.out.print(" ");
-                    System.out.print(bs[start + i]);
-                }
-                System.out.println();
-            }
-
-            // Recieve events for an array of int[]
-            public void ints(int[] is, int start, int length) throws SAXException {
-                System.out.print("element content as ints: ");
-                for (int i = 0; i < length; i++) {
-                    if (i > 0) System.out.print(" ");
-                    System.out.print(is[start + i]);
-                }
-                System.out.println();
-            }
-
-            // Recieve events for an array of float[]
-            public void floats(float[] fs, int start, int length) throws SAXException {
-                System.out.print("element content as floats: ");
-                for (int i = 0; i < length; i++) {
-                    if (i > 0) System.out.print(" ");
-                    System.out.print(fs[start + i]);
-                }
-                System.out.println();
-            }            
-        };
+        FastInfosetDefaultHandler h = new FastInfosetHandler();
         
         // Set the handlers
         r.setContentHandler(h);
@@ -207,19 +128,7 @@ public class PrimitiveTypesWithElementContentSample {
         FastInfosetReader r = new SAXDocumentParser();
 
         // Create a handler that will receive standard SAX events
-        ContentHandler h = new DefaultHandler() {
-            public void startElement (String uri, String localName, String qName, 
-                    Attributes attributes) throws SAXException {
-                for (int index = 0; index < attributes.getLength(); index++) {
-                    System.out.println("attribute value as text: " + attributes.getValue(index));
-                }
-            }
-            
-            public void characters (char ch[], int start, int length) throws SAXException {
-                String s = new String(ch, start, length);
-                System.out.println("element content as text: " + s);
-            }
-        };
+        ContentHandler h = new CHandler();
         
         r.setContentHandler(h);
         
@@ -237,5 +146,106 @@ public class PrimitiveTypesWithElementContentSample {
         
         // Parse the document using a ContentHandler
         pt.parseFIDocument(new ByteArrayInputStream(b));
+    }
+
+    private static class CHandler extends DefaultHandler {
+        @Override
+        public void startElement (String uri, String localName, String qName,
+                                  Attributes attributes) throws SAXException {
+            for (int index = 0; index < attributes.getLength(); index++) {
+                System.out.println("attribute value as text: " + attributes.getValue(index));
+            }
+        }
+
+        @Override
+        public void characters (char ch[], int start, int length) throws SAXException {
+            String s = new String(ch, start, length);
+            System.out.println("element content as text: " + s);
+        }
+    }
+
+    private static class FastInfosetHandler extends FastInfosetDefaultHandler {
+
+        @Override
+        public void startElement (String uri, String localName, String qName,
+                                  Attributes attributes) throws SAXException {
+            // Check if the attributes implements the EncodingAlgorithmAttributes interface
+            if (attributes instanceof EncodingAlgorithmAttributes) {
+                EncodingAlgorithmAttributes a = (EncodingAlgorithmAttributes)attributes;
+
+                // Iterate through the attributes
+                for (int index = 0; index < a.getLength(); index++) {
+                    // Get the algorithm data
+                    Object data = a.getAlgorithmData(index);
+                    // If there is binary data then the returned valus will not be null
+                    if (data != null) {
+                        // Switch on the algorithm used
+                        switch (a.getAlgorithmIndex(index)) {
+                            case EncodingAlgorithmIndexes.BASE64:
+                                System.out.print("Attribute value as bytes: ");
+                                byte[] bs = (byte[])data;
+                                for (int i = 0; i < bs.length; i++) {
+                                    if (i > 0) System.out.print(" ");
+                                    System.out.print(bs[i]);
+                                }
+                                System.out.println();
+                                break;
+                            case EncodingAlgorithmIndexes.INT:
+                                System.out.print("Attribute value as ints: ");
+                                int[] is = (int[])data;
+                                for (int i = 0; i < is.length; i++) {
+                                    if (i > 0) System.out.print(" ");
+                                    System.out.print(is[i]);
+                                }
+                                System.out.println();
+                                break;
+                            case EncodingAlgorithmIndexes.FLOAT:
+                                System.out.print("Attribute value as floats: ");
+                                float[] fs = (float[])data;
+                                for (int i = 0; i < fs.length; i++) {
+                                    if (i > 0) System.out.print(" ");
+                                    System.out.print(fs[i]);
+                                }
+                                System.out.println();
+                                break;
+                            default:
+                        }
+                    }
+                }
+            }
+        }
+
+        // Recieve events for an array of byte[]
+        @Override
+        public void bytes(byte[] bs, int start, int length) throws SAXException {
+            System.out.print("element content as bytes: ");
+            for (int i = 0; i < length; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(bs[start + i]);
+            }
+            System.out.println();
+        }
+
+        // Recieve events for an array of int[]
+        @Override
+        public void ints(int[] is, int start, int length) throws SAXException {
+            System.out.print("element content as ints: ");
+            for (int i = 0; i < length; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(is[start + i]);
+            }
+            System.out.println();
+        }
+
+        // Recieve events for an array of float[]
+        @Override
+        public void floats(float[] fs, int start, int length) throws SAXException {
+            System.out.print("element content as floats: ");
+            for (int i = 0; i < length; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(fs[start + i]);
+            }
+            System.out.println();
+        }
     }
 }

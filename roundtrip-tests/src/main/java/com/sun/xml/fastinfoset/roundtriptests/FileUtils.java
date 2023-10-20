@@ -26,7 +26,7 @@ import java.io.FileFilter;
  */
 class FileUtils {
     
-    final public static void processFileOrDirectoryRecursivelly(File srcFile, FileFilter filter, FileProcessorHandler handler) {
+    public static final void processFileOrDirectoryRecursivelly(File srcFile, FileFilter filter, FileProcessorHandler handler) {
         if (srcFile.isFile()) {
             String filename = srcFile.getName();
             int delim = filename.lastIndexOf('.');
@@ -39,22 +39,26 @@ class FileUtils {
         } else if (srcFile.isDirectory()) {
             File[] files = srcFile.listFiles(filter);
             
-            for(int i=0; i<files.length; i++) {
-                processFileOrDirectoryRecursivelly(files[i], filter, handler);
+            if (files != null) {
+                for (int i = 0; i < files.length; i++) {
+                    processFileOrDirectoryRecursivelly(files[i], filter, handler);
+                }
             }
         }
     }
     
-    final public static void removeFileRecursivelly(File testSrcFile, FileFilter filter) {
+    public static final void removeFileRecursivelly(File testSrcFile, FileFilter filter) {
         File[] files = testSrcFile.listFiles(filter);
         
-        for(int i=0; i<files.length; i++) {
-            File file = files[i];
-            if (file.isFile()) {
-                final boolean result = file.delete();
-                assert result;
-            } else {
-                removeFileRecursivelly(file, filter);
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (file.isFile()) {
+                    final boolean result = file.delete();
+                    assert result;
+                } else {
+                    removeFileRecursivelly(file, filter);
+                }
             }
         }
     }

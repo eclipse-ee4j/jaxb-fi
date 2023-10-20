@@ -27,12 +27,15 @@ import java.util.Set;
  */
 public class LexicalSpaceConvertor {
     
-    public static enum LexicalPreference {
+    public enum LexicalPreference {
         string, charArray
-    };
-    
+    }
+
+    private LexicalSpaceConvertor() {
+    }
+
     public static Object convertToValueSpace(Set<XSDataType> types, String s,
-            LexicalPreference preference) {
+                                             LexicalPreference preference) {
         return convertToValueSpace(types, s.toCharArray(), 0, s.length(), preference);
     }
     

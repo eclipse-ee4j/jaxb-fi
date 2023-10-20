@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@ import com.sun.xml.fime.jvnet.RestrictedAlphabet;
 
 
 public final class BuiltInRestrictedAlphabets {
-    public final static char[][] table =
+    public static final char[][] table =
             new char[EncodingConstants.RESTRICTED_ALPHABET_BUILTIN_END + 1][];
     
     static {

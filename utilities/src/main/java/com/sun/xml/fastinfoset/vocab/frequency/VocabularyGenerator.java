@@ -51,10 +51,10 @@ public class VocabularyGenerator {
     /**
      * Constants for the various XML-based APIs
      */
-    public static enum XmlApi {
-        SAX, StAX, DOM;
-    };
-    
+    public enum XmlApi {
+        SAX, StAX, DOM
+    }
+
     private XmlApi _xapi;
     
     private SerializerVocabulary _serializerVocabulary;

@@ -36,6 +36,7 @@
     <Match>
         <Or>
             <Bug pattern="MS_EXPOSE_REP"/>
+            <Bug pattern="EI_EXPOSE_REP"/>
             <Bug pattern="EI_EXPOSE_REP2"/>
         </Or>
     </Match>
@@ -89,6 +90,11 @@
     <Match>
         <Class name="org.jvnet.fastinfoset.FastInfosetSource" />
         <Method name="getXMLReader" returns="org.xml.sax.XMLReader" />
+        <Bug pattern="XFB_XML_FACTORY_BYPASS" />
+    </Match>
+
+    <Match>
+        <Package name="~samples.*" />
         <Bug pattern="XFB_XML_FACTORY_BYPASS" />
     </Match>
 

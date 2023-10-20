@@ -184,7 +184,8 @@ public class FrequencyHandler extends DefaultHandler {
     public Map<String, String> getNamespaceURIToPrefixMap() {
         return namespaceURIToPrefix;
     }
-    
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void addAll(Set to, Set<?> from) {
         to.addAll(from);
     }
@@ -205,11 +206,13 @@ public class FrequencyHandler extends DefaultHandler {
 //        subs.add(q);        
 //    }
     
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         prefixes.add(prefix);
         namespaces.add(uri);
     }
 
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
         QName q = createQName(uri, localName, qName);
         addQName(q, namespacesToElements, elements);

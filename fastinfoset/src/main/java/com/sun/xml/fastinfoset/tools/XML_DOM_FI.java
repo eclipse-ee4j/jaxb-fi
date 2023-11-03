@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 
 public class XML_DOM_FI extends TransformInputOutput {
@@ -33,6 +34,13 @@ public class XML_DOM_FI extends TransformInputOutput {
     @Override
     public void parse(InputStream document, OutputStream finf, String workingDirectory) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         dbf.setNamespaceAware(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         if (workingDirectory != null) {

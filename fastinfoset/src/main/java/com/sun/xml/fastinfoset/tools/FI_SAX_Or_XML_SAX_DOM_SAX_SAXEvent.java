@@ -19,6 +19,7 @@
 package com.sun.xml.fastinfoset.tools;
 
 import com.sun.xml.fastinfoset.Decoder;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
@@ -51,6 +52,9 @@ public class FI_SAX_Or_XML_SAX_DOM_SAX_SAXEvent extends TransformInputOutput {
         document.reset();
         
         TransformerFactory tf = TransformerFactory.newInstance();
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         Transformer t = tf.newTransformer();
         DOMResult dr = new DOMResult();
         

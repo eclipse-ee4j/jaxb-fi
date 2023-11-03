@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.TestCase;
 import org.jvnet.fastinfoset.sax.helpers.FastInfosetDefaultHandler;
 import org.w3c.dom.Document;
@@ -138,6 +139,13 @@ public class IgnoreTest extends TestCase {
     
     public void _testIgnoreDOMSerialization(boolean ignore) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document d = db.newDocument();
         

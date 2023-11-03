@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,6 +35,13 @@ import org.w3c.dom.Element;
 public class NamespaceTest extends TestCase {
     public void testWithoutNamespace() throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
         Element root = doc.createElement("root");
@@ -59,6 +67,13 @@ public class NamespaceTest extends TestCase {
     
     public void testNamespace() throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
         Element root = doc.createElementNS("http://www.xxx-root.org", "ABC:root");
@@ -84,6 +99,13 @@ public class NamespaceTest extends TestCase {
     
     public void testNestedNamespace() throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
         Element root = doc.createElementNS("http://www.xxx.org", "ABC:root");

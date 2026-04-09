@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Map;
 import java.util.Set;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -229,6 +230,9 @@ public class ConvertLexicalValues {
                 new ByteArrayInputStream(baos.toByteArray()));
         StreamResult result = new StreamResult(System.out);
         TransformerFactory tf = TransformerFactory.newInstance();
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         Transformer t = tf.newTransformer();
         t.transform(source, result);
         System.out.println();

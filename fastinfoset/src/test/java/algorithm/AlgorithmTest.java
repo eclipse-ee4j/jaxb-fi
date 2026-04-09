@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamReader;
 import junit.framework.*;
 import org.jvnet.fastinfoset.EncodingAlgorithm;
@@ -937,6 +938,13 @@ public class AlgorithmTest extends TestCase {
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         DOMDocumentParser dp = new DOMDocumentParser();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+        try {
+            dbf.setFeature(FEATURE, true);
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                + FEATURE + "' is not supported by your XML processor.", e);
+        }
         dbf.setNamespaceAware(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document d = db.newDocument();

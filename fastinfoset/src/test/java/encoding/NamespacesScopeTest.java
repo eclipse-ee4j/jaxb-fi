@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -49,7 +50,7 @@ public class NamespacesScopeTest extends TestCase {
         _prefixArray.popScopeWithPrefixEntry(1);
         
         n = _prefixArray.getNamespaceFromPrefix("p");
-        assertEquals(null, n);
+        assertNull(n);
     }
     
     public void testPrefixWithTwoNamespaces() throws Exception {
@@ -69,7 +70,7 @@ public class NamespacesScopeTest extends TestCase {
         _prefixArray.popScopeWithPrefixEntry(1);
         
         n = _prefixArray.getNamespaceFromPrefix("p");
-        assertEquals(null, n);
+        assertNull(n);
     }
     
     public void testTenDistinctPrefixes() throws Exception {
@@ -107,7 +108,7 @@ public class NamespacesScopeTest extends TestCase {
         
         for (int i = 1; i <= prefixes; i++) {
             String n = _prefixArray.getNamespaceFromPrefix("p" + i);
-            assertEquals(null, n);
+            assertNull(n);
         }
     }
     

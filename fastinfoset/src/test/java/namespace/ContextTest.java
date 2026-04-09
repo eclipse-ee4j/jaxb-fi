@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -105,7 +106,7 @@ public class ContextTest extends TestCase {
             for (int i = 0; i < 10; i++) {
                 String p = "" + c + "_" + i;
                 String n = "http://" + p;
-                assertEquals(null, nc.getPrefix(n));
+                assertNull(nc.getPrefix(n));
                 assertEquals("", nc.getNamespaceURI(p));
             }
         }        
@@ -124,7 +125,7 @@ public class ContextTest extends TestCase {
 
         String p;
         p = nc.getPrefix("http://a");
-        assertEquals(null, p);
+        assertNull(p);
         p = nc.getPrefix("http://new");
         assertEquals("a", p);
         

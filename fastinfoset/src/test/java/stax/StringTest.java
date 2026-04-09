@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -96,10 +97,10 @@ public class StringTest extends TestCase {
             w.writeStartElement("root");
                 for (int i = 0; i < 2048; i++) {
                     w.writeStartElement("content");
-                        w.writeCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + Integer.toString(i));
+                        w.writeCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + i);
                     w.writeEndElement();
                     w.writeStartElement("content");
-                        w.writeCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + Integer.toString(i));
+                        w.writeCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + i);
                     w.writeEndElement();
                 }
             w.writeEndElement();

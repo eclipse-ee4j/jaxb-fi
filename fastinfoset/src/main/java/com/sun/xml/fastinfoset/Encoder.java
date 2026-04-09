@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -2517,7 +2518,7 @@ public abstract class Encoder extends DefaultHandler implements FastInfosetSeria
 
         final int n = offset + length;
         for (int i = offset; i < n; i++) {
-            final int c = (int) ch[i];
+            final int c = ch[i];
             _encodingBuffer[byteLength++] = (byte)(c >> 8);
             _encodingBuffer[byteLength++] = (byte)(c & 0xFF);
         }

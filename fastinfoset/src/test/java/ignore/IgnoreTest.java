@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -175,14 +176,14 @@ public class IgnoreTest extends TestCase {
         SAXDocumentParser sp = new SAXDocumentParser();
         ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
         
-        final boolean assertValue = (ignore) ? false : true;
+        final boolean assertValue = !ignore;
         
         FastInfosetDefaultHandler h = new FastInfosetDefaultHandler() {
             public void comment(char[] ch, int start, int length) throws SAXException {
                 assertTrue(assertValue);
             }
 
-            public void characters (char ch[], int start, int length) throws SAXException {
+            public void characters (char[] ch, int start, int length) throws SAXException {
                 if (XMLChar.isSpace(ch[start])) {
                     assertTrue(assertValue);
                 } else {

@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -742,10 +743,10 @@ public class DecoderStateTables {
     
     private static void constructTable(int[] table, int[][] ranges) {
         int start = 0x00;
-        for (int range = 0; range < ranges.length; range++) {
-            int end = ranges[range][RANGE_INDEX_END];
-            int value = ranges[range][RANGE_INDEX_VALUE];
-            for (int i = start; i<= end; i++) {
+        for (int[] ints : ranges) {
+            int end = ints[RANGE_INDEX_END];
+            int value = ints[RANGE_INDEX_VALUE];
+            for (int i = start; i <= end; i++) {
                 table[i] = value;
             }
             start = end + 1;

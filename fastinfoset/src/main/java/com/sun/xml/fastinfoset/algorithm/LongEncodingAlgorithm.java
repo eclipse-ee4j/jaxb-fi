@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -153,16 +154,15 @@ public class LongEncodingAlgorithm extends IntegerEncodingAlgorithm {
     
     
     public final void encodeToOutputStreamFromLongArray(long[] ldata, OutputStream s) throws IOException {
-        for (int i = 0; i < ldata.length; i++) {
-            final long bits = ldata[i];
-            s.write((int)((bits >>> 56) & 0xFF));
-            s.write((int)((bits >>> 48) & 0xFF));
-            s.write((int)((bits >>> 40) & 0xFF));
-            s.write((int)((bits >>> 32) & 0xFF));
-            s.write((int)((bits >>> 24) & 0xFF));
-            s.write((int)((bits >>> 16) & 0xFF));
-            s.write((int)((bits >>> 8) & 0xFF));
-            s.write((int)(bits & 0xFF));
+        for (final long bits : ldata) {
+            s.write((int) ((bits >>> 56) & 0xFF));
+            s.write((int) ((bits >>> 48) & 0xFF));
+            s.write((int) ((bits >>> 40) & 0xFF));
+            s.write((int) ((bits >>> 32) & 0xFF));
+            s.write((int) ((bits >>> 24) & 0xFF));
+            s.write((int) ((bits >>> 16) & 0xFF));
+            s.write((int) ((bits >>> 8) & 0xFF));
+            s.write((int) (bits & 0xFF));
         }
     }
     

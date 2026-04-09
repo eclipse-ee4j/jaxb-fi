@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -116,9 +117,9 @@ public class HexadecimalEncodingAlgorithm extends BuiltInEncodingAlgorithm {
         }
 
         s.ensureCapacity(value.length * 2);
-        for (int i = 0; i < value.length; ++i) {
-            s.append(NIBBLE_TO_HEXADECIMAL_TABLE[(value[i] >>> 4) & 0xf]);
-            s.append(NIBBLE_TO_HEXADECIMAL_TABLE[value[i] & 0xf]);
+        for (byte b : value) {
+            s.append(NIBBLE_TO_HEXADECIMAL_TABLE[(b >>> 4) & 0xf]);
+            s.append(NIBBLE_TO_HEXADECIMAL_TABLE[b & 0xf]);
         }
     }
     

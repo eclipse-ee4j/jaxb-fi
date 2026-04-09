@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -144,8 +145,7 @@ public class ShortEncodingAlgorithm extends IntegerEncodingAlgorithm {
 
 
     public final void encodeToOutputStreamFromShortArray(short[] idata, OutputStream s) throws IOException {
-        for (int i = 0; i < idata.length; i++) {
-            final int bits = idata[i];
+        for (final int bits : idata) {
             s.write((bits >>> 8) & 0xFF);
             s.write(bits & 0xFF);
         }

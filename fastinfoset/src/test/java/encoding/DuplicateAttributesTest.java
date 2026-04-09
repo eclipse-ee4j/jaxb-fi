@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -44,8 +45,8 @@ public class DuplicateAttributesTest extends TestCase {
         } catch (FastInfosetException e) {
             exceptionThrown = true;
         }
-        
-        assertEquals(true, exceptionThrown);
+
+        assertTrue(exceptionThrown);
     }
 
     public void testDuplicateNamespaceAttributes() throws Exception {
@@ -58,8 +59,8 @@ public class DuplicateAttributesTest extends TestCase {
         } catch (FastInfosetException e) {
             exceptionThrown = true;
         }
-        
-        assertEquals(true, exceptionThrown);
+
+        assertTrue(exceptionThrown);
     }
     
     public void testReparseAfterDuplicateAttributes() throws Exception {
@@ -72,8 +73,8 @@ public class DuplicateAttributesTest extends TestCase {
         } catch (FastInfosetException e) {
             exceptionThrown = true;
         }
-        
-        assertEquals(true, exceptionThrown);
+
+        assertTrue(exceptionThrown);
         
         bais = new ByteArrayInputStream(createWellFormedDocument());        
         exceptionThrown = false;
@@ -83,7 +84,7 @@ public class DuplicateAttributesTest extends TestCase {
             e.printStackTrace();
             exceptionThrown = true;
         }
-        assertEquals(false, exceptionThrown);
+        assertFalse(exceptionThrown);
     }
     
     public void testReparseAfterDuplicateNamespaceAttributes() throws Exception {
@@ -96,8 +97,8 @@ public class DuplicateAttributesTest extends TestCase {
         } catch (FastInfosetException e) {
             exceptionThrown = true;
         }
-        
-        assertEquals(true, exceptionThrown);
+
+        assertTrue(exceptionThrown);
         
         bais = new ByteArrayInputStream(createWellFormedDocument());        
         exceptionThrown = false;
@@ -107,7 +108,7 @@ public class DuplicateAttributesTest extends TestCase {
             e.printStackTrace();
             exceptionThrown = true;
         }
-        assertEquals(false, exceptionThrown);
+        assertFalse(exceptionThrown);
     }
     
     void parse(SAXDocumentParser sdp, InputStream in) throws Exception {

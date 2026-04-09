@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -27,8 +28,8 @@ import com.sun.xml.fastinfoset.vocab.SerializerVocabulary;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.SAXParser;
@@ -70,19 +71,16 @@ public class DecodingTest extends TestCase {
 
     private void initiateXMLDeclarationValues() {
         XML_DECLARATION_VALUES = new byte[9][];
-        
-        try {
-            XML_DECLARATION_VALUES[0] = "<?xml encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[1] = "<?xml version='1.0' encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[2] = "<?xml version='1.1' encoding='finf'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[3] = "<?xml encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[4] = "<?xml encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[5] = "<?xml version='1.0' encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[6] = "<?xml version='1.1' encoding='finf' standalone='no'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[7] = "<?xml version='1.0' encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-            XML_DECLARATION_VALUES[8] = "<?xml version='1.1' encoding='finf' standalone='yes'?>".getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-        }
+
+        XML_DECLARATION_VALUES[0] = "<?xml encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[1] = "<?xml version='1.0' encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[2] = "<?xml version='1.1' encoding='finf'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[3] = "<?xml encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[4] = "<?xml encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[5] = "<?xml version='1.0' encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[6] = "<?xml version='1.1' encoding='finf' standalone='no'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[7] = "<?xml version='1.0' encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
+        XML_DECLARATION_VALUES[8] = "<?xml version='1.1' encoding='finf' standalone='yes'?>".getBytes(StandardCharsets.UTF_8);
     }
     
     public static Test suite() {
@@ -176,8 +174,7 @@ public class DecodingTest extends TestCase {
  
         
     private void compare(byte[] fiDocument, byte[] specFiDocument) throws Exception {
-        TestCase.assertTrue("Fast infoset document is not the same length as the X.finf specification", 
-            fiDocument.length == specFiDocument.length);
+        TestCase.assertEquals("Fast infoset document is not the same length as the X.finf specification", fiDocument.length, specFiDocument.length);
         
         boolean passed = true;
         for (int i = 0; i < fiDocument.length; i++) {
@@ -195,8 +192,8 @@ public class DecodingTest extends TestCase {
     }
 
     public void testDecodeWithXMLDeclaration() throws Exception {
-        for (int i = 0; i < XML_DECLARATION_VALUES.length; i++) {
-            _testDecodeWithXMLDeclaration(XML_DECLARATION_VALUES[i]);
+        for (byte[] xmlDeclarationValue : XML_DECLARATION_VALUES) {
+            _testDecodeWithXMLDeclaration(xmlDeclarationValue);
         }
     }
     

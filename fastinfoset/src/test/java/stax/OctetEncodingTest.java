@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -47,7 +48,7 @@ public class OctetEncodingTest extends TestCase implements
         writer.setPrefix("ns1", envNS);
         writer.writeStartElement(envNS, "Envelope");
         writer.writeNamespace("ns1", envNS);
-        StringBuffer patternBuffer = new StringBuffer();
+        StringBuilder patternBuffer = new StringBuilder();
         for(String s : texts) {
             byte[] buf = s.getBytes();
             serializer.writeOctets(buf, 0, buf.length);
@@ -69,7 +70,7 @@ public class OctetEncodingTest extends TestCase implements
         assertEquals("Envelope", reader.getLocalName());
         
         BASE64EncodingAlgorithm base64Decoder = new BASE64EncodingAlgorithm();
-        StringBuffer bufToTest = new StringBuffer();
+        StringBuilder bufToTest = new StringBuilder();
         while(reader.next() == CHARACTERS) {
             char[] charBuf = reader.getText().toCharArray();
             String decodedStr = new String((byte[]) base64Decoder.convertFromCharacters(charBuf, 0, charBuf.length));
@@ -93,7 +94,7 @@ public class OctetEncodingTest extends TestCase implements
         writer.setPrefix("ns1", envNS);
         writer.writeStartElement(envNS, "Envelope");
         writer.writeNamespace("ns1", envNS);
-        StringBuffer patternBuffer = new StringBuffer();
+        StringBuilder patternBuffer = new StringBuilder();
         for(int i = 0; i < 5; i++) {
             String s = createRandomString(2000 + i * 100);
             byte[] buf = s.getBytes();
@@ -117,7 +118,7 @@ public class OctetEncodingTest extends TestCase implements
         assertEquals("Envelope", reader.getLocalName());
         
         BASE64EncodingAlgorithm base64Decoder = new BASE64EncodingAlgorithm();
-        StringBuffer bufToTest = new StringBuffer();
+        StringBuilder bufToTest = new StringBuilder();
         while(reader.next() == CHARACTERS) {
             char[] charBuf = reader.getText().toCharArray();
             String decodedStr = new String((byte[]) base64Decoder.convertFromCharacters(charBuf, 0, charBuf.length));
@@ -132,7 +133,7 @@ public class OctetEncodingTest extends TestCase implements
     }
     
     private String createRandomString(int length) {
-        StringBuffer sb = new StringBuffer(length);
+        StringBuilder sb = new StringBuilder(length);
         Random random = new Random();
         for(int i=0; i<length; i++) {
             sb.append((char) (random.nextInt(20) + 'a'));

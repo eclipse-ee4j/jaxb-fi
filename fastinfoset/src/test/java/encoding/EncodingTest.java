@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -164,8 +165,7 @@ public class EncodingTest extends TestCase {
     }
 
     private void compare(byte[] specFiDocument) throws Exception {
-        TestCase.assertTrue("Fast infoset document is not the same length as the X.finf specification",
-                _finfDocument.length == specFiDocument.length);
+        TestCase.assertEquals("Fast infoset document is not the same length as the X.finf specification", _finfDocument.length, specFiDocument.length);
 
         System.out.println(_finfDocument.length);
         System.out.println(specFiDocument.length);

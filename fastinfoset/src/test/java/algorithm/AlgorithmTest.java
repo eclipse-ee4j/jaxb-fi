@@ -1,6 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2004, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * Oracle licenses this file to You under the Apache License, Version 2.0
@@ -42,7 +43,8 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLStreamReader;
-import junit.framework.*;
+
+import junit.framework.TestCase;
 import org.jvnet.fastinfoset.EncodingAlgorithm;
 import org.jvnet.fastinfoset.EncodingAlgorithmIndexes;
 import org.jvnet.fastinfoset.FastInfosetParser;
@@ -459,77 +461,94 @@ public class AlgorithmTest extends TestCase {
 
                 assertEquals(1, atts.getLength());
 
-                if (localName.equals("boolean")) {
-                    assertEquals("boolean", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.BOOLEAN, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof boolean[]);
-                    boolean[] b = (boolean[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _booleanArray.length; is++) {
-                        assertEquals(_booleanArray[is], b[is]);
+                switch (localName) {
+                    case "boolean": {
+                        assertEquals("boolean", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.BOOLEAN, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof boolean[]);
+                        boolean[] b = (boolean[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _booleanArray.length; is++) {
+                            assertEquals(_booleanArray[is], b[is]);
+                        }
+                        break;
                     }
-                } else if (localName.equals("byte")) {
-                    assertEquals("byte", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.BASE64, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof byte[]);
-                    byte[] b = (byte[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _byteArray.length; is++) {
-                        assertEquals(_byteArray[is], b[is]);
+                    case "byte": {
+                        assertEquals("byte", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.BASE64, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof byte[]);
+                        byte[] b = (byte[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _byteArray.length; is++) {
+                            assertEquals(_byteArray[is], b[is]);
+                        }
+                        break;
                     }
-                } else if (localName.equals("short")) {
-                    assertEquals("short", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.SHORT, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof short[]);
-                    short[] i = (short[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _shortArray.length; is++) {
-                        assertEquals(_shortArray[is], i[is]);
+                    case "short": {
+                        assertEquals("short", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.SHORT, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof short[]);
+                        short[] i = (short[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _shortArray.length; is++) {
+                            assertEquals(_shortArray[is], i[is]);
+                        }
+                        break;
                     }
-                } else if (localName.equals("int")) {
-                    assertEquals("int", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.INT, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof int[]);
-                    int[] i = (int[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _intArray.length; is++) {
-                        assertEquals(_intArray[is], i[is]);
+                    case "int": {
+                        assertEquals("int", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.INT, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof int[]);
+                        int[] i = (int[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _intArray.length; is++) {
+                            assertEquals(_intArray[is], i[is]);
+                        }
+                        break;
                     }
-                } else if (localName.equals("long")) {
-                    assertEquals("long", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.LONG, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof long[]);
-                    long[] i = (long[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _longArray.length; is++) {
-                        assertEquals(_longArray[is], i[is]);
+                    case "long": {
+                        assertEquals("long", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.LONG, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof long[]);
+                        long[] i = (long[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _longArray.length; is++) {
+                            assertEquals(_longArray[is], i[is]);
+                        }
+                        break;
                     }
-                } else if (localName.equals("float")) {
-                    assertEquals("float", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.FLOAT, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof float[]);
-                    float[] f = (float[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _floatArray.length; is++) {
-                        assertEquals(_floatArray[is], f[is], 0.0);
+                    case "float": {
+                        assertEquals("float", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.FLOAT, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof float[]);
+                        float[] f = (float[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _floatArray.length; is++) {
+                            assertEquals(_floatArray[is], f[is], 0.0);
+                        }
+                        break;
                     }
-                } else if (localName.equals("double")) {
-                    assertEquals("double", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.DOUBLE, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof double[]);
-                    double[] f = (double[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _doubleArray.length; is++) {
-                        assertEquals(_doubleArray[is], f[is], 0.0);
+                    case "double": {
+                        assertEquals("double", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.DOUBLE, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof double[]);
+                        double[] f = (double[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _doubleArray.length; is++) {
+                            assertEquals(_doubleArray[is], f[is], 0.0);
+                        }
+                        break;
                     }
-                } else if (localName.equals("uuid")) {
-                    assertEquals("uuid", eas.getLocalName(0));
-                    assertEquals(EncodingAlgorithmIndexes.UUID, eas.getAlgorithmIndex(0));
-                    assertEquals(null, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof long[]);
-                    long[] i = (long[])eas.getAlgorithmData(0);
-                    for (int is = 0; is < _uuidArray.length; is++) {
-                        assertEquals(_uuidArray[is], i[is]);
+                    case "uuid": {
+                        assertEquals("uuid", eas.getLocalName(0));
+                        assertEquals(EncodingAlgorithmIndexes.UUID, eas.getAlgorithmIndex(0));
+                        assertNull(eas.getAlgorithmURI(0));
+                        assertTrue(eas.getAlgorithmData(0) instanceof long[]);
+                        long[] i = (long[]) eas.getAlgorithmData(0);
+                        for (int is = 0; is < _uuidArray.length; is++) {
+                            assertEquals(_uuidArray[is], i[is]);
+                        }
+                        break;
                     }
                 }
             } else {
@@ -549,10 +568,10 @@ public class AlgorithmTest extends TestCase {
         public final void characters(char[] c, int start, int length) throws SAXException {
             String s = new String(c, start, length);
             if (_charactersShouldBeAsCDATA) {
-                assertEquals(true, _charactersAsCDATA);
+                assertTrue(_charactersAsCDATA);
                 assertEquals(_cdata, s);
             } else {
-                assertEquals(false, _charactersAsCDATA);
+                assertFalse(_charactersAsCDATA);
                 assertEquals(_characters, s);
             }
         }
@@ -700,7 +719,7 @@ public class AlgorithmTest extends TestCase {
                     assertEquals("algorithm", eas.getLocalName(0));
                     assertEquals(APPLICATION_DEFINED_ALGORITHM_ID, eas.getAlgorithmIndex(0));
                     assertEquals(APPLICATION_DEFINED_ALGORITHM_URI, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof byte[]);
+                    assertTrue(eas.getAlgorithmData(0) instanceof byte[]);
                     byte[] b = (byte[])eas.getAlgorithmData(0);
                     for (int is = 0; is < _byteArray.length; is++) {
                         assertEquals(_byteArray[is], b[is]);
@@ -816,7 +835,7 @@ public class AlgorithmTest extends TestCase {
                     assertEquals("algorithm", eas.getLocalName(0));
                     assertEquals(APPLICATION_DEFINED_ALGORITHM_ID, eas.getAlgorithmIndex(0));
                     assertEquals(APPLICATION_DEFINED_ALGORITHM_URI, eas.getAlgorithmURI(0));
-                    assertEquals(true, eas.getAlgorithmData(0) instanceof float[]);
+                    assertTrue(eas.getAlgorithmData(0) instanceof float[]);
                     float[] b = (float[])eas.getAlgorithmData(0);
                     for (int is = 0; is < ARRAY_SIZE; is++) {
                         assertEquals(_floatArray[is], b[is], 0.0);
@@ -835,7 +854,7 @@ public class AlgorithmTest extends TestCase {
         public final void object(String URI, int algorithm, Object data)  throws SAXException {
             assertEquals(APPLICATION_DEFINED_ALGORITHM_ID, algorithm);
             assertEquals(APPLICATION_DEFINED_ALGORITHM_URI, URI);
-            assertEquals(true, data instanceof float[]);
+            assertTrue(data instanceof float[]);
             float[] b = (float[])data;
             for (int is = 0; is < _floatArray.length; is++) {
                 assertEquals(_floatArray[is], b[is], 0.0);
@@ -897,14 +916,14 @@ public class AlgorithmTest extends TestCase {
                 @SuppressWarnings("deprecation")
                 byte[] b = dp.getTextAlgorithmBytes();
                 assertEquals(EncodingAlgorithmIndexes.BASE64, dp.getTextAlgorithmIndex());
-                assertTrue(b != null);
+                assertNotNull(b);
                 assertEquals(data.length, dp.getTextAlgorithmLength());
                 for (int i = 0; i < data.length; i++) {
                     assertEquals(data[i], b[dp.getTextAlgorithmStart() + i]);
                 }
 
                 b = dp.getTextAlgorithmBytesClone();
-                assertTrue(b != null);
+                assertNotNull(b);
                 assertEquals(data.length, b.length);
                 for (int i = 0; i < data.length; i++) {
                     assertEquals(data[i], b[i]);

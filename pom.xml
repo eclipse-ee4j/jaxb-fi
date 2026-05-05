@@ -91,7 +91,7 @@
         <spotbugs.threshold>Low</spotbugs.threshold>
         <spotbugs.version>4.9.8.3</spotbugs.version>
 
-        <xsom.version>4.0.7</xsom.version>
+        <xsom.version>4.0.8</xsom.version>
         <streambuffer.version>2.1.0</streambuffer.version>
         <junit.version>4.13.2</junit.version>
         <activation-api.version>2.1.4</activation-api.version>

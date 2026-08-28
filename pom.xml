@@ -89,7 +89,7 @@
         <spotbugs.exclude>${project.build.commonResourcesDirectory}/config/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.10.3.0</spotbugs.version>
+        <spotbugs.version>4.10.4.0</spotbugs.version>
 
         <xsom.version>4.0.9</xsom.version>
         <streambuffer.version>2.1.0</streambuffer.version>

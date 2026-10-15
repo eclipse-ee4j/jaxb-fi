@@ -89,7 +89,7 @@
         <spotbugs.exclude>${project.build.commonResourcesDirectory}/config/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.10.4.1</spotbugs.version>
+        <spotbugs.version>4.10.5.0</spotbugs.version>
 
         <xsom.version>4.0.9</xsom.version>
         <streambuffer.version>2.1.0</streambuffer.version>
@@ -153,7 +153,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.6.2</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -171,7 +171,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -188,7 +188,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>6.1.2</version>
+                    <version>6.2.0</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
